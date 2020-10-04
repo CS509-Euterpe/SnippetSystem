@@ -7,6 +7,7 @@ import { SnippetViewComponent } from './Components/snippet-view/snippet-view.com
 import { PasswordViewComponent } from './Components/password-view/password-view.component';
 import { CommentPanelComponent } from './Components/comment-panel/comment-panel.component';
 import { HomeViewComponent } from './Components/home-view/home-view.component';
+import {AmplifyUIAngularModule} from '@aws-amplify/ui-angular';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HomeViewComponent } from './Components/home-view/home-view.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AmplifyUIAngularModule
   ],
   providers: [],
   bootstrap: [AppComponent]

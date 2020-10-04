@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-snipgui-dev-224832-authRole",
+      "UnauthRoleArn": "arn:aws:iam::037754930427:role/amplify-snipgui-dev-224832-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::037754930427:role/amplify-snipgui-dev-224832-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-snipgui-dev-224832-deployment",
+      "UnauthRoleName": "amplify-snipgui-dev-224832-unauthRole",
+      "StackName": "amplify-snipgui-dev-224832",
+      "StackId": "arn:aws:cloudformation:us-east-1:037754930427:stack/amplify-snipgui-dev-224832/17d88a60-05ec-11eb-b622-0a23b0490cbd",
+      "AmplifyAppId": "d9e9ld73so1bo"
+    }
+  }
+}
