@@ -8,6 +8,7 @@ import { PasswordViewComponent } from './Components/password-view/password-view.
 import { CommentPanelComponent } from './Components/comment-panel/comment-panel.component';
 import { HomeViewComponent } from './Components/home-view/home-view.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AmplifyUIAngularModule} from '@aws-amplify/ui-angular';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    AmplifyUIAngularModule
   ],
   providers: [],
   bootstrap: [AppComponent]

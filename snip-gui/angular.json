@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "snip-gui"
+    }
+  },
+  "defaultProject": "snip-gui",
+  "cli": {
+    "analytics": false
+  }
 }
