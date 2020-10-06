@@ -7,6 +7,7 @@ import { SnippetViewComponent } from './Components/snippet-view/snippet-view.com
 import { PasswordViewComponent } from './Components/password-view/password-view.component';
 import { CommentPanelComponent } from './Components/comment-panel/comment-panel.component';
 import { HomeViewComponent } from './Components/home-view/home-view.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HomeViewComponent } from './Components/home-view/home-view.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
