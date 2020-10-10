@@ -1,0 +1,530 @@
+---
+openapi: "3.0.0"
+info:
+  title: "Snippet System API"
+  description: "This is an API for sharing code snippets"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  version: "1.0.0"
+servers:
+- url: "/"
+tags:
+- name: "admin"
+  description: "Secured Admin-only calls"
+- name: "users"
+  description: "Operations available to regular users"
+paths:
+  /api/v1/snippets:
+    get:
+      tags:
+      - "admin"
+      summary: "Gets all available snippets"
+      description: "Get all snippets in the database in from most recent modification\
+        \ to oldest modification."
+      operationId: "getSnippets"
+      parameters:
+      - name: "user"
+        in: "query"
+        description: "The type of user making this request"
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          $ref: "#/components/schemas/User"
+      - name: "skip"
+        in: "query"
+        description: "The number of records to skip for pagination"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          minimum: 0
+          type: "integer"
+          format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "Maximum number of records to return"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          maximum: 5E+1
+          minimum: 0
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "All of the available snippets"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  count:
+                    type: "number"
+                    description: "Total number of snippets available"
+                    example: 1
+                  snippets:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/SnippetDto"
+        "403":
+          description: "Not authorized"
+  /api/v1/snippets/delete-stale:
+    post:
+      tags:
+      - "admin"
+      summary: "Deletes all snippets that haven't been modified since a date."
+      description: "Delete all snippet that were last modified before a certain time.\
+        \ Any users viewing this snippet will be notified via Websocket."
+      operationId: "deleteStale"
+      parameters:
+      - name: "user"
+        in: "query"
+        description: "The type of user making this request"
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          $ref: "#/components/schemas/User"
+      - name: "date"
+        in: "query"
+        description: "The date to delete from"
+        required: true
+        style: "form"
+        explode: true
+        schema:
+          type: "string"
+          format: "date-time"
+          example: "2016-08-29T09:12:33Z"
+      responses:
+        "201":
+          description: "The desired snippets were deleted"
+        "400":
+          description: "Invalid date format"
+        "403":
+          description: "Not authorized"
+  /api/v1/snippet:
+    put:
+      tags:
+      - "users"
+      summary: "Create a new snippet."
+      description: "Create a new snippet. By default, all input fields will be empty."
+      operationId: "createSnippet"
+      parameters:
+      - name: "password"
+        in: "header"
+        description: "The password for this snippet"
+        required: false
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          example: "Sup3rS3cur3!"
+      requestBody:
+        description: "The desired snippet"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModifySnippetDto"
+      responses:
+        "201":
+          description: "Item created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SnippetDto"
+  /api/v1/snippet/{id}:
+    get:
+      tags:
+      - "users"
+      summary: "Gets a snippet"
+      description: "Get a snippet based on the UUID of the snippet"
+      operationId: "getSnippet"
+      parameters:
+      - name: "user"
+        in: "query"
+        description: "The type of user making this request"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          $ref: "#/components/schemas/User"
+      - name: "id"
+        in: "path"
+        description: "The unique id of the desired snippet"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+      - name: "password"
+        in: "header"
+        description: "The password for this snippet"
+        required: false
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          example: "Sup3rS3cur3!"
+      responses:
+        "200":
+          description: "The desired snippet"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SnippetDto"
+        "403":
+          description: "Invalid password"
+        "404":
+          description: "Invalid id"
+    post:
+      tags:
+      - "users"
+      summary: "Modify a snippet"
+      description: "Modify a snippet's contents. Differences are applied using Google's\
+        \ diff-match-patch library. A notification of changes is sent to all vieweres\
+        \ via Websocket. Updating the info requires a Creator or Admin user."
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The unique id of the desired snippet"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+      - name: "user"
+        in: "query"
+        description: "The type of user making this request"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          $ref: "#/components/schemas/User"
+      - name: "password"
+        in: "header"
+        description: "The password for this snippet"
+        required: false
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          example: "Sup3rS3cur3!"
+      requestBody:
+        description: "The snippet contents"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ModifySnippetDto"
+        required: true
+      responses:
+        "200":
+          description: "The updated snippet details"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SnippetDto"
+        "400":
+          description: "Invalid input format"
+        "403":
+          description: "Invalid password"
+        "404":
+          description: "Invalid id"
+  /api/v1/snippet/{id}/delete:
+    post:
+      tags:
+      - "users"
+      summary: "Delete a snippet"
+      description: "Delete a snippet based on the UUID of the snippet. If any viewers\
+        \ are currently viewing the snippet, they will be notified via Websocket."
+      operationId: "deleteSnippet"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The unique id of the desired snippet"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+      - name: "password"
+        in: "header"
+        description: "The password for this snippet"
+        required: false
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          example: "Sup3rS3cur3!"
+      - name: "user"
+        in: "query"
+        description: "The type of user making this request"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: "The desired snippet was deleted"
+        "403":
+          description: "Not authorized"
+        "404":
+          description: "Invalid id"
+  /api/v1/snippet/{id}/comments:
+    get:
+      tags:
+      - "users"
+      summary: "Get comments"
+      description: "Get the desired comments for a snippet"
+      operationId: "getComments"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The unique id of the desired snippet"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+      - name: "password"
+        in: "header"
+        description: "The password for this snippet"
+        required: false
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          example: "Sup3rS3cur3!"
+      - name: "skip"
+        in: "query"
+        description: "Number of records to skip for pagination"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          minimum: 0
+          type: "integer"
+          format: "int32"
+      - name: "limit"
+        in: "query"
+        description: "Maximum number of records to return"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          maximum: 5E+1
+          minimum: 0
+          type: "integer"
+          format: "int32"
+      responses:
+        "200":
+          description: "Search results matching criteria"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  count:
+                    type: "number"
+                    description: "Total number of comments on this snippet"
+                    example: 1
+                  comments:
+                    type: "array"
+                    items:
+                      $ref: "#/components/schemas/CommentDto"
+        "400":
+          description: "Bad input parameter"
+        "403":
+          description: "Invalid password"
+        "404":
+          description: "Invalid id"
+    put:
+      tags:
+      - "users"
+      summary: "Create comment"
+      description: "Create a new comment for the desired snippet. All users viewing\
+        \ the snippet will be updated about a new comment via Websocket."
+      operationId: "newComment"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The unique id of the desired snippet"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+      - name: "password"
+        in: "header"
+        description: "The password for this snippet"
+        required: false
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          example: "Sup3rS3cur3!"
+      - name: "user"
+        in: "query"
+        description: "The type of user making this request"
+        required: false
+        style: "form"
+        explode: true
+        schema:
+          $ref: "#/components/schemas/User"
+      requestBody:
+        description: "The user's comment"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CommentDto"
+      responses:
+        "200":
+          description: "Successfully added a comment"
+        "400":
+          description: "Bad input format"
+        "403":
+          description: "Invalid password"
+        "404":
+          description: "Invalid id"
+  /api/v1/snippet/{id}/comments/{comment-id}/delete:
+    post:
+      tags:
+      - "users"
+      summary: "Delete comment"
+      description: "Delete a comment from the desired snippet. All users will be notified\
+        \ via Websocket."
+      operationId: "deleteComment"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "The unique id of the desired snippet"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+      - name: "password"
+        in: "header"
+        description: "The password for this snippet"
+        required: false
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+          example: "Sup3rS3cur3!"
+      - name: "comment-id"
+        in: "path"
+        description: "The unique id of the comment"
+        required: true
+        style: "simple"
+        explode: false
+        schema:
+          type: "string"
+      responses:
+        "200":
+          description: "Successfully deleted the comment"
+        "400":
+          description: "Invalid comment id"
+        "403":
+          description: "Invalid password"
+        "404":
+          description: "Invalid snippet id"
+components:
+  schemas:
+    SnippetDto:
+      required:
+      - "comments"
+      - "content"
+      - "id"
+      - "info"
+      - "language"
+      - "path"
+      - "timestamp"
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+          example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
+        path:
+          type: "string"
+          example: "api/v1/snippet/d290f1ee-6c54-4b01-90e6-d701748f0851"
+        comments:
+          type: "string"
+          example: "api/v1/snippet/d290f1ee-6c54-4b01-90e6-d701748f0851/comments"
+        info:
+          type: "string"
+          example: "This snippet was created for a homework assignment"
+        language:
+          type: "string"
+          example: "JavaScript"
+          enum:
+          - "None"
+          - "JavaScript"
+          - "Java"
+          - "Python"
+        timestamp:
+          type: "string"
+          format: "date-time"
+          example: "2016-08-29T09:12:33.001Z"
+        content:
+          type: "string"
+          example: "while(true){}"
+    ModifySnippetDto:
+      required:
+      - "content"
+      - "info"
+      type: "object"
+      properties:
+        info:
+          type: "string"
+          example: "This snippet was created for a homework assignment"
+        language:
+          type: "string"
+          example: "JavaScript"
+          enum:
+          - "Text"
+          - "JavaScript"
+          - "Java"
+          - "Python"
+          - "Other"
+        content:
+          type: "string"
+          example: "while(true){}"
+    CommentDto:
+      required:
+      - "id"
+      - "region"
+      - "text"
+      type: "object"
+      properties:
+        id:
+          type: "string"
+          format: "uuid"
+          example: "d290f1ee-6c54-4b01-90e6-d701748f0852"
+        timestamp:
+          type: "string"
+          format: "date-time"
+          example: "2016-08-29T09:12:33.001Z"
+        text:
+          type: "string"
+          example: "This is really good"
+        region:
+          type: "object"
+          properties:
+            start:
+              type: "number"
+              example: 4
+            end:
+              type: "number"
+              example: 1E+1
+    User:
+      type: "string"
+      enum:
+      - "None"
+      - "Viewer"
+      - "Creator"
+      - "Admin"
