@@ -1,1 +1,94 @@
-<p>snippet-view works!</p>
+<!-- This component is the page that a user will view a snippet on -->
+<h4>User Snippet</h4>
+
+<div style="min-width: 100%; min-height: 1000px;" class="Container bg-dark text-white">
+    <div class="row">
+        <!-- Snippet pane -->
+        <div class="col-lg-6 border">
+            <label>Snippet:</label>
+            <br>
+            <!-- actual snippet 'box' -->
+            <div class="border">
+                <label>Info:</label>
+                <br>
+                <label>creator</label>
+                <br>
+                <label>timestamp</label>
+                <br>
+                <p>my comment about the snip...</p>
+                <br>
+                <label>Code:</label> &nbsp; &nbsp;
+                <label>Language: python</label>
+                <!-- 'code box' -->
+                <div class="border" style="height: 600px;">
+                    <p> for i in range(len(10): ...</p>
+                </div>
+            </div>
+        </div>
+        <!-- Comments pane -->
+        <div class="col-lg-6 border" style=" height: 800px;">
+            <label>Comments:</label>
+            <!-- Actial comment 'box'-->
+            <div>
+                <button>Add Comment</button>
+            </div>
+            <!-- dynamically generated set of comments -->
+            <div name="commentTable" class="col-lg-5 border tableFixHead" style="min-width: 100%; min-height: 750px;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                Snippet Comments
+                            </th>
+                        </tr>
+                    </thead>
+                    <!--example content for checking style.. delete this later-->
+                    <tbody>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                        <tr>
+                            <td><app-comment-panel></app-comment-panel></td>
+                        </tr>
+                    
+                        <!-- should be something like this
+                            not totally sure how to handle this yet..
+                            I want to dynamically insert a comment
+                            component for each comment in the snippet
+                            that is loaded on the page
+                        <tr *ngFor="let comment of comments">
+                            <app-comment-panel [ng-model]="comment"></app-comment-panel>
+                        </tr>
+                        -->
+                    </tbody>
+                </table>
+                
+            </div>
+        </div>
+
+        <!-- Delete Snippet region -->
+        <div class="row">
+            <!-- TODO: only visible to creator -->
+            <button>Delete Snippet</button>
+            <br>
+        </div>
+    </div>
+</div>

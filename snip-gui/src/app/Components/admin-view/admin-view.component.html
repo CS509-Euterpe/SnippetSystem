@@ -1,8 +1,9 @@
 <!-- This is the admin page -->
-<div class="Container">
-    <div class="Row">
+<h4>Admin Page</h4>
+<div class="Container" style="height: 1200px;">
+    <div class="row">
         <div class="col-lg-11 border">
-            <div name="commentTable" class="col-lg-5 border tableFixHead" style="min-width: 1000px; min-height: 400px;">
+            <div name="snippetTable" class="col-lg-12 bg-dark border text-white tableFixHead" style="min-width: 100%; min-height: 400px;">
                 <table>
                     <thead>
                         <tr>
@@ -10,6 +11,19 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- example snippet objects.. replace this with dynamically-generated list of snippets from DB -->
+                        <tr>
+                            <td><app-snippet-preview></app-snippet-preview></td>
+                        </tr>
+                        <tr>
+                            <td><app-snippet-preview></app-snippet-preview></td>
+                        </tr>
+                        <tr>
+                            <td><app-snippet-preview></app-snippet-preview></td>
+                        </tr>
+                        <tr>
+                            <td><app-snippet-preview></app-snippet-preview></td>
+                        </tr>
                         <tr>
                             <td><app-snippet-preview></app-snippet-preview></td>
                         </tr>
@@ -30,11 +44,13 @@
             </div>
         </div>
     </div>
+    <!-- Remove old snippet functionality -->
     <div class="Row">
-        <div class="col-lg-5 border bg-dark">
-            <label>Remove Stale Snippets:</label>
-            <label>TODO put a calander here...</label>
-            <button>Remove Before</button>
+        <div class="col-lg-5 border bg-dark text-white" style="height">
+            <label>Remove Snippets:</label><br>
+            <input type="number">
+            <button>Remove Old</button><br>
+            <p>remove all snippets older than input days</p>
         </div>
     </div>
 </div>
