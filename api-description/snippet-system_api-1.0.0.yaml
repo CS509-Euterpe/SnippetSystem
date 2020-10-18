@@ -112,16 +112,6 @@ paths:
       summary: "Create a new snippet."
       description: "Create a new snippet. By default, all input fields will be empty."
       operationId: "createSnippet"
-      parameters:
-      - name: "password"
-        in: "header"
-        description: "The password for this snippet"
-        required: false
-        style: "simple"
-        explode: false
-        schema:
-          type: "string"
-          example: "Sup3rS3cur3!"
       requestBody:
         description: "The desired snippet"
         content:
@@ -143,14 +133,6 @@ paths:
       description: "Get a snippet based on the UUID of the snippet"
       operationId: "getSnippet"
       parameters:
-      - name: "user"
-        in: "query"
-        description: "The type of user making this request"
-        required: false
-        style: "form"
-        explode: true
-        schema:
-          $ref: "#/components/schemas/User"
       - name: "id"
         in: "path"
         description: "The unique id of the desired snippet"
@@ -159,15 +141,6 @@ paths:
         explode: false
         schema:
           type: "string"
-      - name: "password"
-        in: "header"
-        description: "The password for this snippet"
-        required: false
-        style: "simple"
-        explode: false
-        schema:
-          type: "string"
-          example: "Sup3rS3cur3!"
       responses:
         "200":
           description: "The desired snippet"
@@ -195,23 +168,6 @@ paths:
         explode: false
         schema:
           type: "string"
-      - name: "user"
-        in: "query"
-        description: "The type of user making this request"
-        required: false
-        style: "form"
-        explode: true
-        schema:
-          $ref: "#/components/schemas/User"
-      - name: "password"
-        in: "header"
-        description: "The password for this snippet"
-        required: false
-        style: "simple"
-        explode: false
-        schema:
-          type: "string"
-          example: "Sup3rS3cur3!"
       requestBody:
         description: "The snippet contents"
         content:
@@ -357,23 +313,6 @@ paths:
         explode: false
         schema:
           type: "string"
-      - name: "password"
-        in: "header"
-        description: "The password for this snippet"
-        required: false
-        style: "simple"
-        explode: false
-        schema:
-          type: "string"
-          example: "Sup3rS3cur3!"
-      - name: "user"
-        in: "query"
-        description: "The type of user making this request"
-        required: false
-        style: "form"
-        explode: true
-        schema:
-          $ref: "#/components/schemas/User"
       requestBody:
         description: "The user's comment"
         content:
@@ -476,9 +415,16 @@ components:
     ModifySnippetDto:
       required:
       - "content"
+      - "id"
       - "info"
       type: "object"
       properties:
+        parameters:
+          $ref: "#/components/schemas/Parameters"
+        id:
+          type: "string"
+          format: "uuid"
+          example: "d290f1ee-6c54-4b01-90e6-d701748f0851"
         info:
           type: "string"
           example: "This snippet was created for a homework assignment"
@@ -501,7 +447,13 @@ components:
       - "text"
       type: "object"
       properties:
+        parameters:
+          $ref: "#/components/schemas/Parameters"
         id:
+          type: "string"
+          format: "uuid"
+          example: "d290f1ee-6c54-4b01-90e6-d701748f0852"
+        snippetId:
           type: "string"
           format: "uuid"
           example: "d290f1ee-6c54-4b01-90e6-d701748f0852"
@@ -528,3 +480,11 @@ components:
       - "Viewer"
       - "Creator"
       - "Admin"
+    Parameters:
+      type: "object"
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        password:
+          type: "string"
+          example: "Sup3rS3cur3!"
