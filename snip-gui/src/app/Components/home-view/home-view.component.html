@@ -5,21 +5,26 @@
     <div class="row">
 
         <!--Navigate to Snippet, and admin controls-->
-        <div class="col-lg-6 border">
+        <div class="col-lg-6">
             <div class="row">
-                <div class="col-sm-4 border">
-                    <label>Go to a snippet</label>
-                    <br>
-                    <label>Snip ID:</label> &nbsp;
-                    <input type="text">
-                    <br>
-                    <button class="button">GO!</button>
-                    <br>
-                </div>
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>Go to a snippet</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <mat-form-field appearance="standard">
+                            <mat-label>Snip ID</mat-label>
+                            <input matInput placeholder="ID">
+                        </mat-form-field>  
+                    </mat-card-content>
+                    <mat-card-actions>                        
+                        <button  mat-button >GO!</button>
+                    </mat-card-actions>
+                </mat-card>
             </div>
             <div class="row">
-                <div class="col-sm-4 border">
-                    <button>View All Snippets</button>
+                <div class="col-lg-6">
+                    <button  mat-button>View All Snippets</button>
                 </div>
             </div>
         </div>
@@ -57,7 +62,7 @@
                     
                     <br>
                     <input type="text"> &nbsp;
-                    <button class="button" type="submit">Create!</button>
+                    <button mat-button type="submit">Create!</button>
                 </div>
             </form>
         </div>

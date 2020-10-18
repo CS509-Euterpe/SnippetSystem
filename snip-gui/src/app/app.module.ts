@@ -12,6 +12,12 @@ import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminViewComponent } from './Components/admin-view/admin-view.component';
 import { SnippetPreviewComponent } from './Components/admin-view/snippet-preview/snippet-preview.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule} from '@angular/material/input'
 
 @NgModule({
   declarations: [
@@ -29,7 +35,12 @@ import { SnippetPreviewComponent } from './Components/admin-view/snippet-preview
     NgbModule,
     AmplifyUIAngularModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
