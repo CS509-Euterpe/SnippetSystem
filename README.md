@@ -25,7 +25,10 @@ run the client (defaults to localhost:4200)
 ng serve
 ```
 
-### developnemt notes
+## adding an angular component
 
+```
+cd [repo]/snip-gui
+ng generate compoent Components/$COMPONENT_NAME
+```
 
-...

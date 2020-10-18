@@ -7,7 +7,11 @@ import { SnippetViewComponent } from './Components/snippet-view/snippet-view.com
 import { PasswordViewComponent } from './Components/password-view/password-view.component';
 import { CommentPanelComponent } from './Components/comment-panel/comment-panel.component';
 import { HomeViewComponent } from './Components/home-view/home-view.component';
-import {AmplifyUIAngularModule} from '@aws-amplify/ui-angular';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminViewComponent } from './Components/admin-view/admin-view.component';
+import { SnippetPreviewComponent } from './Components/admin-view/snippet-preview/snippet-preview.component';
 
 @NgModule({
   declarations: [
@@ -15,12 +19,17 @@ import {AmplifyUIAngularModule} from '@aws-amplify/ui-angular';
     SnippetViewComponent,
     PasswordViewComponent,
     CommentPanelComponent,
-    HomeViewComponent
+    HomeViewComponent,
+    AdminViewComponent,
+    SnippetPreviewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AmplifyUIAngularModule
+    NgbModule,
+    AmplifyUIAngularModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

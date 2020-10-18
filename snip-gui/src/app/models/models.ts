@@ -1,12 +1,42 @@
-import { ObjectUnsubscribedError } from 'rxjs';
+/**
+ * Holds all model classes.
+ * 
+ * each class we have here should line up with an object on the java side 
+ */
 
-export interface user {
-    name: string;
-    id: string; // UUID
+import { LanguageTypeEnum, UserAccessEnum } from './enums'; 
 
+export interface Snippet {
+    id: string;
+    path: string;
+    comments: Comment[]; 
+    info: string;
+    language: LanguageTypeEnum;
+    timestamp: string;
+    content: string;
+    //creator: User;
 }
 
-export interface snippet {
-    owner: user;
-    snippet: string;
+export interface ModifySnippet {
+    info: string;
+    language: string;
+    content: string;
+}
+
+export interface Comment {
+    id: string;
+    timestamp: string;
+    text: string;
+    region: Region;
+}
+
+export interface Region {
+    start: number;
+    end: number;
+}
+
+export interface User {
+    type: UserAccessEnum;
+    //name: string;
+    //
 }
