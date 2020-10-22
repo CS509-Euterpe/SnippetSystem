@@ -9,12 +9,14 @@ import { LanguageTypeEnum, UserAccessEnum } from './enums';
 export interface Snippet {
     id: string;
     path: string;
+    creator: User;
     comments: Comment[]; 
     info: string;
     language: LanguageTypeEnum;
     timestamp: string;
     content: string;
-    //creator: User;
+    password: string;
+    
 }
 
 export interface ModifySnippet {
@@ -37,6 +39,5 @@ export interface Region {
 
 export interface User {
     type: UserAccessEnum;
-    //name: string;
-    //
+    name: string;
 }
