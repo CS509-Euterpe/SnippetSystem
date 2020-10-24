@@ -1,23 +1,13 @@
 <!-- This component is not its own page. it is to be inserted to the snippet view dynamically -->
 
-<div class="container border" style="height: 200px; width: 500;">
+<mat-card *ngIf="comment">
     <!--Comment metadata-->
-    <div class="row">
-        <div class="col-md-10">
-            <label>userName:</label> &nbsp; Joe User<br>
-            <label>uuid:</label> &nbsp; f14fe-4rf2-31dt-134fvcewwry52c<br>
-            <label>region:</label> &nbsp; line 1 col 2 - line<br>
-        </div>
-        <div class="col-md-2">
-            <button>X</button>
-        </div>
-    </div>
+    <mat-card-header>
+        <mat-card-title>Joe User</mat-card-title>
+        <mat-card-subtitle>{{ comment.timestamp }}</mat-card-subtitle>
+    </mat-card-header>
     <!-- Comment -->
-    <div class="row border">
-        <div class="col-md-5" style="height: 100px">
-            <label>Comment:</label>
-            <br>
-            <p>Code snippet goes in here...</p>
-        </div>
-    </div>
-</div>
+    <mat-card-content>
+            <textarea matInput [(ngModel)]="comment.text" placeholder="name" ></textarea>
+    </mat-card-content>
+</mat-card>
