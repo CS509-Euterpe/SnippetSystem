@@ -1,9 +1,8 @@
 <div class="info-group" *ngIf="snippet">
+    <div><span class="label">Last Modified:</span>{{snippet.timestamp}}</div>
     <mat-form-field>
         <mat-label>Info: </mat-label>
-        <textarea  matInput [(ngModel)]="snippet.info" placeholder="name"> </textarea >
+        <textarea matInput [(ngModel)]="snippet.info" placeholder="name" > </textarea >
     </mat-form-field>
-    <div><span>Last Modified: </span>{{snippet.timestamp}}</div>
-
-    <app-language-selector [selected]="snippet.language"></app-language-selector>
+    <app-language-selector [selected]="snippet.language"></app-language-selector>        
 </div>

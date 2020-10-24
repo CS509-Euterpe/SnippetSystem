@@ -1,20 +1,13 @@
-.tableFixHead {
-    overflow-y: auto;
-    height: 600px;
+.page-bottom{
+    padding-left: 2em;
+    padding-top: 1em;
+    padding-bottom: 2em;
 }
 
-.tableFixHead thead th {
-    position: sticky;
-    top: 0;
+.right-align{
+    float: right;
 }
 
-table {
-    border-collapse: collapse;
+mat-list {
     width: 100%;
-}
-
-th,
-td {
-    padding: 8px 16px;
-    border: 1px solid #ffffff;
 }

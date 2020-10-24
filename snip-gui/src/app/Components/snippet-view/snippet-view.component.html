@@ -1,15 +1,19 @@
 <!-- This component is the page that a user will view a snippet on -->
-<h4>User Snippet</h4>
-
-<div style="min-width: 100%; min-height: 1000px;" class="Container">
+<div>
     <div class="row">
         <!-- Snippet pane -->
-        <div class="col-lg-6 border">
-            <label>Snippet:</label>
-            <br>
-            <!-- actual snippet 'box' -->
-            <app-snippet-info [snippet]="snippet"></app-snippet-info>
-            <!-- editor-->
+        <div class="col-lg-7 border">
+            
+            <!-- Snippet Info -->
+            <mat-expansion-panel [expanded]=true>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Details
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <app-snippet-info [snippet]="snippet"></app-snippet-info>
+            </mat-expansion-panel>
+                <!-- editor-->
             <ngx-codemirror
             [(ngModel)]="snippet.content"
             [options]="{
@@ -20,69 +24,35 @@
             ></ngx-codemirror>
         </div>
         <!-- Comments pane -->
-        <div class="col-lg-6 border" style=" height: 800px;">
-            <label>Comments:</label>
+        <div class="col-lg-5 border">
             <!-- Actual comment 'box'-->
-            <div>
-                <button>Add Comment</button>
+            <div class="row">
+                <div class="col-lg-10">
+                    <h3>Comments:</h3>
+                </div>
+                <div class="col-lg-2">
+                    <button mat-button class="right-align">+</button>
+                </div>
             </div>
-            <!-- dynamically generated set of comments -->
-            <div name="commentTable" class="col-lg-5 border tableFixHead" style="min-width: 100%; min-height: 750px;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Snippet Comments
-                            </th>
-                        </tr>
-                    </thead>
-                    <!--example content for checking style.. delete this later-->
-                    <tbody>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                        <tr>
-                            <td><app-comment-panel></app-comment-panel></td>
-                        </tr>
-                    
-                        <!-- should be something like this
-                            not totally sure how to handle this yet..
-                            I want to dynamically insert a comment
-                            component for each comment in the snippet
-                            that is loaded on the page
-                        <tr *ngFor="let comment of comments">
-                            <app-comment-panel [ng-model]="comment"></app-comment-panel>
-                        </tr>
-                        -->
-                    </tbody>
-                </table>
-                
+            <div class="row">
+                <!-- dynamically generated set of comments -->
+                <div name="commentTable" class="col-lg-12" style="max-height: 700px;">
+                    <ng-scrollbar>
+                       <div *ngFor="let comment of snippet.comments">
+                           <app-comment-panel [comment]=comment></app-comment-panel>
+                       </div> 
+                    </ng-scrollbar>
+                </div>
             </div>
         </div>
-
-        <!-- Delete Snippet region -->
-        <div class="row">
+    </div>
+    <!-- Delete Snippet region -->
+    <div class="row">
+        <div class="col-lg-12">
             <!-- TODO: only visible to creator -->
-            <button>Delete Snippet</button>
-            <br>
+            <div class="page-bottom">
+                <button mat-button>Delete Snippet</button>
+            </div>
         </div>
     </div>
 </div>

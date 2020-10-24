@@ -47,11 +47,7 @@
                     <br><br>
 
                     <label>Language:</label> &nbsp; 
-                    <select name="Language">
-                        <option *ngFor="let lang of LanguageTypeEnum.values();">
-                            {{lang}}
-                        </option>
-                    </select>
+                    <app-language-selector></app-language-selector>
                     <br><br>
                 </div>
                 <div id="codeSnippet" class="row border">
