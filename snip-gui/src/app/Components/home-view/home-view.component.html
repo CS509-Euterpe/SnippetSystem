@@ -1,4 +1,4 @@
-<div style="min-width: 100%; min-height: 1000px;"  class="container bg-dark text-white">
+<div style="min-width: 100%; min-height: 1000px;"  class="container">
 
     <h4>Welcome to Euterpe Snippet System</h4>
 
@@ -7,7 +7,7 @@
         <!--Navigate to Snippet, and admin controls-->
         <div class="col-lg-6">
             <div class="row">
-                <div class="col-lg-4"></div>
+                <div class="col-lg-1"></div>
                 <div class="col-lg-4">
                     <mat-card>
                         <mat-card-header>
@@ -19,12 +19,12 @@
                                 <input matInput placeholder="ID">
                             </mat-form-field>  
                         </mat-card-content>
-                        <mat-card-actions>                        
-                            <button  mat-button >GO!</button>
+                        <mat-card-actions>
+                            <button mat-button>Go</button>                        
                         </mat-card-actions>
                     </mat-card>
                 </div>
-                <div class="col-lg-4"></div>
+                <div class="col-lg-1"></div>
             </div>
             <div class="row">
                 <div class="col-lg-6">
@@ -39,11 +39,11 @@
             <form [formGroup]="newSnipForm" (ngSubmit)="createSnippet();">
                 <div id="info" class="row border">
                     <label>User Name: </label> &nbsp;
-                    <input type="text" class="bg-secondary">
+                    <input type="text">
                     <br><br>
                     <label>Snippet Info:</label>
                     <br>
-                    <textarea rows="3" cols="50" style="min-width: 100%" class="bg-secondary">Enter some information about your snippet here...</textarea>
+                    <textarea rows="3" cols="50" style="min-width: 100%">Enter some information about your snippet here...</textarea>
                     <br><br>
 
                     <label>Language:</label> &nbsp; 
@@ -57,7 +57,7 @@
                 <div id="codeSnippet" class="row border">
                     <label>Code Snippet:</label>
                     <br>
-                    <textarea rows="10" cols="50" style="min-width: 100%" class="bg-secondary">Enter your code snippet here...</textarea>
+                    <textarea rows="10" cols="50" style="min-width: 100%">Enter your code snippet here...</textarea>
                     <br><br>
                 </div>
 

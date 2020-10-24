@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ISnippet } from 'src/app/models/models';
+import { SnippetStub } from 'src/app/models/stubs';
 
 @Component({
   selector: 'app-snippet-view',
@@ -7,7 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SnippetViewComponent implements OnInit {
 
-  constructor() { }
+  snippet: ISnippet
+
+  constructor() {
+    this.snippet = new SnippetStub()
+   }
 
   ngOnInit(): void {
   }

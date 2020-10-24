@@ -5,31 +5,29 @@
  */
 
  export enum LanguageTypeEnum {
-     None,
-     Bash,
-     C,
-     CPlusPlus,
-     CSharp,
-     go,
-     Perl,
-     Python,
-     Java,
-     JavaScript,
-     TypeScript,
-     HTML
+     None = "none",
+     Bash = "bash",
+     C = "c",
+     "C++" = "cpp",
+     "C#" = "csharp",
+     go = "go",
+     Perl = "perl",
+     Python = "python",
+     Java = "java",
+     JavaScript = "js",
+     TypeScript = "ts",
+     HTML = "html"
  }
 
- export namespace LanguageTypeEnum {
-     export function values() {
-         return Object.keys(LanguageTypeEnum).filter(
-             (type) => isNaN(<any>type) && type !== 'values'
-         );
-     }
- }
 
  export enum UserAccessEnum {
-     None,
-     Viewer,
-     Creator,
-     Admin
+     None = "none",
+     Viewer = "viewer",
+     Creator = "creator",
+     Admin = "admin"
  }
+
+ export function enumSelector(definition) {
+    return Object.keys(definition)
+      .map(key => ({ value: definition[key], title: key}));
+  }

@@ -3,7 +3,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { LanguageTypeEnum } from 'src/app/models/enums';
-import { Snippet } from 'src/app/models/models';
+import { ISnippet } from 'src/app/models/models';
 
 @Component({
   selector: 'app-home-view',
@@ -24,7 +24,7 @@ export class HomeViewComponent implements OnInit {
     })
   }
 
-  newSnippet: Snippet;
+  newSnippet: ISnippet;
   userName: String;
   codeBlock: String;
   selectedLanguage: LanguageTypeEnum;

@@ -1,34 +1,28 @@
 <!-- This component is the page that a user will view a snippet on -->
 <h4>User Snippet</h4>
 
-<div style="min-width: 100%; min-height: 1000px;" class="Container bg-dark text-white">
+<div style="min-width: 100%; min-height: 1000px;" class="Container">
     <div class="row">
         <!-- Snippet pane -->
         <div class="col-lg-6 border">
             <label>Snippet:</label>
             <br>
             <!-- actual snippet 'box' -->
-            <div class="border">
-                <label>Info:</label>
-                <br>
-                <label>creator</label>
-                <br>
-                <label>timestamp</label>
-                <br>
-                <p>my comment about the snip...</p>
-                <br>
-                <label>Code:</label> &nbsp; &nbsp;
-                <label>Language: python</label>
-                <!-- 'code box' -->
-                <div class="border" style="height: 600px;">
-                    <p> for i in range(len(10): ...</p>
-                </div>
-            </div>
+            <app-snippet-info [snippet]="snippet"></app-snippet-info>
+            <!-- editor-->
+            <ngx-codemirror
+            [(ngModel)]="snippet.content"
+            [options]="{
+                lineNumbers: true,
+                theme: 'eclipse',
+                mode: 'text/x-java'
+            }"
+            ></ngx-codemirror>
         </div>
         <!-- Comments pane -->
         <div class="col-lg-6 border" style=" height: 800px;">
             <label>Comments:</label>
-            <!-- Actial comment 'box'-->
+            <!-- Actual comment 'box'-->
             <div>
                 <button>Add Comment</button>
             </div>
