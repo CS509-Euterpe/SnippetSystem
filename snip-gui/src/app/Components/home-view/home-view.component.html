@@ -7,20 +7,24 @@
         <!--Navigate to Snippet, and admin controls-->
         <div class="col-lg-6">
             <div class="row">
-                <mat-card>
-                    <mat-card-header>
-                        <mat-card-title>Go to a snippet</mat-card-title>
-                    </mat-card-header>
-                    <mat-card-content>
-                        <mat-form-field appearance="standard">
-                            <mat-label>Snip ID</mat-label>
-                            <input matInput placeholder="ID">
-                        </mat-form-field>  
-                    </mat-card-content>
-                    <mat-card-actions>                        
-                        <button  mat-button >GO!</button>
-                    </mat-card-actions>
-                </mat-card>
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>Go to a snippet</mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-form-field appearance="standard">
+                                <mat-label>Snip ID</mat-label>
+                                <input matInput placeholder="ID">
+                            </mat-form-field>  
+                        </mat-card-content>
+                        <mat-card-actions>                        
+                            <button  mat-button >GO!</button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+                <div class="col-lg-4"></div>
             </div>
             <div class="row">
                 <div class="col-lg-6">
@@ -30,7 +34,7 @@
         </div>
 
         <!--create new snippet form-->
-        <div class="col-lg-6 border">
+        <div class="col-lg-6">
             <h2>Create a new snippet:</h2>
             <form [formGroup]="newSnipForm" (ngSubmit)="createSnippet();">
                 <div id="info" class="row border">
