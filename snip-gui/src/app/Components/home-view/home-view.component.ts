@@ -53,9 +53,6 @@ export class HomeViewComponent implements OnInit {
     var newTime = new Date();
     var newId = uuid();
 
-    console.log("entered snip data...");
-    console.log(snip);
-
     //create the snippet
     var newSnip = <Snippet> {
       id: newId,
@@ -73,7 +70,6 @@ export class HomeViewComponent implements OnInit {
     //Sent to DB as POST request
     //Redirect user to '[url]/sinippet?id=' + newId
   }
-
 }
 
 
