@@ -14,29 +14,25 @@ export interface ISnippet {
     language: LanguageTypeEnum;
     timestamp: string;
     content: string;
-    //creator: User;
+    name: string;
 }
 
 export interface IModifySnippet {
     info: string;
     language: string;
     content: string;
+    name: string;
 }
 
 export interface IComment {
     id: string;
     timestamp: string;
     text: string;
+    name: string;
     region: IRegion;
 }
 
 export interface IRegion {
     start: number;
     end: number;
-}
-
-export interface IUser {
-    type: UserAccessEnum;
-    //name: string;
-    //
 }

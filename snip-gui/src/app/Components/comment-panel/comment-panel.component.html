@@ -3,7 +3,7 @@
 <mat-card *ngIf="comment">
     <!--Comment metadata-->
     <mat-card-header>
-        <mat-card-title>Joe User</mat-card-title>
+        <mat-card-title>{{ comment.name }}</mat-card-title>
         <mat-card-subtitle>{{ comment.timestamp }}</mat-card-subtitle>
     </mat-card-header>
     <!-- Comment -->
