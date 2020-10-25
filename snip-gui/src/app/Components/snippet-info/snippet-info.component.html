@@ -1,17 +1,18 @@
 <div class="info-group" *ngIf="snippet">
     <div *ngIf="!snippet.isCreating">
-        <div><span class="label">Created By:</span>{{snippet.name}}</div>
-        <div><span class="label">Last Modified:</span>{{snippet.timestamp}}</div>
+        <div><span class="label">Created By</span>{{snippet.name}}</div>
+        <div><span class="label">Last Modified</span>{{snippet.timestamp}}</div>
+        <div><span class="label">Snippet ID</span>{{snippet.id}}</div>
     </div>
     <div *ngIf="snippet.isCreating">
         <mat-form-field>
-            <mat-label>Creator Name: </mat-label>
+            <mat-label>Creator Name</mat-label>
             <input matInput [(ngModel)]="snippet.name" placeholder="Creator">
         </mat-form-field>
     </div>
-    <mat-form-field>
-        <mat-label>Info: </mat-label>
-        <textarea matInput [(ngModel)]="snippet.info" placeholder="name" > </textarea >
+    <mat-form-field >
+        <mat-label>Info</mat-label>
+        <textarea matInput [(ngModel)]="snippet.info" placeholder="Add Some Details...." > </textarea >
     </mat-form-field>
     <app-language-selector [selected]="snippet.language"></app-language-selector>        
 </div>

@@ -1,20 +1,30 @@
 <div>
-    <!-- Snippet Info -->
-    <mat-expansion-panel [expanded]=true>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Details
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-snippet-info [snippet]="snippet"></app-snippet-info>
-    </mat-expansion-panel>
-        <!-- editor-->
-    <ngx-codemirror
-    [(ngModel)]="snippet.content"
-    [options]="{
-        lineNumbers: true,
-        theme: 'eclipse',
-        mode: 'text/x-java'
-    }"
-    ></ngx-codemirror>
+  <!-- Snippet Info -->
+  <mat-expansion-panel [expanded]=true>
+      <mat-expansion-panel-header >
+        <mat-panel-title>
+          Snippet Details
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-snippet-info [snippet]="snippet"></app-snippet-info>
+  </mat-expansion-panel>
+      <!-- editor-->
+  <ngx-codemirror
+  [(ngModel)]="snippet.content"
+  [options]="{
+      lineNumbers: true,
+      theme: 'eclipse',
+      mode: 'text/x-java'
+  }"
+  placeholded="Hello world!"
+  ></ngx-codemirror>
+  <div class="row footer" *ngIf="snippet.isCreating" >
+    <div class="col-lg-6">
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [(ngModel)]="snippet.password">
+        <mat-hint>(optional)</mat-hint>
+      </mat-form-field>
+    </div>
+  </div>
 </div>

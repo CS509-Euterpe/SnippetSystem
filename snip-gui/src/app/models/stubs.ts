@@ -62,7 +62,7 @@ export class BlankSnippet implements ISnippet
         this.info = "";
         this.timestamp = Date().toLocaleLowerCase();
         this.language = LanguageTypeEnum.None;
-        this.content = ""
+        this.content = "// Add your snippet here..."
         this.password = "";
     }
     

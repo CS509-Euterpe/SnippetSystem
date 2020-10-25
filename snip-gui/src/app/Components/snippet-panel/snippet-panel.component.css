@@ -1,0 +1,11 @@
+.footer {
+    margin-left: 2em;
+    margin-bottom: 2em;
+    margin-top: 1em;
+}
+
+mat-expansion-panel {
+    margin-bottom: 1em;
+    margin-top: 1em;
+    margin-left: 1em;
+}

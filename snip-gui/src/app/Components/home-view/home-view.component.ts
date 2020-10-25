@@ -14,63 +14,27 @@ import { v4 as uuid } from 'uuid';
 })
 
 export class HomeViewComponent implements OnInit {
-
-  //create this obj so we can use it for drop-down list values
-  LanguageTypeEnum = LanguageTypeEnum;
-  newSnipForm; //snippet form...
   blankSnippet: ISnippet;
+  navSnippetId: string;
 
   gotoSnippetUrl: string = "[url]/snippet?id="; // redirect user after creating snippet OR when pressing "GO!"
   postSnippetUrl: string = "[url]/TBD/...";
 
-  constructor(private formBuilder: FormBuilder) { 
-    this.newSnipForm = formBuilder.group({
-      info: '',
-      language: LanguageTypeEnum.None,
-      content: '',
-      password: '',
-      username: '' 
-    });
+
+  constructor() { 
+    this.navSnippetId = "";
     this.blankSnippet = new BlankSnippet();
   }
 
-  form: FormGroup;
-
   ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      ctrl1: this.formBuilder.control('')
-    });
   }
 
-  createSnippet(snip: SnipForm) {
-    var newTime = new Date();
-    var newId = uuid();
+  createSnippet() {
+    this.blankSnippet.timestamp = new Date().toISOString();
+    this.blankSnippet.id = uuid();
 
-    //create the snippet
-    var newSnip = <ISnippet> {
-      id: newId,
-      path: "/snippets/" + newId,
-      name: snip.username,
-      comments: [], 
-      info: snip.info,
-      language: snip.language,
-      timestamp: newTime.toISOString(),
-      content: snip.content,
-      password: snip.password
-    }
-
-    console.log(newSnip);
+    console.log(this.blankSnippet);
     //Sent to DB as POST request
     //Redirect user to '[url]/sinippet?id=' + newId
   }
-}
-
-
-/* holder obj for creating the snippet */
-export interface SnipForm {
-  info: string;
-  language: LanguageTypeEnum;
-  content: string;
-  password: string;
-  username: string;
 }

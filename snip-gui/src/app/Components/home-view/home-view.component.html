@@ -1,14 +1,11 @@
 <div style="min-width: 100%; min-height: 1000px;"  class="container">
-
-    <h4>Welcome to Euterpe Snippet System</h4>
-
     <div class="row">
-
         <!--Navigate to Snippet, and admin controls-->
         <div class="col-lg-6">
+            <h2>Welcome to Euterpe Snippet System</h2>
             <div class="row">
                 <div class="col-lg-1"></div>
-                <div class="col-lg-4">
+                <div class="col-lg-10">
                     <mat-card>
                         <mat-card-header>
                             <mat-card-title>Go to a snippet</mat-card-title>
@@ -16,11 +13,15 @@
                         <mat-card-content>
                             <mat-form-field appearance="standard">
                                 <mat-label>Snip ID</mat-label>
-                                <input matInput placeholder="ID">
+                                <input matInput [(ngModel)]=navSnippetId placeholder="ID">
                             </mat-form-field>  
                         </mat-card-content>
                         <mat-card-actions>
-                            <button mat-button>Go</button>                        
+                            <div [ngClass]="{'diabled-links': navSnippetId.length === 0}">
+                                <button mat-raised-button color=primary
+                                   [disabled]="navSnippetId.length === 0"
+                                   routerLink="/snippet/{{navSnippetId}}">Go</button>                        
+                            </div>
                         </mat-card-actions>
                     </mat-card>
                 </div>
@@ -32,36 +33,13 @@
                 </div>
             </div>
         </div>
-
         <!--create new snippet form-->
         <div class="col-lg-6">
-            <h2>Create a new snippet:</h2>
-            <form [formGroup]="newSnipForm" (ngSubmit)="createSnippet(newSnipForm.value);">
-                <div id="info" class="row border">
-                    <label>User Name: </label> &nbsp; <input type="text" class="bg-secondary" formControlName="username">
-                    <br><br>
-                    <label>Snippet Info:</label>
-                    <br>
-                    <textarea rows="3" cols="50" style="min-width: 100%" class="bg-secondary" formControlName="info">Enter some information about your snippet here...</textarea>
-                    <br><br>
-
-                    <app-language-selector></app-language-selector>
-                    <br><br>
-                </div>
-                <div id="codeSnippet" class="row border">
-                    <label>Code Snippet:</label>
-                    <br>
-                    <textarea rows="10" cols="50" style="min-width: 100%" class="bg-secondary" formControlName="content">Enter your code snippet here...</textarea>
-                    <br><br>
-                </div>
-
-                <div id="submitSnippet">
-                    <label>Password (optional):</label>
-                    <br>
-                    <input type="text" formControlName="password"> &nbsp;
-                    <button class="button" type="submit">Create!</button>
-                </div>
-            </form>
+            <h3>Create a new snippet:</h3>
+            <app-snippet-panel [snippet]=blankSnippet></app-snippet-panel>
+            <button mat-raised-button color=primary
+            (click)="createSnippet()"
+            >Create!</button> 
         </div>
     </div>
 </div>

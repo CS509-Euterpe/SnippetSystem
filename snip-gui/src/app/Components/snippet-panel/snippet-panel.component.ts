@@ -8,9 +8,11 @@ import { ISnippet } from 'src/app/models/models';
 })
 export class SnippetPanelComponent implements OnInit {
 
+  panelOpenState = true;
   @Input() snippet: ISnippet
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

@@ -7,7 +7,7 @@ import { AdminViewComponent } from './Components/admin-view/admin-view.component
 
 const routes: Routes = [
   {path: 'home', component: HomeViewComponent},
-  {path: 'snippet', component: SnippetViewComponent},
+  {path: 'snippet/:id', component: SnippetViewComponent},
   {path: 'admin', component: AdminViewComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeViewComponent}

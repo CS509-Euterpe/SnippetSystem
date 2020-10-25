@@ -1,5 +1,5 @@
 <mat-form-field>
-    <mat-label>Language: </mat-label>
+    <mat-label>Language</mat-label>
     <mat-select [(ngModel)]="selected">
         <mat-option *ngFor="let l of languages" [value]="l.value">{{ l.title }}</mat-option>
     </mat-select>
