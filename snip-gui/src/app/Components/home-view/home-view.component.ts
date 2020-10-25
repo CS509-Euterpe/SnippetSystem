@@ -3,7 +3,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { LanguageTypeEnum, UserAccessEnum } from 'src/app/models/enums';
-import { ISnippet, IUser } from 'src/app/models/models';
+import { ISnippet } from 'src/app/models/models';
 import { BlankSnippet } from 'src/app/models/stubs';
 import { v4 as uuid } from 'uuid';
 
@@ -18,6 +18,7 @@ export class HomeViewComponent implements OnInit {
   //create this obj so we can use it for drop-down list values
   LanguageTypeEnum = LanguageTypeEnum;
   newSnipForm; //snippet form...
+  blankSnippet: ISnippet;
 
   gotoSnippetUrl: string = "[url]/snippet?id="; // redirect user after creating snippet OR when pressing "GO!"
   postSnippetUrl: string = "[url]/TBD/...";
@@ -30,7 +31,7 @@ export class HomeViewComponent implements OnInit {
       password: '',
       username: '' 
     });
-    this.blankSnippet = new BlankSnippet
+    this.blankSnippet = new BlankSnippet();
   }
 
   form: FormGroup;
@@ -42,22 +43,15 @@ export class HomeViewComponent implements OnInit {
   }
 
   createSnippet(snip: SnipForm) {
-    
-    //build up a new snippet obj
-    var newUsr = <User> {
-                         type: UserAccessEnum.Creator,//re think this part. how do we set the creator's "fingerprint" on the snippet?
-                         name: snip.username
-                        }
-
     var newTime = new Date();
     var newId = uuid();
 
     //create the snippet
-    var newSnip = <Snippet> {
+    var newSnip = <ISnippet> {
       id: newId,
       path: "/snippets/" + newId,
-      creator: newUsr,
-      comments: null, 
+      name: snip.username,
+      comments: [], 
       info: snip.info,
       language: snip.language,
       timestamp: newTime.toISOString(),

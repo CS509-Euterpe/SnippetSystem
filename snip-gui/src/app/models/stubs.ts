@@ -11,6 +11,7 @@ export class SnippetStub implements ISnippet
     timestamp: string;
     content: string;
     name: string;
+    password: string;
     isCreating: boolean;
 
     constructor()
@@ -32,6 +33,7 @@ export class SnippetStub implements ISnippet
         this.timestamp = Date().toLocaleLowerCase();
         this.language = LanguageTypeEnum.Java;
         this.content = "public static void main(String[] args) {\n\tSystem.out.println(\"Hello, World!\");\n}"
+        this.password = "";
     }
     
 }
@@ -47,6 +49,7 @@ export class BlankSnippet implements ISnippet
     content: string;
     name: string;
     isCreating: boolean;
+    password: string;
 
     constructor()
     {this
@@ -60,6 +63,7 @@ export class BlankSnippet implements ISnippet
         this.timestamp = Date().toLocaleLowerCase();
         this.language = LanguageTypeEnum.None;
         this.content = ""
+        this.password = "";
     }
     
 }
