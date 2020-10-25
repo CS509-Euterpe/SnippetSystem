@@ -1,9 +1,11 @@
-import { getLocaleDateTimeFormat } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
-import { LanguageTypeEnum } from 'src/app/models/enums';
-import { Snippet } from 'src/app/models/models';
+import { LanguageTypeEnum, UserAccessEnum } from 'src/app/models/enums';
+import { Snippet, User } from 'src/app/models/models';
+/* 3rd party libs */
+import { v4 as uuid } from 'uuid';
+
 
 @Component({
   selector: 'app-home-view',
@@ -17,19 +19,20 @@ export class HomeViewComponent implements OnInit {
   LanguageTypeEnum = LanguageTypeEnum;
   newSnipForm; //snippet form...
 
-  constructor(private formBuilder: FormBuilder) { 
-    this.newSnipForm = formBuilder.group({
-      userName: '',
-      password: ''
-    })
-  }
+  gotoSnippetUrl: string = "[url]/snippet?id="; // redirect user after creating snippet OR when pressing "GO!"
+  postSnippetUrl: string = "[url]/TBD/...";
 
-  newSnippet: Snippet;
-  userName: String;
-  codeBlock: String;
-  selectedLanguage: LanguageTypeEnum;
-  infoBlock: String; 
-  password: String = "";
+  constructor(private formBuilder: FormBuilder) { 
+    
+    this.newSnipForm = formBuilder.group({
+      info: '',
+      language: LanguageTypeEnum.None,
+      content: '',
+      password: '',
+      username: '' 
+    });
+
+  }
 
   form: FormGroup;
 
@@ -39,10 +42,42 @@ export class HomeViewComponent implements OnInit {
     });
   }
 
-  createSnippet() {
-    //builds out the newSnippet object based on what the user entered on the page in the "Create a new snippet" form
-    console.log("yuh,,, it worked");
+  createSnippet(snip: SnipForm) {
+    
+    //build up a new snippet obj
+    var newUsr = <User> {
+                         type: UserAccessEnum.Creator,//re think this part. how do we set the creator's "fingerprint" on the snippet?
+                         name: snip.username
+                        }
 
+    var newTime = new Date();
+    var newId = uuid();
+
+    //create the snippet
+    var newSnip = <Snippet> {
+      id: newId,
+      path: "/snippets/" + newId,
+      creator: newUsr,
+      comments: null, 
+      info: snip.info,
+      language: snip.language,
+      timestamp: newTime.toISOString(),
+      content: snip.content,
+      password: snip.password
+    }
+
+    console.log(newSnip);
+    //Sent to DB as POST request
+    //Redirect user to '[url]/sinippet?id=' + newId
   }
+}
 
+
+/* holder obj for creating the snippet */
+export interface SnipForm {
+  info: string;
+  language: LanguageTypeEnum;
+  content: string;
+  password: string;
+  username: string;
 }
