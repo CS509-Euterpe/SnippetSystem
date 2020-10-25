@@ -3,25 +3,7 @@
     <div class="row">
         <!-- Snippet pane -->
         <div class="col-lg-7 border">
-            
-            <!-- Snippet Info -->
-            <mat-expansion-panel [expanded]=true>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Details
-                  </mat-panel-title>
-                </mat-expansion-panel-header>
-                <app-snippet-info [snippet]="snippet"></app-snippet-info>
-            </mat-expansion-panel>
-                <!-- editor-->
-            <ngx-codemirror
-            [(ngModel)]="snippet.content"
-            [options]="{
-                lineNumbers: true,
-                theme: 'eclipse',
-                mode: 'text/x-java'
-            }"
-            ></ngx-codemirror>
+            <app-snippet-panel [snippet]=snippet></app-snippet-panel>            
         </div>
         <!-- Comments pane -->
         <div class="col-lg-5 border">

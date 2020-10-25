@@ -24,7 +24,8 @@ import { HomeViewComponent } from './Components/home-view/home-view.component';
 import { AdminViewComponent } from './Components/admin-view/admin-view.component';
 import { SnippetPreviewComponent } from './Components/admin-view/snippet-preview/snippet-preview.component';
 import { SnippetInfoComponent } from './Components/snippet-info/snippet-info.component';
-import { LanguageSelectorComponent } from './Components/language-selector/language-selector.component'
+import { LanguageSelectorComponent } from './Components/language-selector/language-selector.component';
+import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component'
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { LanguageSelectorComponent } from './Components/language-selector/langua
     AdminViewComponent,
     SnippetPreviewComponent,
     SnippetInfoComponent,
-    LanguageSelectorComponent
+    LanguageSelectorComponent,
+    SnippetPanelComponent
   ],
   imports: [
     BrowserModule,

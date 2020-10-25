@@ -11,9 +11,11 @@ export class SnippetStub implements ISnippet
     timestamp: string;
     content: string;
     name: string;
+    isCreating: boolean;
 
     constructor()
     {
+        this.isCreating = false;
         this.id = "1234";
         this.path = "/api/v1/snippet/1234";
         this.name = "Carly Creator"
@@ -30,6 +32,34 @@ export class SnippetStub implements ISnippet
         this.timestamp = Date().toLocaleLowerCase();
         this.language = LanguageTypeEnum.Java;
         this.content = "public static void main(String[] args) {\n\tSystem.out.println(\"Hello, World!\");\n}"
+    }
+    
+}
+
+export class BlankSnippet implements ISnippet
+{
+    id: string;
+    path: string;
+    comments: IComment[];
+    info: string;
+    language: LanguageTypeEnum;
+    timestamp: string;
+    content: string;
+    name: string;
+    isCreating: boolean;
+
+    constructor()
+    {this
+        this.isCreating = true;
+        this.id = "";
+        this.path = "";
+        this.name = ""
+        this.comments = [
+        ]
+        this.info = "";
+        this.timestamp = Date().toLocaleLowerCase();
+        this.language = LanguageTypeEnum.None;
+        this.content = ""
     }
     
 }

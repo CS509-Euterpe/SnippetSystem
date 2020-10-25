@@ -4,6 +4,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { LanguageTypeEnum } from 'src/app/models/enums';
 import { ISnippet } from 'src/app/models/models';
+import { BlankSnippet } from 'src/app/models/stubs';
 
 @Component({
   selector: 'app-home-view',
@@ -16,12 +17,14 @@ export class HomeViewComponent implements OnInit {
   //create this obj so we can use it for drop-down list values
   LanguageTypeEnum = LanguageTypeEnum;
   newSnipForm; //snippet form...
+  blankSnippet: ISnippet
 
   constructor(private formBuilder: FormBuilder) { 
     this.newSnipForm = formBuilder.group({
       userName: '',
       password: ''
     })
+    this.blankSnippet = new BlankSnippet
   }
 
   newSnippet: ISnippet;

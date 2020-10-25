@@ -13,6 +13,7 @@ export class SnippetViewComponent implements OnInit {
 
   constructor() {
     this.snippet = new SnippetStub()
+    this.snippet.isCreating = false;
    }
 
   ngOnInit(): void {

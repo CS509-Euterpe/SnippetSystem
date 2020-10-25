@@ -1,0 +1,20 @@
+<div>
+    <!-- Snippet Info -->
+    <mat-expansion-panel [expanded]=true>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Details
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-snippet-info [snippet]="snippet"></app-snippet-info>
+    </mat-expansion-panel>
+        <!-- editor-->
+    <ngx-codemirror
+    [(ngModel)]="snippet.content"
+    [options]="{
+        lineNumbers: true,
+        theme: 'eclipse',
+        mode: 'text/x-java'
+    }"
+    ></ngx-codemirror>
+</div>

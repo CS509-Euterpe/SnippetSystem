@@ -6,7 +6,11 @@
 
 import { LanguageTypeEnum, UserAccessEnum } from './enums'; 
 
-export interface ISnippet {
+export interface ISnippet extends ISnippetDto{
+    isCreating: boolean;
+}
+
+export interface ISnippetDto {
     id: string;
     path: string;
     comments: IComment[]; 
@@ -16,6 +20,7 @@ export interface ISnippet {
     content: string;
     name: string;
 }
+
 
 export interface IModifySnippet {
     info: string;
