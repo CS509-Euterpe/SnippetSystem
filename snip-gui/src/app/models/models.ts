@@ -18,9 +18,9 @@ export interface ISnippetDto {
     language: LanguageTypeEnum;
     timestamp: string;
     content: string;
+    password: string;
     name: string;
 }
-
 
 export interface IModifySnippet {
     info: string;
