@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ISnippet } from 'src/app/models/models';
+import { SnippetStub } from 'src/app/models/stubs';
 
 @Component({
   selector: 'app-snippet-view',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SnippetViewComponent implements OnInit {
 
-  constructor() { }
+  snippet: ISnippet
+  id: string
 
-  ngOnInit(): void {
+  constructor(
+    private route: ActivatedRoute
+  ) {
+    this.snippet = new SnippetStub()
+    this.snippet.isCreating = false;
+   }
+
+  ngOnInit(): void {    
+    this.id = this.getRouteId();
+    //TODO - fetch snippet
+
+    this.snippet.id = this.id;
+  }
+
+  getRouteId(): string {
+    return this.route.snapshot.paramMap.get('id');
+  }
+
+  save(): void {
+    console.log("Saving snippet!")
   }
 
 }

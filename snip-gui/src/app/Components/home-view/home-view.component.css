@@ -1,0 +1,12 @@
+mat-card-header {
+    width: 100%;
+    text-align: center;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.disabled-links {
+    pointer-events: none;
+}

@@ -6,38 +6,38 @@
 
 import { LanguageTypeEnum, UserAccessEnum } from './enums'; 
 
-export interface Snippet {
+export interface ISnippet extends ISnippetDto{
+    isCreating: boolean;
+}
+
+export interface ISnippetDto {
     id: string;
     path: string;
-    creator: User;
-    comments: Comment[]; 
+    comments: IComment[]; 
     info: string;
     language: LanguageTypeEnum;
     timestamp: string;
     content: string;
     password: string;
-    
+    name: string;
 }
 
-export interface ModifySnippet {
+export interface IModifySnippet {
     info: string;
     language: string;
     content: string;
+    name: string;
 }
 
-export interface Comment {
+export interface IComment {
     id: string;
     timestamp: string;
     text: string;
-    region: Region;
+    name: string;
+    region: IRegion;
 }
 
-export interface Region {
+export interface IRegion {
     start: number;
     end: number;
-}
-
-export interface User {
-    type: UserAccessEnum;
-    name: string;
 }
