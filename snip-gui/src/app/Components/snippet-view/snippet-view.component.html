@@ -3,7 +3,11 @@
     <div class="row">
         <!-- Snippet pane -->
         <div class="col-lg-7 border">
-            <app-snippet-panel [snippet]=snippet></app-snippet-panel>            
+            <app-snippet-panel [snippet]=snippet></app-snippet-panel> 
+            <button mat-raised-button 
+                class="right-align"
+                color=primary
+                (click)="save()">Save</button>           
         </div>
         <!-- Comments pane -->
         <div class="col-lg-5 border">

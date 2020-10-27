@@ -31,4 +31,8 @@ export class SnippetViewComponent implements OnInit {
     return this.route.snapshot.paramMap.get('id');
   }
 
+  save(): void {
+    console.log("Saving snippet!")
+  }
+
 }
