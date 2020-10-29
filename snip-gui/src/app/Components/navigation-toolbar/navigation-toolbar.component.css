@@ -1,0 +1,15 @@
+mat-card {
+    width: 100%;
+}
+
+mat-form-field {
+    height: 25px;
+}
+
+.goto {
+    float: right;
+}
+
+.pagenav {
+    float: left;
+}
