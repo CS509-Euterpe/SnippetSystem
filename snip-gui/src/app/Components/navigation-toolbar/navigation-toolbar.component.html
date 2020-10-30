@@ -1,15 +1,19 @@
 <mat-toolbar>
-    <mat-card>
-        <div class="pagenav">
-          <button mat-button>Home</button> &nbsp;
-          <button mat-button>Admin</button>
-        </div>
-        <!-- Go To Snippet by Id-->
-        <div class="goto">
-          <mat-form-field>
-            <input matInput placeholder="go to snip">
-          </mat-form-field> &nbsp;
-          <button mat-raised-button color="primary">Go</button>
-        </div>
+  <mat-card>
+    <div class="pagenav">
+      <button mat-button routerLink="/home/">Home</button> &nbsp;
+      <button mat-button routerLink="/admin/">Admin</button>
+    </div>
+    <div class="goto" [ngClass]="{'diabled-links': navSnippetId.length === 0}">
+      <mat-card-content>
+        <mat-form-field appearance="standard">
+            <mat-label>Go To Snippet</mat-label>
+            <input matInput [(ngModel)]=navSnippetId placeholder="ID">
+        </mat-form-field>   &nbsp;
+        <button mat-raised-button color=primary
+          [disabled]="navSnippetId.length === 0"
+          routerLink="/snippet/{{navSnippetId}}">Go</button>                        
+      </mat-card-content>
+    </div>
   </mat-card>
 </mat-toolbar>

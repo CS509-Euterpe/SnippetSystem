@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavigationToolbarComponent implements OnInit {
 
-  constructor() { }
+  navSnippetId: string;
+
+  constructor() {
+      this.navSnippetId = "";
+   }
 
   ngOnInit(): void {
   }
