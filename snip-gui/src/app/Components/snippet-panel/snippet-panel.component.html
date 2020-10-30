@@ -6,17 +6,13 @@
           Snippet Details
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-snippet-info [snippet]="snippet"></app-snippet-info>
+      <app-snippet-info [snippet]="snippet" (languageChanged)="onLanguageChanged($event)"></app-snippet-info>
   </mat-expansion-panel>
       <!-- editor-->
   <ngx-codemirror
   [(ngModel)]="snippet.content"
-  [options]="{
-      lineNumbers: true,
-      theme: 'eclipse',
-      mode: 'text/x-java'
-  }"
-  placeholded="Hello world!"
+  [options]="codeStyleOptions"
+  placeholder="Hello world!"
   ></ngx-codemirror>
   <div class="row footer" *ngIf="snippet.isCreating" >
     <div class="col-lg-6">

@@ -3,6 +3,11 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/markdown/markdown';
 import 'codemirror/mode/clike/clike';
+import 'codemirror/mode/shell/shell';
+import 'codemirror/mode/htmlembedded/htmlembedded';
+import 'codemirror/mode/perl/perl';
+import 'codemirror/mode/python/python';
+import 'codemirror/mode/go/go';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
