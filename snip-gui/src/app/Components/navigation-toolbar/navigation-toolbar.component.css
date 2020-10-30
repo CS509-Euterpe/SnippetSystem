@@ -1,21 +1,16 @@
-mat-card {
-    width: 100%;
-    height: 75px;
+mat-toolbar {
+    background-color: rgb(190, 184, 184);
 }
 
 mat-form-field {
     height: 50px;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 mat-raised-button {
     height: 200px;
 }
 
-.goto {
-    float: left;
-}
-
-.pagenav {
-    float: right;
+.spacer {
+    flex: 1 1 auto;
 }
