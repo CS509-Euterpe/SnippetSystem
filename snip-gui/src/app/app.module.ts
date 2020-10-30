@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -44,6 +45,7 @@ import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     NgbModule,
     AmplifyUIAngularModule,
     FormsModule,
