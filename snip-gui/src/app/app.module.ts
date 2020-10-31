@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 
@@ -25,7 +26,8 @@ import { AdminViewComponent } from './Components/admin-view/admin-view.component
 import { SnippetPreviewComponent } from './Components/admin-view/snippet-preview/snippet-preview.component';
 import { SnippetInfoComponent } from './Components/snippet-info/snippet-info.component';
 import { LanguageSelectorComponent } from './Components/language-selector/language-selector.component';
-import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component'
+import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component';
+import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component'
 
 
 @NgModule({
@@ -39,7 +41,8 @@ import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.
     SnippetPreviewComponent,
     SnippetInfoComponent,
     LanguageSelectorComponent,
-    SnippetPanelComponent
+    SnippetPanelComponent,
+    NavigationToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.
     MatToolbarModule,
     MatSelectModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]
