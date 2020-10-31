@@ -3,14 +3,15 @@ mat-toolbar {
 }
 
 mat-form-field {
-    height: 50px;
-    font-size: 12px;
-}
-
-mat-raised-button {
-    height: 200px;
+    padding-top: 3px;
+    font-size: 14px;
 }
 
 .spacer {
     flex: 1 1 auto;
+}
+
+.small-margin {
+    margin-left: 13px;
+    margin-right: 3px;
 }

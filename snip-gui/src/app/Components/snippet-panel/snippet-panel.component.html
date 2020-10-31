@@ -1,7 +1,7 @@
 <div>
   <!-- Snippet Info -->
   <div class="row">
-    <div class="col-lg-6">
+    <div class="col-xl">
       <mat-expansion-panel [expanded]=true>
           <mat-expansion-panel-header >
             <mat-panel-title>
@@ -11,9 +11,10 @@
           <app-snippet-info [snippet]="snippet"></app-snippet-info>
       </mat-expansion-panel>
     </div>
+  </div>
+  <div class="row">
+    <div class="col-xl">
     <!-- editor-->
-    <div class="col-lg-6">
-      <br>
       <ngx-codemirror
       [(ngModel)]="snippet.content"
       [options]="{
@@ -26,7 +27,7 @@
     </div>
   </div>
   <div class="row footer" *ngIf="snippet.isCreating" >
-    <div class="col-lg-6">
+    <div class="col-xl">
       <mat-form-field>
         <mat-label>Password</mat-label>
         <input matInput [(ngModel)]="snippet.password">

@@ -1,19 +1,16 @@
 <div style="min-width: 100%; min-height: 1000px;"  class="container">
     <div class="row">
-        <!--Navigate to Snippet, and admin controls-->
+        <div class="col-lg-3"></div>
+        <!--create new snippet form-->
         <div class="col-lg-6">
             <h3>Welcome to Euterpe Snippet System</h3>
-        </div>
-    </div>
-    <div class="row">
-        <!--create new snippet form-->
-        <div class="col-lg-12">
             <h5>Create a new snippet:</h5>
             <app-snippet-panel [snippet]=blankSnippet></app-snippet-panel>
             <button mat-raised-button color=primary
             (click)="createSnippet()"
             >Create!</button> 
         </div>
+        <div class="col-lg-3"></div>
     </div>
 </div>
 
