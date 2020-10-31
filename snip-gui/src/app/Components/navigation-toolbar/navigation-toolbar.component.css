@@ -1,0 +1,17 @@
+mat-toolbar {
+    background-color: rgb(190, 184, 184);
+}
+
+mat-form-field {
+    padding-top: 3px;
+    font-size: 14px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.small-margin {
+    margin-left: 13px;
+    margin-right: 3px;
+}

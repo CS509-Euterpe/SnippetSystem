@@ -1,0 +1,21 @@
+<mat-toolbar>
+  <button mat-icon-button routerLink="/home/" class="small-margin"> 
+    <mat-icon>home</mat-icon>
+  </button>
+  <button mat-icon-button routerLink="/admin/" class="small-margin">
+    <mat-icon>admin_panel_settings</mat-icon>
+  </button>
+  <span class="small-margin">Euterpe Snippet System</span>
+  <span class="spacer"></span>
+  <div [ngClass]="{'diabled-links': navSnippetId.length === 0}">
+      <mat-form-field appearance="standard">
+          <mat-label>Go To Snippet</mat-label>
+          <input matInput [(ngModel)]=navSnippetId placeholder="ID">
+      </mat-form-field>   &nbsp;
+      <button mat-icon-button
+        [disabled]="navSnippetId.length === 0"
+        routerLink="/snippet/{{navSnippetId}}">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
