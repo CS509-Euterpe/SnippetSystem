@@ -11,7 +11,7 @@
           <div *ngIf="!snippet.isCreating">
             <button mat-button (click)="openDialog();" color="primary">Share</button>
           </div>
-          <app-snippet-info [snippet]="snippet"></app-snippet-info>
+          <app-snippet-info [snippet]="snippet"  (languageChanged)="onLanguageChanged($event)"></app-snippet-info>
       </mat-expansion-panel>
     </div>
   </div>
@@ -20,17 +20,13 @@
     <!-- editor-->
       <ngx-codemirror
       [(ngModel)]="snippet.content"
-      [options]="{
-          lineNumbers: true,
-          theme: 'eclipse',
-          mode: 'text/x-java'
-      }"
-      placeholded="Hello world!"
+  [options]="codeStyleOptions"
+  placeholder="Hello world!"
       ></ngx-codemirror>
     </div>
   </div>
   <div class="row footer" *ngIf="snippet.isCreating" >
-    <div class="col-xl">
+    <div class="col-lg-6">
       <mat-form-field>
         <mat-label>Password</mat-label>
         <input matInput [(ngModel)]="snippet.password">

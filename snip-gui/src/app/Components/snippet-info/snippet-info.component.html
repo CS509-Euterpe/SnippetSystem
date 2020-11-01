@@ -14,5 +14,7 @@
         <mat-label>Info</mat-label>
         <textarea matInput [(ngModel)]="snippet.info" placeholder="Add Some Details...." > </textarea >
     </mat-form-field>
-    <app-language-selector [selected]="snippet.language"></app-language-selector>        
+    <app-language-selector [selected]="snippet.language"
+                           (languageChanged)="onLanguageChanged($event)">
+    </app-language-selector>        
 </div>

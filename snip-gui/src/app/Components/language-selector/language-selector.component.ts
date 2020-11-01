@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { enumSelector, LanguageTypeEnum } from '../../models/enums';
 
 @Component({
@@ -10,6 +11,7 @@ export class LanguageSelectorComponent implements OnInit {
 
   languages = enumSelector(LanguageTypeEnum)
   @Input() selected: LanguageTypeEnum
+  @Output() languageChanged = new EventEmitter<LanguageTypeEnum>()
 
   constructor() { 
   }
@@ -17,4 +19,9 @@ export class LanguageSelectorComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onSelectionChanged(change: MatSelectChange)
+  {
+    this.selected = change.value as LanguageTypeEnum
+    this.languageChanged.emit(this.selected)
+  }
 }
