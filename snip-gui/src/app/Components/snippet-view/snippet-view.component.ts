@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SnackbarService } from 'src/app/Services/snackbar.service'
 import { ISnippet } from 'src/app/models/models';
 import { SnippetStub } from 'src/app/models/stubs';
 
@@ -14,7 +15,8 @@ export class SnippetViewComponent implements OnInit {
   id: string
 
   constructor(
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackbar: SnackbarService
   ) {
     this.snippet = new SnippetStub()
     this.snippet.isCreating = false;
@@ -33,6 +35,8 @@ export class SnippetViewComponent implements OnInit {
 
   save(): void {
     console.log("Saving snippet!")
+    this.snackbar.showMessage("Saved!")
   }
+
 
 }
