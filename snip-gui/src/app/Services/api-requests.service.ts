@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ISnippetDto, IComment } from '../models/models'; 
+import { ISnippetDto, IComment, IModifySnippet } from '../models/models'; 
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ import { ISnippetDto, IComment } from '../models/models';
 
 export class ApiRequestsService {
 
-  private api = 'api/v1';
+  private api = 'https://s3bv1jczza.execute-api.us-east-1.amazonaws.com/Alpha/api/v1';
+  
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
@@ -61,8 +62,9 @@ export class ApiRequestsService {
     );
   }
 
-  postSnippet(snipId: string, newSnip: ISnippetDto): Observable<any> {
-    const url = '${this.api}/snippet/${snipId}';
+  postSnippet(newSnip: ISnippetDto): Observable<any> {
+    const url = this.api + "/snippet/";
+    console.log("sending to url: " +url );
     return this.http.post(url, newSnip)
     .pipe(
       tap(_ => console.log('posting snippet: \n' + newSnip)),
@@ -88,14 +90,21 @@ export class ApiRequestsService {
     );
   }
 
-  updateSnippet(updateSnip: ISnippetDto): Observable<any> {
-    const url = '${this.api}/snippet';
-    return this.http.put(url, updateSnip, this.httpOptions)
+  
+  
+  //this one works right now...
+  createSnippet(createSnip: IModifySnippet): Observable<ISnippetDto> {
+    const url = this.api + '/snippet';
+    console.log("sending to " + url);
+    return this.http.put<ISnippetDto>(url, createSnip, this.httpOptions)
     .pipe(
-      tap(_ => console.log('update snippet  id=${updateSnip.id}')),
-      catchError(this.handleError<any>('updateSnippet'))
+      tap( _ => console.log('creating: ' + createSnip)),
+      map(res => this.unpackResponse<ISnippetDto>(res)),
+      catchError(this.handleError<any>('createSnippet'))
     );
   }
+
+
 
   updateComment(snipId: string, updateComment: IComment): Observable<any> {
     const url = '${this.api}/snippet/${snipId}/comments';
@@ -113,6 +122,19 @@ export class ApiRequestsService {
       console.log('${operation} failed: ${error.message}');
       return of(result as T);
     }
+  }
+
+  //unpack response from server to Type T
+  private unpackResponse<T>(response: any): T {
+    if(response.httpCode == 200)
+    {
+      return response.snippet; 
+    }
+    else
+    {
+      console.log("Server gave error response: " + response.httpCode + " with message " + response.message);
+      throw new Error("Server gave error response: " + response.httpCode + " with message " + response.message);
+    } 
   }
 
 }

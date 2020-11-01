@@ -5,18 +5,18 @@
  */
 
  export enum LanguageTypeEnum {
-     None = "none",
-     Bash = "bash",
-     C = "c",
-     "C++" = "cpp",
-     "C#" = "csharp",
-     go = "go",
-     Perl = "perl",
-     Python = "python",
-     Java = "java",
-     JavaScript = "js",
-     TypeScript = "ts",
-     HTML = "html"
+     None = "NONE",
+     Bash = "BASH",
+     C = "C",
+     "C++" = "CPP",
+     "C#" = "CSHARP",
+     go = "GO",
+     Perl = "PERL",
+     Python = "PYTHON",
+     Java = "JAVA",
+     JavaScript = "JS",
+     TypeScript = "TS",
+     HTML = "HTML"
  }
 
 
