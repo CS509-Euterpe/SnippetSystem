@@ -27,7 +27,8 @@ import { SnippetPreviewComponent } from './Components/admin-view/snippet-preview
 import { SnippetInfoComponent } from './Components/snippet-info/snippet-info.component';
 import { LanguageSelectorComponent } from './Components/language-selector/language-selector.component';
 import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component';
-import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component'
+import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import { NavigationToolbarComponent } from './Components/navigation-toolbar/navi
     MatSelectModule,
     MatExpansionModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
