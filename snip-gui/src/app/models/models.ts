@@ -4,7 +4,7 @@
  * each class we have here should line up with an object on the java side 
  */
 
-import { LanguageTypeEnum, UserAccessEnum } from './enums'; 
+import { LanguageTypeEnum } from './enums'; 
 
 export interface ISnippet extends ISnippetDto{
     isCreating: boolean;

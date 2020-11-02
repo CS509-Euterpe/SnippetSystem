@@ -17,14 +17,13 @@ export class SnippetViewComponent implements OnInit {
   constructor(
     private api: ApiRequestsService,
     private route: ActivatedRoute
-  ) {
-    this.snippet = new BlankSnippet();
-    this.snippet.isCreating = false;
-   }
+  )
+  {
+    this.snippet = new BlankSnippet(); //temporary while the page is loading
+  }
 
   ngOnInit(): void {    
     this.id = this.getRouteId();
-
     //call out to server to fetch the snippet
     this.getSnippetBody(this.id);
   }
@@ -37,31 +36,32 @@ export class SnippetViewComponent implements OnInit {
   getSnippetBody(snipId: number): void {
 
     this.api.getSnippet(snipId).subscribe(
-      x => {console.log(x); console.log("in the snip view!")}, //this.snippet = x...
+      x => {
+        this.snippet = x as ISnippet;
+        this.snippet.isCreating = false;
+        console.log('snippet loaded');
+          }, 
       err => {
         console.error(err);
-        return; //skip comment request if get snippet failed
       },
       () => console.log('get snippet observer complete')
     );
-
-    // this.api.getComments(snipId).subscribe(
-    //   x => console.log(x), //this.snippet.comments = x... 
-    //   err => console.error(err),
-    //   () => console.log('get comments observer complete')
-    // )
 
   }
 
   save(): void {
     //send update snippet request
+    console.log('saving...')
     this.api.updateSnippet(this.snippet).subscribe(
-      x => console.log(x),
+      x => {
+        console.log(x);
+      },
       err => console.error(err),
       () => console.log('update snippet oberver complete')
     )
 
-
+    //all out to get again -- refresh the page elements
+    this.getSnippetBody(this.snippet.id);
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ISnippetDto, IComment, IModifySnippet } from '../models/models'; 
+import { ISnippetDto, ISnippet, IComment, IModifySnippet } from '../models/models'; 
 
 @Injectable({
   providedIn: 'root'
@@ -23,69 +23,59 @@ export class ApiRequestsService {
 
   }
 
-  /* admin calls */
-  getAllSnippets(): Observable<ISnippetDto[]> {
-    const url = this.api + '/snippets';
-    return this.http.get<ISnippetDto[]>(url)
-      .pipe(
-        tap(_ => console.log("fetched snippets")),
-        catchError(this.handleError<ISnippetDto[]>('getAllSnippets', []))
-      );
-  }
+  //NOT FULLY IMPLEMENTED API CALLS
+  // /* admin calls */
+  // getAllSnippets(): Observable<ISnippetDto[]> {
+  //   const url = this.api + '/snippets';
+  //   return this.http.get<ISnippetDto[]>(url)
+  //     .pipe(
+  //       tap(_ => console.log("fetched snippets")),
+  //       catchError(this.handleError<ISnippetDto[]>('getAllSnippets', []))
+  //     );
+  // }
 
-  //olderThan -> delete snippets older than this many days
-  deleteStaleSnippets(olderThan: number): Observable<any> {
-    const url = this.api + '/snippets/delete-stale';
-    return this.http.post(url, null)
-    .pipe(
-      tap(_ => console.log('delete stale snippets older than ' + olderThan + ' days')),
-      catchError(this.handleError<any>('deleteStaleSnippets'))
-    );
-  }
+  // //olderThan -> delete snippets older than this many days
+  // deleteStaleSnippets(olderThan: number): Observable<any> {
+  //   const url = this.api + '/snippets/delete-stale';
+  //   return this.http.post(url, null)
+  //   .pipe(
+  //     tap(_ => console.log('delete stale snippets older than ' + olderThan + ' days')),
+  //     catchError(this.handleError<any>('deleteStaleSnippets'))
+  //   );
+  // }
 
-  /* user calls */
-
-
-
-  updateSnippet(newSnip: ISnippetDto): Observable<any> {
-    const url = this.api + "/snippet/";
-    console.log("sending to url: " +url );
-    return this.http.post(url, newSnip)
-    .pipe(
-      tap(_ => console.log('posting snippet: \n' + newSnip)),
-      catchError(this.handleError<any>('updateSnippet'))
-    );
-  }
-
-  deleteSnippet(snipId: string): Observable<any> {
-    const url = this.api + '/snippet/' + snipId + '/delete';
-    return this.http.post(url, null)
-    .pipe(
-      tap(_ => console.log('deleting snippet: ' + snipId)),
-      catchError(this.handleError<any>('deleteSnippet'))
-    );
-  }
-
-  deleteComment(snipId: string, commentId: string): Observable<any> {
-    const url = this.api + '/snippet/' + snipId + '/comments/' + commentId + '/delete'
-    return this.http.post(url, null)
-    .pipe(
-      tap(_ => console.log('deleting comment: ' + commentId + ' from snippet: ' + snipId)),
-      catchError(this.handleError<any>('deleteComment'))
-    );
-  }
-
-  
+  // /* user calls */
 
 
-  updateComment(snipId: string, updateComment: IComment): Observable<any> {
-    const url = '${this.api}/snippet/${snipId}/comments';
-    return this.http.put(url, updateComment)
-    .pipe(
-      tap(_ => console.log('updating comment for snippet: ${snipId} with \n' + updateComment)),
-      catchError(this.handleError<any>('updateComment'))
-    );
-  }
+
+
+
+  // deleteSnippet(snipId: string): Observable<any> {
+  //   const url = this.api + '/snippet/' + snipId + '/delete';
+  //   return this.http.post(url, null)
+  //   .pipe(
+  //     tap(_ => console.log('deleting snippet: ' + snipId)),
+  //     catchError(this.handleError<any>('deleteSnippet'))
+  //   );
+  // }
+
+  // deleteComment(snipId: string, commentId: string): Observable<any> {
+  //   const url = this.api + '/snippet/' + snipId + '/comments/' + commentId + '/delete'
+  //   return this.http.post(url, null)
+  //   .pipe(
+  //     tap(_ => console.log('deleting comment: ' + commentId + ' from snippet: ' + snipId)),
+  //     catchError(this.handleError<any>('deleteComment'))
+  //   );
+  // }
+
+  // updateComment(snipId: string, updateComment: IComment): Observable<any> {
+  //   const url = '${this.api}/snippet/${snipId}/comments';
+  //   return this.http.put(url, updateComment)
+  //   .pipe(
+  //     tap(_ => console.log('updating comment for snippet: ${snipId} with \n' + updateComment)),
+  //     catchError(this.handleError<any>('updateComment'))
+  //   );
+  // }
 
   getComments(snipId: number): Observable<IComment[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
@@ -96,16 +86,26 @@ export class ApiRequestsService {
       catchError(this.handleError<IComment[]>('getComments', []))
     );
   }
+  
+  updateSnippet(updateSnip: ISnippetDto): Observable<any> {
+    const url = this.api + "/snippet/";
+    console.log("sending to url: " +url );
+    return this.http.post(url, updateSnip)
+    .pipe(
+      tap(_ => console.log('posting snippet: \n' + updateSnip)),
+      catchError(this.handleError<any>('updateSnippet'))
+    );
+  }
 
   getSnippet(snipId: number): Observable<ISnippetDto> {
     const url = this.api + '/snippet/' + snipId;
     console.log('sending ' + url);
     return this.http.get<ISnippetDto>(url, this.httpOptions)
     .pipe(
-      tap(_ => console.log('get snippet:' + snipId),
-      map(res => this.deserializeSnippet(res))
+      tap(_ => console.log('get snippet:' + snipId)),
+      map(res => this.deserializeSnippet(res)),
+      catchError(this.handleError<ISnippetDto>('getSnippet id=' + snipId)
       ),
-      catchError(this.handleError<ISnippetDto>('getSnippet id=' + snipId))
     );
   } 
 
@@ -120,8 +120,9 @@ export class ApiRequestsService {
     );
   }
 
-  private deserializeSnippet(res: any): ISnippetDto {
+  private deserializeSnippet(res: any | unknown): ISnippetDto {
     //handle http response
+    console.log('deserializing......')
     if(res.httpCode != 200)
     {
       console.log("unexpected response:")
@@ -130,17 +131,19 @@ export class ApiRequestsService {
     else
     {
       console.log('unpacking snippet')
+      console.log(res)
 
       let unpacked = <ISnippetDto> {
         id: res.content.id,
-        comments: null,
+        comments: res.content.comments,
         info: res.content.info,
         language: res.content.language,
         timestamp: res.content.timestamp,
         content: res.content.content,
         password: res.content.password,
-        name: res.content.name
+        name: res.content.name,
       }
+
       return unpacked;
     }
   }
@@ -174,7 +177,6 @@ export class ApiRequestsService {
         
       });
 
-      console.log(comments); 
       return comments;
     }
   }
