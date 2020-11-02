@@ -44,12 +44,11 @@ export class ApiRequestsService {
   }
 
   /* user calls */
-  getSnippet(snipId: string): Observable<ISnippetDto> {
-    const url = '${this.api}/snippet/${snipId}';
+  getSnippet(snipId: number): Observable<ISnippetDto> {
+    const url = this.api + '/snippet/' + snipId;
     return this.http.get<ISnippetDto>(url)
     .pipe(
-      tap(_ => console.log('get snippet: ${snipId}')),
-      catchError(this.handleError<ISnippetDto>('getSnippet id=${snipId}'))
+      map(res => this.unpackResponse<ISnippetDto>(res))
     );
   }
 
@@ -128,7 +127,7 @@ export class ApiRequestsService {
   private unpackResponse<T>(response: any): T {
     if(response.httpCode == 200)
     {
-      return response.snippet; 
+      return response.content; 
     }
     else
     {

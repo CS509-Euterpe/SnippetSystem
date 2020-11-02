@@ -7,7 +7,7 @@ import { MatSnackBar, MatSnackBarConfig, MatSnackBarVerticalPosition } from '@an
 export class SnackbarService {
 
   private position: MatSnackBarVerticalPosition = "bottom";
-  private duration = 800;
+  private duration = 2000;
 
 
   private options: MatSnackBarConfig = {

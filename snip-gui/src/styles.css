@@ -13,11 +13,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     color: rgb(87, 41, 41);
 }
 
-
 .snackbar-error .mat-simple-snackbar-action  {
     color: rgb(59, 28, 28);
 }
-
 
 .snackbar-message {
     background: rgb(187, 235, 187);

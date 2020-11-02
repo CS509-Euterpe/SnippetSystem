@@ -5,6 +5,7 @@
  */
 
 import { LanguageTypeEnum, UserAccessEnum } from './enums'; 
+import { CommentStub } from './stubs';
 
 export interface ISnippet extends ISnippetDto{
     isCreating: boolean;
@@ -20,6 +21,33 @@ export interface ISnippetDto {
     content: string;
     password: string;
     name: string;
+}
+
+export function DtoToSnippet(dto: ISnippetDto): ISnippet {
+    if (dto == null)
+    {
+        return null
+    }
+
+    return  <ISnippet> {
+        id: dto.id,
+        comments: [
+            new CommentStub(),
+            new CommentStub(),
+            new CommentStub(),
+            new CommentStub(),
+            new CommentStub(),
+            new CommentStub(),
+            new CommentStub(),
+        ],
+        info: dto.info,
+        language: dto.language,
+        timestamp: dto.timestamp,
+        content: dto.content,
+        password: dto.password,
+        name: dto.name,
+        isCreating: false,
+    }
 }
 
 export interface IModifySnippet {
