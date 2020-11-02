@@ -11,7 +11,7 @@ export interface ISnippet extends ISnippetDto{
 }
 
 export interface ISnippetDto {
-    id: string;
+    id: number;
     path: string;
     comments: IComment[]; 
     info: string;
@@ -27,10 +27,12 @@ export interface IModifySnippet {
     language: string;
     content: string;
     name: string;
+    password: string;
+    timestamp: string;
 }
 
 export interface IComment {
-    id: string;
+    id: number;
     timestamp: string;
     text: string;
     name: string;

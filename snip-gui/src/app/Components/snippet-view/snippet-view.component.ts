@@ -24,9 +24,6 @@ export class SnippetViewComponent implements OnInit {
 
   ngOnInit(): void {    
     this.id = this.getRouteId();
-    //TODO - fetch snippet
-
-    this.snippet.id = this.id;
   }
 
   getRouteId(): string {
