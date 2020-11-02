@@ -1,6 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Inject } from '@angular/core';
 import { LanguageMimeStrings, LanguageTypeEnum } from 'src/app/models/enums';
 import { ISnippet } from 'src/app/models/models';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
+
+export interface ShareDialog {
+  snipUrl: string;
+}
+
 
 @Component({
   selector: 'app-snippet-panel',
@@ -19,11 +26,21 @@ export class SnippetPanelComponent implements OnInit {
     mode:''
   }
 
-  constructor() {
+  constructor(public dialog: MatDialog, private route: ActivatedRoute) {
     this.setCodeStyle(this.currentLanguage)
   }
-
+   
   ngOnInit(): void {
+  }
+
+  openDialog(): void {
+    var d = <ShareDialog> {snipUrl: window.location.origin + '/' + this.route.snapshot.url.join('/')};
+
+    console.log(location)
+    const dialogRef = this.dialog.open(ShareModalDialog, {
+      width: '500px',
+      data: d
+    });
   }
 
   onLanguageChanged(language: LanguageTypeEnum): void {
@@ -39,5 +56,21 @@ export class SnippetPanelComponent implements OnInit {
     this.codeStyleOptions.mode = LanguageMimeStrings.get(language);
   }
 
+}
 
+/* modal dialog component */
+@Component({
+  selector: 'share-modal',
+  templateUrl: 'share-modal.html'
+})
+export class ShareModalDialog {
+
+  constructor(
+    public dialogRef: MatDialogRef<ShareModalDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: ShareDialog
+  ){}
+
+  closeClick(): void {
+    this.dialogRef.close();
+  }
 }

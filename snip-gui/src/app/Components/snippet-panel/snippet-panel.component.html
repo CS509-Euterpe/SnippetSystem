@@ -8,6 +8,9 @@
               Snippet Details
             </mat-panel-title>
           </mat-expansion-panel-header>
+          <div *ngIf="!snippet.isCreating">
+            <button mat-button (click)="openDialog();" color="primary">Share</button>
+          </div>
           <app-snippet-info [snippet]="snippet"  (languageChanged)="onLanguageChanged($event)"></app-snippet-info>
       </mat-expansion-panel>
     </div>
