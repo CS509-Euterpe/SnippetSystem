@@ -14,7 +14,7 @@
       </mat-form-field>   &nbsp;
       <button mat-icon-button
         [disabled]="navSnippetId.length === 0"
-        routerLink="/snippet/{{navSnippetId}}">
+        (click)="redirectToSnippet(navSnippetId)">
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>

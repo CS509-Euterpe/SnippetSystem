@@ -1,9 +1,12 @@
 import { getLocaleDateTimeFormat } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { IModifySnippet, ISnippet } from 'src/app/models/models';
 import { BlankSnippet } from 'src/app/models/stubs';
-import { v4 as uuid } from 'uuid';
+import { observable, Observable } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-home-view',
@@ -15,7 +18,7 @@ export class HomeViewComponent implements OnInit {
   blankSnippet: ISnippet;
   navSnippetId: string;
 
-  constructor(private api: ApiRequestsService) { 
+  constructor(private api: ApiRequestsService, private router: Router) { 
     this.navSnippetId = "";
     this.blankSnippet = new BlankSnippet();
   }
@@ -24,10 +27,10 @@ export class HomeViewComponent implements OnInit {
   }
 
   createSnippet() {
-    this.blankSnippet.timestamp = '2020-10-30'
-    //new Date().toISOString();
-
-    console.log("sending...");
+    //NOTE: Date().toISOString() returns the format: 2020-10-30T20:56:53.299Z
+    //this step is just chopping at the 'T' character to create a date string that
+    //the server side can handle
+    this.blankSnippet.timestamp = new Date().toISOString().split('T')[0];
 
     var newSnip = <IModifySnippet> {
       info : this.blankSnippet.info,
@@ -37,9 +40,15 @@ export class HomeViewComponent implements OnInit {
       password : this.blankSnippet.password,
       timestamp : this.blankSnippet.timestamp
     }
+
+    console.log("created snip");
     console.log(newSnip);
+    console.log("sending...");
+
     this.api.createSnippet(newSnip).subscribe(
-      x => console.log(x),
+      
+      
+      x => {this.redirectToSnippet(x.id)},
       err => console.error(err),
       () => console.log('Observer got a complete notification')
     );
@@ -47,6 +56,6 @@ export class HomeViewComponent implements OnInit {
   }
 
   redirectToSnippet(snippetId: number) {
-    //todo: forward to snippet/$snippetId
+    this.router.navigate(['snippet/' + snippetId]);
   }
 }

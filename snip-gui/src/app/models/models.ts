@@ -12,7 +12,6 @@ export interface ISnippet extends ISnippetDto{
 
 export interface ISnippetDto {
     id: number;
-    path: string;
     comments: IComment[]; 
     info: string;
     language: LanguageTypeEnum;
