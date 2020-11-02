@@ -47,13 +47,13 @@ export class ApiRequestsService {
 
 
 
-  postSnippet(newSnip: ISnippetDto): Observable<any> {
+  updateSnippet(newSnip: ISnippetDto): Observable<any> {
     const url = this.api + "/snippet/";
     console.log("sending to url: " +url );
     return this.http.post(url, newSnip)
     .pipe(
       tap(_ => console.log('posting snippet: \n' + newSnip)),
-      catchError(this.handleError<any>('postSnippet'))
+      catchError(this.handleError<any>('updateSnippet'))
     );
   }
 
@@ -89,7 +89,7 @@ export class ApiRequestsService {
 
   getComments(snipId: number): Observable<IComment[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
-    return this.http.get<IComment[]>(url)
+    return this.http.get<IComment[]>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('get Comments for snip: ' + snipId)),
       map( res => this.deserializeComments(res)),
@@ -100,7 +100,7 @@ export class ApiRequestsService {
   getSnippet(snipId: number): Observable<ISnippetDto> {
     const url = this.api + '/snippet/' + snipId;
     console.log('sending ' + url);
-    return this.http.get<ISnippetDto>(url)
+    return this.http.get<ISnippetDto>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('get snippet:' + snipId),
       map(res => this.deserializeSnippet(res))
@@ -141,10 +141,7 @@ export class ApiRequestsService {
         password: res.content.password,
         name: res.content.name
       }
-
       return unpacked;
-
-
     }
   }
 
@@ -154,11 +151,11 @@ export class ApiRequestsService {
     {
       console.log('unexpected response')
       console.log(res)
+      throw new Error('unexpected response: ' + res.message)
     }
     else
     {
       console.log('unpacking comments')
-
       console.log(res)
       console.log(res.content)
 
@@ -177,15 +174,12 @@ export class ApiRequestsService {
         
       });
 
-      console.log(comments);
-      
+      console.log(comments); 
       return comments;
     }
-
-
   }
 
-    /**
+   /**
    * @param Operation -> name of operation we are running (i.e. updateComment)
    * @param result  -> type of result we are expecting
    */
@@ -197,25 +191,4 @@ export class ApiRequestsService {
       return of(result as T);
     }
   }
-
-  /**
-   * unpack response from server to Type T
-   * @param response  -> the response object returned from the server
-   */
-  private unpackResponse<T>(response: any): T {
-    console.log("unpacking");
-    console.log(response);
-    if(response.httpCode == 200)
-    {
-      console.log(response.content);
-      return response.content; 
-    }
-    else
-    {
-      console.log("Server gave error response: " + response.httpCode + " with message " + response.message);
-      throw new Error("Server gave error response: " + response.httpCode + " with message " + response.message);
-    } 
-  }
-
-
 }

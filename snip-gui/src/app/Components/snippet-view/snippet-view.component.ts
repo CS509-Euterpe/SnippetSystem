@@ -38,20 +38,30 @@ export class SnippetViewComponent implements OnInit {
 
     this.api.getSnippet(snipId).subscribe(
       x => {console.log(x); console.log("in the snip view!")}, //this.snippet = x...
-      err => console.error(err),
+      err => {
+        console.error(err);
+        return; //skip comment request if get snippet failed
+      },
       () => console.log('get snippet observer complete')
     );
 
-    this.api.getComments(snipId).subscribe(
-      x => console.log(x),
-      err => console.error(err),
-      () => console.log('get comments observer complete')
-    )
+    // this.api.getComments(snipId).subscribe(
+    //   x => console.log(x), //this.snippet.comments = x... 
+    //   err => console.error(err),
+    //   () => console.log('get comments observer complete')
+    // )
 
   }
 
   save(): void {
-    console.log("Saving snippet!")
+    //send update snippet request
+    this.api.updateSnippet(this.snippet).subscribe(
+      x => console.log(x),
+      err => console.error(err),
+      () => console.log('update snippet oberver complete')
+    )
+
+
   }
 
 }
