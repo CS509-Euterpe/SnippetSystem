@@ -27,7 +27,9 @@ export class SnippetPanelComponent implements OnInit {
   }
 
   onLanguageChanged(language: LanguageTypeEnum): void {
+    console.log("CHANGED LANG")
     this.currentLanguage = language;
+    this.snippet.language = this.currentLanguage;
     this.setCodeStyle(language)
   }
 
