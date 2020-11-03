@@ -17,7 +17,7 @@ export class SnippetViewComponent implements OnInit {
 
   constructor(
     private api: ApiRequestsService,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
     private route: ActivatedRoute
   ) {
    }
