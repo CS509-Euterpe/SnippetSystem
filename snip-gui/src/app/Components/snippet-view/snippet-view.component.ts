@@ -26,6 +26,10 @@ export class SnippetViewComponent implements OnInit {
     this.id = this.getRouteId();
     //call out to server to fetch the snippet
     this.getSnippetBody(this.id);
+
+    this.route.params.subscribe( routeParams => {
+      this.getSnippetBody(routeParams.id)
+    })
   }
 
   getRouteId(): number {
