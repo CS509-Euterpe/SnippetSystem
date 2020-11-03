@@ -4,7 +4,7 @@
  * each class we have here should line up with an object on the java side 
  */
 
-import { LanguageTypeEnum, UserAccessEnum } from './enums'; 
+import { LanguageTypeEnum } from './enums'; 
 import { CommentStub } from './stubs';
 
 export interface ISnippet extends ISnippetDto{
@@ -13,7 +13,6 @@ export interface ISnippet extends ISnippetDto{
 
 export interface ISnippetDto {
     id: number;
-    path: string;
     comments: IComment[]; 
     info: string;
     language: LanguageTypeEnum;

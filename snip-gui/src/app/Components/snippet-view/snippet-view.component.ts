@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
-import { ISnippet, DtoToSnippet } from 'src/app/models/models';
-import { SnippetStub } from 'src/app/models/stubs';
+import { ISnippet, ISnippetDto, DtoToSnippet } from 'src/app/models/models';
+import { BlankSnippet, SnippetStub } from 'src/app/models/stubs';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 
 @Component({
@@ -13,36 +13,56 @@ import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 export class SnippetViewComponent implements OnInit {
 
   snippet: ISnippet
-  id: string
+  id: number
 
   constructor(
-    private route: ActivatedRoute,
     private api: ApiRequestsService,
     private snackbar: SnackbarService
+    private route: ActivatedRoute
   ) {
    }
 
   ngOnInit(): void {    
     this.id = this.getRouteId();
-    
-    this.api.getSnippet(+this.id).subscribe(
-      dto => {
-        this.snippet = DtoToSnippet(dto)
-        console.log(dto)
-        console.log(this.snippet)
-      },
-      error => this.snackbar.showError(error.message)
-    )
+    //call out to server to fetch the snippet
+    this.getSnippetBody(this.id);
   }
 
-  getRouteId(): string {
-    return this.route.snapshot.paramMap.get('id');
+  getRouteId(): number {
+    var strId = this.route.snapshot.paramMap.get('id');
+    return parseInt(strId);
+  }
+
+  getSnippetBody(snipId: number): void {
+
+    this.api.getSnippet(snipId).subscribe(
+      x => {
+        this.snippet = x as ISnippet;
+        this.snippet.isCreating = false;
+        console.log('snippet loaded');
+          }, 
+      err => {
+        console.error(err);
+      },
+      () => console.log('get snippet observer complete')
+    );
+
   }
 
   save(): void {
-    console.log("Saving snippet!")
-    this.snackbar.showMessage("Saved!")
-  }
+    //send update snippet request
+    console.log('saving...')
+    this.api.updateSnippet(this.snippet).subscribe(
+      x => {
+        this.snackbar.showMessage("Saved!")
+      },
+      err => console.error(err),
+      () => console.log('update snippet oberver complete')
+    )
 
+    //all out to get again -- refresh the page elements
+    this.getSnippetBody(this.snippet.id);
+
+  }
 
 }

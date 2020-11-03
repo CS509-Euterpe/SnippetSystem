@@ -4,7 +4,6 @@ import { IComment, IRegion, ISnippet } from './models';
 export class SnippetStub implements ISnippet
 {
     id: number;
-    path: string;
     comments: IComment[];
     info: string;
     language: LanguageTypeEnum;
