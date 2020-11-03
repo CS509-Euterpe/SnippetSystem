@@ -59,9 +59,6 @@ export class SnippetViewComponent implements OnInit {
       err => console.error(err),
       () => console.log('update snippet oberver complete')
     )
-
-    //all out to get again -- refresh the page elements
-    this.getSnippetBody(this.snippet.id);
   }
 
 }
