@@ -3,8 +3,7 @@ import { IComment, IRegion, ISnippet } from './models';
 
 export class SnippetStub implements ISnippet
 {
-    id: string;
-    path: string;
+    id: number;
     comments: IComment[];
     info: string;
     language: LanguageTypeEnum;
@@ -17,8 +16,7 @@ export class SnippetStub implements ISnippet
     constructor()
     {
         this.isCreating = false;
-        this.id = "1234";
-        this.path = "/api/v1/snippet/1234";
+        this.id = 1234;
         this.name = "Carly Creator"
         this.comments = [
             new CommentStub(),
@@ -30,7 +28,7 @@ export class SnippetStub implements ISnippet
             new CommentStub(),
         ]
         this.info = "This is an example snippet";
-        this.timestamp = Date().toLocaleLowerCase();
+        this.timestamp = "10/2/112"
         this.language = LanguageTypeEnum.Java;
         this.content = "public static void main(String[] args) {\n\tSystem.out.println(\"Hello, World!\");\n}"
         this.password = "";
@@ -40,7 +38,7 @@ export class SnippetStub implements ISnippet
 
 export class BlankSnippet implements ISnippet
 {
-    id: string;
+    id: number;
     path: string;
     comments: IComment[];
     info: string;
@@ -54,14 +52,13 @@ export class BlankSnippet implements ISnippet
     constructor()
     {this
         this.isCreating = true;
-        this.id = "";
-        this.path = "";
+        this.id = 0;
         this.name = ""
         this.comments = [
         ]
         this.info = "";
-        this.timestamp = Date().toLocaleLowerCase();
-        this.language = LanguageTypeEnum.None;
+        this.timestamp = null;
+        this.language = LanguageTypeEnum.Java;
         this.content = "// Add your snippet here..."
         this.password = "";
     }
@@ -70,7 +67,7 @@ export class BlankSnippet implements ISnippet
 
 export class CommentStub implements IComment
 {
-    id: string;
+    id: number;
     timestamp: string;
     text: string;
     region: IRegion;
@@ -78,7 +75,7 @@ export class CommentStub implements IComment
 
     constructor()
     {
-        this.id = "1234";
+        this.id = 1234;
         this.timestamp = Date().toLocaleLowerCase();
         this.name = "Joe User"
         this.text = "Nice job!\nLots of good stuff here";

@@ -1,11 +1,9 @@
-import { getLocaleDateTimeFormat } from '@angular/common';
 import { Component, NgModule, OnInit } from '@angular/core';
-import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
-import { LanguageTypeEnum, UserAccessEnum } from 'src/app/models/enums';
-import { ISnippet } from 'src/app/models/models';
+import { Router } from '@angular/router';
+import { ApiRequestsService } from 'src/app/Services/api-requests.service';
+import { IModifySnippet, ISnippet } from 'src/app/models/models';
 import { BlankSnippet } from 'src/app/models/stubs';
-import { v4 as uuid } from 'uuid';
+
 
 @Component({
   selector: 'app-home-view',
@@ -17,11 +15,7 @@ export class HomeViewComponent implements OnInit {
   blankSnippet: ISnippet;
   navSnippetId: string;
 
-  gotoSnippetUrl: string = "[url]/snippet?id="; // redirect user after creating snippet OR when pressing "GO!"
-  postSnippetUrl: string = "[url]/TBD/...";
-
-
-  constructor() { 
+  constructor(private api: ApiRequestsService, private router: Router) { 
     this.navSnippetId = "";
     this.blankSnippet = new BlankSnippet();
   }
@@ -30,11 +24,35 @@ export class HomeViewComponent implements OnInit {
   }
 
   createSnippet() {
-    this.blankSnippet.timestamp = new Date().toISOString();
-    this.blankSnippet.id = uuid();
+    //NOTE: Date().toISOString() returns the format: 2020-10-30T20:56:53.299Z
+    //this step is just chopping at the 'T' character to create a date string that
+    //the server side can handle
+    this.blankSnippet.timestamp = new Date().toISOString().split('T')[0];
 
-    console.log(this.blankSnippet);
-    //Sent to DB as POST request
-    //Redirect user to '[url]/sinippet?id=' + newId
+    var newSnip = <IModifySnippet> {
+      info : this.blankSnippet.info,
+      language : this.blankSnippet.language,
+      content : this.blankSnippet.content,
+      name : this.blankSnippet.name,
+      password : this.blankSnippet.password,
+      timestamp : this.blankSnippet.timestamp
+    }
+
+    console.log("created snip");
+    console.log(newSnip);
+    console.log("sending...");
+
+    this.api.createSnippet(newSnip).subscribe(
+      
+      
+      x => {this.redirectToSnippet(x.id)},
+      err => console.error(err),
+      () => console.log('Observer got a complete notification')
+    );
+
+  }
+
+  redirectToSnippet(snippetId: number) {
+    this.router.navigate(['snippet/' + snippetId]);
   }
 }

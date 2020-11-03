@@ -4,15 +4,14 @@
  * each class we have here should line up with an object on the java side 
  */
 
-import { LanguageTypeEnum, UserAccessEnum } from './enums'; 
+import { LanguageTypeEnum } from './enums'; 
 
 export interface ISnippet extends ISnippetDto{
     isCreating: boolean;
 }
 
 export interface ISnippetDto {
-    id: string;
-    path: string;
+    id: number;
     comments: IComment[]; 
     info: string;
     language: LanguageTypeEnum;
@@ -27,10 +26,12 @@ export interface IModifySnippet {
     language: string;
     content: string;
     name: string;
+    password: string;
+    timestamp: string;
 }
 
 export interface IComment {
-    id: string;
+    id: number;
     timestamp: string;
     text: string;
     name: string;
