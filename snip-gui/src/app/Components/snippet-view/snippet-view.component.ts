@@ -62,7 +62,6 @@ export class SnippetViewComponent implements OnInit {
 
     //all out to get again -- refresh the page elements
     this.getSnippetBody(this.snippet.id);
-
   }
 
 }

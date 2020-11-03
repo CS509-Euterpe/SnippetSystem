@@ -88,8 +88,9 @@ export class ApiRequestsService {
   }
   
   updateSnippet(updateSnip: ISnippetDto): Observable<any> {
-    const url = this.api + "/snippet/";
+    const url = this.api + "/snippet/" + updateSnip.id;
     console.log("sending to url: " +url );
+
     return this.http.post(url, updateSnip)
     .pipe(
       tap(_ => console.log('posting snippet: \n' + updateSnip)),
