@@ -22,7 +22,6 @@ export class NavigationToolbarComponent implements OnInit {
   {
     var id = parseInt(snipId);
     this.router.navigate(['snippet/' + id]);
-
   }
 
 }

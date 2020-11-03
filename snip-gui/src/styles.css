@@ -6,3 +6,22 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.snackbar-error {
+    background: rgb(236, 182, 182);
+    color: rgb(87, 41, 41);
+}
+
+.snackbar-error .mat-simple-snackbar-action  {
+    color: rgb(59, 28, 28);
+}
+
+.snackbar-message {
+    background: rgb(187, 235, 187);
+    color:rgb(43, 90, 43);
+}
+
+.snackbar-message  .mat-simple-snackbar-action  {
+    color:rgb(28, 56, 28);
+}

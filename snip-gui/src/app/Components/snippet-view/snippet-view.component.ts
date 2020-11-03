@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ISnippet, ISnippetDto } from 'src/app/models/models';
-import { BlankSnippet, SnippetStub } from 'src/app/models/stubs';
+import { SnackbarService } from 'src/app/Services/snackbar.service'
+import { DtoToSnippet, ISnippet } from 'src/app/models/models';
+import { CommentStub } from 'src/app/models/stubs';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 
 @Component({
@@ -16,11 +17,10 @@ export class SnippetViewComponent implements OnInit {
 
   constructor(
     private api: ApiRequestsService,
+    private snackbar: SnackbarService,
     private route: ActivatedRoute
-  )
-  {
-    this.snippet = new BlankSnippet(); //temporary while the page is loading
-  }
+  ) {
+   }
 
   ngOnInit(): void {    
     this.id = this.getRouteId();
@@ -40,28 +40,23 @@ export class SnippetViewComponent implements OnInit {
   getSnippetBody(snipId: number): void {
 
     this.api.getSnippet(snipId).subscribe(
-      x => {
-        this.snippet = x as ISnippet;
-        this.snippet.isCreating = false;
-        console.log('snippet loaded');
-          }, 
-      err => {
-        console.error(err);
-      },
-      () => console.log('get snippet observer complete')
+      x => {     
+        this.snippet = DtoToSnippet(x)
+      }, 
+      err => this.snackbar.showError(err.message)
     );
 
   }
 
   save(): void {
     //send update snippet request
-    console.log('saving...')
+    this.snippet.comments = []
     this.api.updateSnippet(this.snippet).subscribe(
       x => {
-        console.log(x);
+        this.snackbar.showMessage("Saved!")
       },
-      err => console.error(err),
-      () => console.log('update snippet oberver complete')
+      err => this.snackbar.showError(err.message),
+      () => this.getSnippetBody(this.snippet.id)
     )
   }
 

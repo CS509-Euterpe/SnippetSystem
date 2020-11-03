@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { IModifySnippet, ISnippet } from 'src/app/models/models';
 import { BlankSnippet } from 'src/app/models/stubs';
+import { SnackbarService } from 'src/app/Services/snackbar.service';
 
 
 @Component({
@@ -15,7 +16,11 @@ export class HomeViewComponent implements OnInit {
   blankSnippet: ISnippet;
   navSnippetId: string;
 
-  constructor(private api: ApiRequestsService, private router: Router) { 
+  constructor(
+    private api: ApiRequestsService,
+    private router: Router,
+    private snackbar: SnackbarService
+  ) { 
     this.navSnippetId = "";
     this.blankSnippet = new BlankSnippet();
   }
@@ -38,18 +43,12 @@ export class HomeViewComponent implements OnInit {
       timestamp : this.blankSnippet.timestamp
     }
 
-    console.log("created snip");
-    console.log(newSnip);
-    console.log("sending...");
+    this.snackbar.showMessage("Creating you snippet...")
 
     this.api.createSnippet(newSnip).subscribe(
-      
-      
-      x => {this.redirectToSnippet(x.id)},
-      err => console.error(err),
-      () => console.log('Observer got a complete notification')
+      x => this.redirectToSnippet(x.id),
+      err => this.snackbar.showMessage(err)
     );
-
   }
 
   redirectToSnippet(snippetId: number) {

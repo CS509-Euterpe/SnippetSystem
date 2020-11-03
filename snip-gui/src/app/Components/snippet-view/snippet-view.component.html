@@ -1,5 +1,5 @@
 <!-- This component is the page that a user will view a snippet on -->
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="snippet">
     <div class="row">
         <!-- Snippet pane -->
         <div class="col-xl-7">
@@ -41,6 +41,15 @@
             <div class="page-bottom">
                 <button mat-button>Delete Snippet</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" *ngIf="!snippet">
+    <div class="row">
+        <!-- Snippet pane -->
+        <div class="col-xl-7" style="max-height: 700px;">
+            <h3>No Snippet Found</h3>
         </div>
     </div>
 </div>
