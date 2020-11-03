@@ -28,9 +28,9 @@ export function DtoToSnippet(dto: ISnippetDto): ISnippet {
         return null
     }
 
-    return  <ISnippet> {
-        id: dto.id,
-        comments: [
+    let snippet = dto as ISnippet;
+    snippet.isCreating = false;
+    snippet.comments =[
             new CommentStub(),
             new CommentStub(),
             new CommentStub(),
@@ -38,15 +38,8 @@ export function DtoToSnippet(dto: ISnippetDto): ISnippet {
             new CommentStub(),
             new CommentStub(),
             new CommentStub(),
-        ],
-        info: dto.info,
-        language: dto.language,
-        timestamp: dto.timestamp,
-        content: dto.content,
-        password: dto.password,
-        name: dto.name,
-        isCreating: false,
-    }
+        ];
+    return snippet
 }
 
 export interface IModifySnippet {

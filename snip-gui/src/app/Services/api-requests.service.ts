@@ -89,7 +89,6 @@ export class ApiRequestsService {
   
   updateSnippet(updateSnip: ISnippetDto): Observable<any> {
     const url = this.api + "/snippet/" + updateSnip.id;
-    console.log("sending to url: " +url );
 
     return this.http.post(url, updateSnip)
     .pipe(
@@ -100,13 +99,9 @@ export class ApiRequestsService {
 
   getSnippet(snipId: number): Observable<ISnippetDto> {
     const url = this.api + '/snippet/' + snipId;
-    console.log('sending ' + url);
     return this.http.get<ISnippetDto>(url, this.httpOptions)
     .pipe(
-      tap(_ => console.log('get snippet:' + snipId)),
-      map(res => this.deserializeSnippet(res)),
-      catchError(this.handleError<ISnippetDto>('getSnippet id=' + snipId)
-      ),
+      map(res => this.deserializeSnippet(res))
     );
   } 
 
@@ -124,74 +119,53 @@ export class ApiRequestsService {
   //this one works right now...
   createSnippet(createSnip: IModifySnippet): Observable<ISnippetDto> {
     const url = this.api + '/snippet';
-    //console.log("sending to " + url);
     return this.http.put<IModifySnippet>(url, createSnip, this.httpOptions)
     .pipe(
-      tap( _ => { console.log('creating: '); console.log(createSnip) }),
-      map(res => this.deserializeSnippet(res)),
-      catchError(this.handleError<any>('createSnippet'))
+      map(res => this.deserializeSnippet(res))
     );
   }
 
   private deserializeSnippet(res: any | unknown): ISnippetDto {
-    //handle http response
-    console.log('deserializing......')
     if(res.httpCode != 200)
     {
-      console.log("unexpected response:")
-      console.log(res)
+      throw new Error(res.msg)
     }
-    else
-    {
-      console.log('unpacking snippet')
-      console.log(res)
-
-      let unpacked = <ISnippetDto> {
-        id: res.content.id,
-        comments: res.content.comments,
-        info: res.content.info,
-        language: res.content.language,
-        timestamp: res.content.timestamp,
-        content: res.content.content,
-        password: res.content.password,
-        name: res.content.name,
-      }
-
-      return unpacked;
+    let unpacked = <ISnippetDto> {
+      id: res.content.id,
+      comments: res.content.comments,
+      info: res.content.info,
+      language: res.content.language,
+      timestamp: res.content.timestamp,
+      content: res.content.content,
+      password: res.content.password,
+      name: res.content.name,
     }
+    return unpacked;
   }
 
   private deserializeComments(res: any): IComment[] {
     
     if(res.httpCode != 200)
     {
-      console.log('unexpected response')
-      console.log(res)
-      throw new Error('unexpected response: ' + res.message)
+      throw new Error(res.msg)
     }
-    else
-    {
-      console.log('unpacking comments')
-      console.log(res)
-      console.log(res.content)
 
-      var comments = [];
+    var comments = [];
 
-      res.content.array.forEach(element => {
-        comments.push(
-          <IComment> {
-            id: element.id,
-            timestamp: element.timestamp,
-            text: element.text,
-            name: element.name,
-            region: element.region //this probably won't jive with the response body
-          }
-        )
-        
-      });
+    res.content.array.forEach(element => {
+      comments.push(
+        <IComment> {
+          id: element.id,
+          timestamp: element.timestamp,
+          text: element.text,
+          name: element.name,
+          region: element.region //this probably won't jive with the response body
+        }
+      )
+    });
 
-      return comments;
-    }
+    return comments;
+    
   }
 
    /**
@@ -206,18 +180,4 @@ export class ApiRequestsService {
       return of(result as T);
     }
   }
-
-  //unpack response from server to Type T
-  private unpackResponse<T>(response: any): T {
-    if(response.httpCode == 200)
-    {
-      return response.snippet; 
-    }
-    else
-    {
-      console.log("Server gave error response: " + response.httpCode + " with message " + response.message);
-      throw new Error("Server gave error response: " + response.httpCode + " with message " + response.message);
-    } 
-  }
-
 }
