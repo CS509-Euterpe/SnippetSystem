@@ -11,13 +11,13 @@
         </div>
         <!-- Comments pane -->
         <div class="col-xl-5 border-left">
-            <!-- Actual comment 'box'-->
+            <!-- Actual comment 'box' -->
             <div class="row">
                 <div class="col-lg-10">
                     <h3>Comments:</h3>
                 </div>
                 <div class="col-lg-2">
-                    <button mat-icon-button>
+                    <button mat-icon-button (click)="addComment()">
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
@@ -26,6 +26,9 @@
                 <!-- dynamically generated set of comments -->
                 <div name="commentTable" class="col-xl" style="max-height: 700px;">
                     <ng-scrollbar>
+                        <div *ngIf="(snippet.comments === undefined || snippet.comments.length == 0)">
+                            <app-no-comments-panel></app-no-comments-panel>
+                        </div>
                         <div *ngFor="let comment of snippet.comments">
                             <app-comment-panel [comment]=comment></app-comment-panel>
                         </div> 

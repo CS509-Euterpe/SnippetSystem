@@ -68,6 +68,7 @@ export class BlankSnippet implements ISnippet
 export class CommentStub implements IComment
 {
     id: number;
+    snippetId: number;
     timestamp: string;
     text: string;
     region: IRegion;
@@ -76,6 +77,7 @@ export class CommentStub implements IComment
     constructor()
     {
         this.id = 1234;
+        this.snippetId = 1234;
         this.timestamp = Date().toLocaleLowerCase();
         this.name = "Joe User"
         this.text = "Nice job!\nLots of good stuff here";
