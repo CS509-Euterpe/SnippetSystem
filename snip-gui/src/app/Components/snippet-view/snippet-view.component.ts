@@ -51,9 +51,10 @@ export class SnippetViewComponent implements OnInit {
               }}
     });
 
-    dialogRef.afterClosed().toPromise().then(
-      x => this.refreshComments()
-    )
+    //refresh the comments that are on the page...
+    // dialogRef.afterClosed().toPromise().then(
+    //   x => this.refreshComments()
+    // )
 
   }
 
