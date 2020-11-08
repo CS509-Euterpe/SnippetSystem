@@ -70,7 +70,6 @@ export class SnippetPanelComponent implements OnInit {
 
   get selection(): IRegion{
     let selections = this.editor.codeMirror.listSelections()
-    console.log(selections)
     if (selections.length != 0)
     {
       let region = <IRegion> {
