@@ -24,15 +24,6 @@ export class ApiRequestsService {
   }
 
   //NOT FULLY IMPLEMENTED API CALLS
-  // /* admin calls */
-  // getAllSnippets(): Observable<ISnippetDto[]> {
-  //   const url = this.api + '/snippets';
-  //   return this.http.get<ISnippetDto[]>(url)
-  //     .pipe(
-  //       tap(_ => console.log("fetched snippets")),
-  //       catchError(this.handleError<ISnippetDto[]>('getAllSnippets', []))
-  //     );
-  // }
 
   // //olderThan -> delete snippets older than this many days
   // deleteStaleSnippets(olderThan: number): Observable<any> {
@@ -77,6 +68,20 @@ export class ApiRequestsService {
   //   );
   // }
 
+  // /* admin calls */
+  getAllSnippets(): Observable<ISnippetDto[]> {
+    const url = this.api + '/snippets';
+    console.log("sending: " + url);
+    return this.http.get<ISnippetDto[]>(url, this.httpOptions)
+    .pipe(
+      tap( _ => console.log("Getting all snippets")),
+        map( res => this.deserializeSnippets(res)),
+        catchError(this.handleError<ISnippetDto[]>('getSnippets', []))
+    );
+  }
+  
+
+  /* User calls */
   getComments(snipId: number): Observable<IComment[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
     return this.http.get<IComment[]>(url, this.httpOptions)
@@ -141,6 +146,13 @@ export class ApiRequestsService {
       name: res.content.name,
     }
     return unpacked;
+  }
+
+  deserializeSnippets(res: any | unknown): ISnippetDto[] {
+
+    console.log("DESERIALIZING SNIPPETS")
+    console.log(res); 
+    return res;
   }
 
   private deserializeComments(res: any): IComment[] {

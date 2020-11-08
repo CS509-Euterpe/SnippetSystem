@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AmplifyUIAngularModule } from '@aws-amplify/ui-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,6 +18,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,6 +53,7 @@ import { MatDialogModule } from '@angular/material/dialog';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     NgbModule,
     AmplifyUIAngularModule,
@@ -59,12 +63,14 @@ import { MatDialogModule } from '@angular/material/dialog';
     CodemirrorModule,
     NgScrollbarModule,
     MatButtonModule,
+    MatDatepickerModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatToolbarModule,
     MatSelectModule,
     MatExpansionModule,
+    MatNativeDateModule,
     MatListModule,
     MatIconModule,
     MatSnackBarModule,

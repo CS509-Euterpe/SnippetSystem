@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ISnippet } from 'src/app/models/models';
 
 @Component({
   selector: 'app-snippet-preview',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SnippetPreviewComponent implements OnInit {
 
+  @Input() snippet: ISnippet;
+  
   constructor() { }
 
   ngOnInit(): void {
