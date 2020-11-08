@@ -20,6 +20,8 @@ export class SnippetPanelComponent implements OnInit {
   @Input() snippet: ISnippet;
   @ViewChild(CodemirrorComponent) editor: CodemirrorComponent;
 
+  private _codeMarkers = [];
+
   panelOpenState = true;
 
   codeStyleOptions: any = {
@@ -50,11 +52,20 @@ export class SnippetPanelComponent implements OnInit {
   }
 
   public highlightRegion(region: IRegion)  {
-    this.editor.codeMirror.markText(
+    let marker = this.editor.codeMirror.markText(
       {line: region.startLine, ch: region.startChar},
       {line: region.endLine, ch: region.endChar},
       {className:"editor-comment-region"}
     )
+    this._codeMarkers.push(marker)
+  }
+
+  public clearHighlighting()
+  {
+    for(let m of this._codeMarkers)
+    {
+      m.clear();
+    }
   }
 
   get selection(): IRegion{
@@ -75,6 +86,7 @@ export class SnippetPanelComponent implements OnInit {
 
   highlight() 
   {
+    this.clearHighlighting()
     this.highlightRegion(this.selection)    
   }
 
