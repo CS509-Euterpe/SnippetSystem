@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, Inject } from '@angular/core';
+import { Component, Input, OnInit, Inject, ViewChild } from '@angular/core';
+import { CodemirrorComponent } from '@ctrl/ngx-codemirror'
 import { LanguageMimeStrings, LanguageTypeEnum } from 'src/app/models/enums';
-import { ISnippet } from 'src/app/models/models';
+import { ISnippet, IRegion } from 'src/app/models/models';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ActivatedRoute, Params, Router, UrlSegment } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 export interface ShareDialog {
   snipUrl: string;
@@ -16,21 +17,28 @@ export interface ShareDialog {
 })
 export class SnippetPanelComponent implements OnInit {
 
-  panelOpenState = true;
   @Input() snippet: ISnippet;
-  currentLanguage = LanguageTypeEnum.Java;
+  @ViewChild(CodemirrorComponent) editor: CodemirrorComponent;
+
+  private _codeMarkers = [];
+
+  panelOpenState = true;
 
   codeStyleOptions: any = {
     lineNumbers: true,
+    styleSelectedText: true,
     theme: 'eclipse',
     mode:''
   }
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute) {
-    this.setCodeStyle(this.currentLanguage)
+  constructor(
+    public dialog: MatDialog, 
+    private route: ActivatedRoute
+  ) {
   }
    
   ngOnInit(): void {
+    this.setCodeStyle(this.snippet.language)
   }
 
   openDialog(): void {
@@ -43,9 +51,46 @@ export class SnippetPanelComponent implements OnInit {
     });
   }
 
+  public highlightRegion(region: IRegion)  {
+    let marker = this.editor.codeMirror.markText(
+      {line: region.startLine, ch: region.startChar},
+      {line: region.endLine, ch: region.endChar},
+      {className:"editor-comment-region"}
+    )
+    this._codeMarkers.push(marker)
+  }
+
+  public clearHighlighting()
+  {
+    for(let m of this._codeMarkers)
+    {
+      m.clear();
+    }
+  }
+
+  get selection(): IRegion{
+    let selections = this.editor.codeMirror.listSelections()
+    if (selections.length != 0)
+    {
+      let region = <IRegion> {
+        startLine: selections[0].anchor.line,
+        startChar: selections[0].anchor.ch,
+        endLine: selections[0].head.line,
+        endChar: selections[0].head.ch,
+      }
+      return region
+    }
+    return null
+  }
+
+  highlight() 
+  {
+    this.clearHighlighting()
+    this.highlightRegion(this.selection)    
+  }
+
   onLanguageChanged(language: LanguageTypeEnum): void {
-    this.currentLanguage = language;
-    this.snippet.language = this.currentLanguage;
+    this.snippet.language = language;
     this.setCodeStyle(language)
   }
 
