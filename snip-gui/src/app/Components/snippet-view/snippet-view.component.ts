@@ -4,6 +4,7 @@ import { SnackbarService } from 'src/app/Services/snackbar.service'
 import { DtoToSnippet, ISnippet } from 'src/app/models/models';
 import { CommentStub } from 'src/app/models/stubs';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
+import { UserAccessEnum } from 'src/app/models/enums';
 
 @Component({
   selector: 'app-snippet-view',
@@ -15,6 +16,8 @@ export class SnippetViewComponent implements OnInit {
   snippet: ISnippet
   id: number
 
+  private _user = UserAccessEnum.None
+  
   constructor(
     private api: ApiRequestsService,
     private snackbar: SnackbarService,
@@ -30,6 +33,13 @@ export class SnippetViewComponent implements OnInit {
     this.route.params.subscribe( routeParams => {
       this.getSnippetBody(routeParams.id)
     })
+
+    this.route.queryParams
+    .subscribe(params => { 
+      if (params.user == "creator") {
+        this._user = UserAccessEnum.Creator
+      }
+    });
   }
 
   getRouteId(): number {
@@ -45,7 +55,11 @@ export class SnippetViewComponent implements OnInit {
       }, 
       err => this.snackbar.showError(err.message)
     );
+  }
 
+  get isCreator()
+  {
+    return this._user == UserAccessEnum.Creator;
   }
 
   save(): void {

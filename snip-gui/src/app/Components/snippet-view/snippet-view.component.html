@@ -39,7 +39,9 @@
         <div class="col-xl">
             <!-- TODO: only visible to creator -->
             <div class="page-bottom">
-                <button mat-button>Delete Snippet</button>
+                <div *ngIf="isCreator"> 
+                    <button mat-button>Delete Snippet</button>
+                </div>
             </div>
         </div>
     </div>
