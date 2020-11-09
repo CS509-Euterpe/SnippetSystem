@@ -1,27 +1,26 @@
 import { Component, Input, OnInit, Inject, ViewChild } from '@angular/core';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror'
-import { LanguageMimeStrings, LanguageTypeEnum } from 'src/app/models/enums';
+import { LanguageMimeStrings, LanguageTypeEnum, UserAccessEnum } from 'src/app/models/enums';
 import { ISnippet, IRegion } from 'src/app/models/models';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { BaseSnippetComponent } from '../base-snippet/base-snippet-component';
 
 export interface ShareDialog {
   snipUrl: string;
 }
-
 
 @Component({
   selector: 'app-snippet-panel',
   templateUrl: './snippet-panel.component.html',
   styleUrls: ['./snippet-panel.component.css']
 })
-export class SnippetPanelComponent implements OnInit {
+export class SnippetPanelComponent extends BaseSnippetComponent{
 
   @Input() snippet: ISnippet;
   @ViewChild(CodemirrorComponent) editor: CodemirrorComponent;
 
   private _codeMarkers = [];
-
   panelOpenState = true;
 
   codeStyleOptions: any = {
@@ -32,13 +31,15 @@ export class SnippetPanelComponent implements OnInit {
   }
 
   constructor(
-    public dialog: MatDialog, 
-    private route: ActivatedRoute
+    public dialog: MatDialog,
+    route: ActivatedRoute
   ) {
+    super(route)
   }
    
   ngOnInit(): void {
-    this.setCodeStyle(this.snippet.language)
+    super.ngOnInit()
+    this.setCodeStyle(this.snippet.language)   
   }
 
   openDialog(): void {
@@ -101,7 +102,6 @@ export class SnippetPanelComponent implements OnInit {
     }
     this.codeStyleOptions.mode = LanguageMimeStrings.get(language);
   }
-
 }
 
 /* modal dialog component */

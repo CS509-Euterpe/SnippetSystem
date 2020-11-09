@@ -12,7 +12,10 @@
     </div>
     <mat-form-field >
         <mat-label>Info</mat-label>
-        <textarea matInput [(ngModel)]="snippet.info" placeholder="Add Some Details...." > </textarea >
+        <textarea matInput 
+            [disabled]="!isCreator"
+            [(ngModel)]="snippet.info" 
+            placeholder="Add Some Details...." > </textarea >
     </mat-form-field>
     <app-language-selector [(selected)]="snippet.language"
                            (languageChanged)="onLanguageChanged($event)">
