@@ -94,12 +94,11 @@ export class ApiRequestsService {
     );
   } 
 
-  deleteComment(snipId: string, commentId: string): Observable<any> {
-    const url = '${this.api}/snippet/${snipId}/comments/${commentId}/delete'
+  deleteComment(snipId: number, commentId: number): Observable<any> {
+    let url = this.api + '/snippet/' + snipId + '/comments/' + commentId + '/delete'
     return this.http.post(url, null)
     .pipe(
       tap(_ => console.log('deleting comment: ${commentId} from snippet: ${snippetId}')),
-      catchError(this.handleError<any>('deleteComment'))
     );
   }
 

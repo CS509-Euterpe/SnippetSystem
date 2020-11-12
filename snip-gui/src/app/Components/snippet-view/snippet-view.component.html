@@ -27,7 +27,7 @@
                 <div name="commentTable" class="col-xl" style="max-height: 700px;">
                     <ng-scrollbar>
                         <div *ngFor="let comment of snippet.comments">
-                            <app-comment-panel [comment]=comment></app-comment-panel>
+                            <app-comment-panel [comment]=comment [snippetId]=snippet.id></app-comment-panel>
                         </div> 
                     </ng-scrollbar>
                 </div>

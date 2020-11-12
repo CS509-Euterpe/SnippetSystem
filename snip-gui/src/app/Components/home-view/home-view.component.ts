@@ -47,7 +47,7 @@ export class HomeViewComponent implements OnInit {
 
     this.api.createSnippet(newSnip).subscribe(
       x => this.redirectToSnippet(x.id),
-      err => this.snackbar.showMessage(err)
+      err => this.snackbar.showError(err)
     );
   }
 

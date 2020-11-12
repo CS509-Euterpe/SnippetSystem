@@ -70,7 +70,7 @@ export class SnippetViewComponent extends BaseSnippetComponent {
         this.snackbar.showMessage("Deleted Snippet")
         this.router.navigate(['home']);
       },
-      err => this.snackbar.showMessage(err.message)
+      err => this.snackbar.showError(err.message)
     )
   }
 
