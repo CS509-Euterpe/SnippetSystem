@@ -52,6 +52,6 @@ export class HomeViewComponent implements OnInit {
   }
 
   redirectToSnippet(snippetId: number) {
-    this.router.navigate(['snippet/' + snippetId]);
+    this.router.navigate(['snippet/' + snippetId + '?user=creator']);
   }
 }

@@ -22,7 +22,6 @@ export class SnippetInfoComponent extends BaseSnippetComponent{
 
   ngOnInit(): void {
     super.ngOnInit()
-    console.log("isCreator: " + this.isCreator)
   }
 
   onLanguageChanged(language: LanguageTypeEnum): void {

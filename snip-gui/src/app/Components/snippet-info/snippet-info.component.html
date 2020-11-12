@@ -13,7 +13,7 @@
     <mat-form-field >
         <mat-label>Info</mat-label>
         <textarea matInput 
-            [disabled]="!isCreator"
+            [disabled]="!(snippet.isCreating || isCreator)"
             [(ngModel)]="snippet.info" 
             placeholder="Add Some Details...." > </textarea >
     </mat-form-field>
