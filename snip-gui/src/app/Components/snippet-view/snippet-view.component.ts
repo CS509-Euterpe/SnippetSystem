@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
 import { DtoToSnippet, ISnippet } from 'src/app/models/models';
 import { CommentStub } from 'src/app/models/stubs';
@@ -20,6 +20,7 @@ export class SnippetViewComponent extends BaseSnippetComponent {
   constructor(
     private api: ApiRequestsService,
     private snackbar: SnackbarService,
+    private router: Router,
     route: ActivatedRoute
   ) {
     super(route)
@@ -42,7 +43,6 @@ export class SnippetViewComponent extends BaseSnippetComponent {
   }
 
   getSnippetBody(snipId: number): void {
-
     this.api.getSnippet(snipId).subscribe(
       x => {     
         this.snippet = DtoToSnippet(x)
@@ -60,6 +60,17 @@ export class SnippetViewComponent extends BaseSnippetComponent {
       },
       err => this.snackbar.showError(err.message),
       () => this.getSnippetBody(this.snippet.id)
+    )
+  }
+
+  delete(): void {
+    this.api.deleteSnippet(this.snippet.id, this.isCreator? UserAccessEnum.Creator : UserAccessEnum.Viewer).subscribe(
+      x => 
+      {
+        this.snackbar.showMessage("Deleted Snippet")
+        this.router.navigate(['home']);
+      },
+      err => this.snackbar.showMessage(err.message)
     )
   }
 

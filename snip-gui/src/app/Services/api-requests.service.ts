@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ISnippetDto, ISnippet, IComment, IModifySnippet } from '../models/models'; 
+import { UserAccessEnum } from '../models/enums';
 
 @Injectable({
   providedIn: 'root'
@@ -46,18 +47,6 @@ export class ApiRequestsService {
 
   // /* user calls */
 
-
-
-
-
-  // deleteSnippet(snipId: string): Observable<any> {
-  //   const url = this.api + '/snippet/' + snipId + '/delete';
-  //   return this.http.post(url, null)
-  //   .pipe(
-  //     tap(_ => console.log('deleting snippet: ' + snipId)),
-  //     catchError(this.handleError<any>('deleteSnippet'))
-  //   );
-  // }
 
   // deleteComment(snipId: string, commentId: string): Observable<any> {
   //   const url = this.api + '/snippet/' + snipId + '/comments/' + commentId + '/delete'
@@ -114,6 +103,14 @@ export class ApiRequestsService {
     );
   }
 
+  
+  deleteSnippet(snipId: number, user: UserAccessEnum): Observable<any> {
+    let url = this.api + '/snippet/' + snipId + '/delete?user=' + user.toString();
+    return this.http.post(url, null)
+    .pipe(
+      tap(_ => console.log('deleting snippet: ' + snipId))
+    );
+  }
   
   
   //this one works right now...
