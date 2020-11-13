@@ -82,8 +82,10 @@ export class CommentStub implements IComment
         this.name = "Joe User"
         this.text = "Nice job!\nLots of good stuff here";
         this.region = {
-            start: 0,
-            end: 5
+            startLine: 0,
+            startChar: 3,
+            endLine: 0,
+            endChar: 6,
         };
     }
     

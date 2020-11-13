@@ -61,6 +61,8 @@ export interface IComment {
 }
 
 export interface IRegion {
-    start: number;
-    end: number;
+    startLine: number;
+    startChar: number;
+    endLine: number
+    endChar: number;
 }

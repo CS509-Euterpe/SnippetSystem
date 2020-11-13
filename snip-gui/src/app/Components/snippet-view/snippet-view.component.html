@@ -30,7 +30,7 @@
                             <app-no-comments-panel></app-no-comments-panel>
                         </div>
                         <div *ngFor="let comment of snippet.comments">
-                            <app-comment-panel [comment]=comment></app-comment-panel>
+                            <app-comment-panel [comment]=comment [snippetId]=snippet.id></app-comment-panel>
                         </div> 
                     </ng-scrollbar>
                 </div>
@@ -40,9 +40,10 @@
     <!-- Delete Snippet region -->
     <div class="row">
         <div class="col-xl">
-            <!-- TODO: only visible to creator -->
             <div class="page-bottom">
-                <button mat-button>Delete Snippet</button>
+                <div *ngIf="isCreator"> 
+                    <button mat-button (click)="delete()">Delete Snippet</button>
+                </div>
             </div>
         </div>
     </div>

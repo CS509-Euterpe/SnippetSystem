@@ -10,4 +10,9 @@
     <mat-card-content>
             <textarea matInput [(ngModel)]="comment.text" placeholder="name" ></textarea>
     </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-icon-button (click)=deleteComment()>
+            <mat-icon>delete_forever</mat-icon>
+        </button>
+    </mat-card-actions>
 </mat-card>

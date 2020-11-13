@@ -20,11 +20,13 @@
     <!-- editor-->
       <ngx-codemirror
       [(ngModel)]="snippet.content"
-  [options]="codeStyleOptions"
-  placeholder="Hello world!"
+      [options]="codeStyleOptions"
+      placeholder="Hello world!"
       ></ngx-codemirror>
     </div>
   </div>
+  <button mat-button (click)="highlight()">Highlight</button>
+    
   <div class="row footer" *ngIf="snippet.isCreating" >
     <div class="col-lg-6">
       <mat-form-field>

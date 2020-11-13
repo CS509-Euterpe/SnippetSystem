@@ -10,8 +10,11 @@
   <div [ngClass]="{'diabled-links': navSnippetId.length === 0}">
       <mat-form-field appearance="standard">
           <mat-label>Go To Snippet</mat-label>
-          <input matInput [(ngModel)]=navSnippetId placeholder="ID">
-      </mat-form-field>   &nbsp;
+          <input matInput 
+            [(ngModel)]=navSnippetId 
+            placeholder="ID"
+            (keyup.enter)="redirectToSnippet(navSnippetId)">
+      </mat-form-field> 
       <button mat-icon-button
         [disabled]="navSnippetId.length === 0"
         (click)="redirectToSnippet(navSnippetId)">
