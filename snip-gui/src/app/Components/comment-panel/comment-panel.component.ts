@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IComment } from 'src/app/models/models';
+import { IComment, IRegion } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
 
@@ -16,7 +16,7 @@ export class CommentPanelComponent implements OnInit {
   createMode: boolean;
   @Input() comment: IComment;
   @Input() snippetId: number;
-  
+   
 
   constructor(
     private api: ApiRequestsService,
@@ -32,5 +32,4 @@ export class CommentPanelComponent implements OnInit {
       err => this.snackbar.showError(err.message)
     )
   }
-
 }

@@ -1,12 +1,15 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
-import { DtoToSnippet, IAddComment, IComment, ISnippet } from 'src/app/models/models';
+import { DtoToSnippet, IAddComment, IComment, IRegion, ISnippet } from 'src/app/models/models';
 import { CommentStub } from 'src/app/models/stubs';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserAccessEnum } from 'src/app/models/enums';
 import { BaseSnippetComponent } from '../base-snippet/base-snippet-component';
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
+import { CommentPanelComponent } from '../comment-panel/comment-panel.component';
+import { SnippetPanelComponent } from '../snippet-panel/snippet-panel.component';
 
 @Component({
   selector: 'app-snippet-view',
@@ -17,6 +20,8 @@ export class SnippetViewComponent extends BaseSnippetComponent {
 
   snippet: ISnippet
   id: number
+
+  @ViewChild(SnippetPanelComponent) snipPanel: SnippetPanelComponent;
   
   constructor(
     public dialog: MatDialog,
@@ -42,7 +47,10 @@ export class SnippetViewComponent extends BaseSnippetComponent {
   //Opens modal dialog
   addComment(): void {
 
-    console.log(location)
+    console.log("this is the current region:");
+    console.log("direct fetch...")
+    console.log(this.snipPanel.selection);
+
     const dialogRef = this.dialog.open(AddCommentModalDialog, {
       width: '600px',
       height: '600px',
@@ -50,10 +58,8 @@ export class SnippetViewComponent extends BaseSnippetComponent {
               timestamp: new Date().toISOString().split('T')[0],
               text: "",
               name: "",
-              region: {
-                start: 0,
-                end: 0
-              }}
+              region: this.snipPanel.selection
+            }
     });
 
     //refresh the comments that are on the page...
@@ -108,6 +114,14 @@ export class SnippetViewComponent extends BaseSnippetComponent {
       err => this.snackbar.showError(err.message)
     )
   }
+  
+
+  /** When a user clicks on a comment. display the highlighted region... */
+  displayHighlight(comment: IComment): void {
+    console.log("DISPLAYING REGION OF...");
+    console.log(comment);
+    
+  }
 
 }
 
@@ -135,7 +149,7 @@ export class AddCommentModalDialog {
     this.api.createComment(this.newComment).subscribe(
       x => {console.log(x)},
       err => this.snackbar.showMessage(err),
-      () => {this.dialogRef.close()}
-    )
+      () => {this.dialogRef.close(); console.log("DONE")}
+    )   
   }
 }

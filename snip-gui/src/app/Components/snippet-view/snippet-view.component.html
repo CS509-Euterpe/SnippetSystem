@@ -30,7 +30,7 @@
                             <app-no-comments-panel></app-no-comments-panel>
                         </div>
                         <div *ngFor="let comment of snippet.comments">
-                            <app-comment-panel [comment]=comment [snippetId]=snippet.id></app-comment-panel>
+                            <app-comment-panel [comment]=comment [snippetId]=snippet.id (click)="displayHighlight(comment)"></app-comment-panel>
                         </div> 
                     </ng-scrollbar>
                 </div>

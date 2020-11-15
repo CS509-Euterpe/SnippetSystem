@@ -87,7 +87,7 @@ export class SnippetPanelComponent extends BaseSnippetComponent{
   highlight() 
   {
     this.clearHighlighting()
-    this.highlightRegion(this.selection)    
+    this.highlightRegion(this.selection)
   }
 
   onLanguageChanged(language: LanguageTypeEnum): void {

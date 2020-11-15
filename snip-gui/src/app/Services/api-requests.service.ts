@@ -14,7 +14,10 @@ export class ApiRequestsService {
   private api = 'https://s3bv1jczza.execute-api.us-east-1.amazonaws.com/Alpha/api/v1';
   
   private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({
+                               'Content-Type': 'application/json',
+                               'Accept' : 'application/json'
+                              })
   };
   
   constructor(
@@ -58,12 +61,13 @@ export class ApiRequestsService {
   // }
 
   createComment(createComment: IAddComment): Observable<any> {
-    const url = this.api + '/snippet/' + createComment.snippetId + '/comments';
+    const url = `${this.api}/snippet/${createComment.snippetId}/comments`;
     console.log("sending to " + url + " with comment: ");
     console.log(createComment);
-    return this.http.put(url, createComment)
+    return this.http.put<any>(url, createComment, this.httpOptions)
     .pipe(
-      tap(_ => console.log('updating comment for snippet: ' + createComment.snippetId + ' with \n' + createComment)),
+      tap(_ => console.log('creating comment...' + createComment.snippetId + ' with \n' + createComment)),
+      map(res => this.unpackCreateResponse(res)),
       catchError(this.handleError<any>('createComment'))
     );
   }
@@ -89,10 +93,12 @@ export class ApiRequestsService {
   }
 
   getSnippet(snipId: number): Observable<ISnippetDto> {
+    console.log("GETTING SNIPPET");
     const url = this.api + '/snippet/' + snipId;
     return this.http.get<ISnippetDto>(url, this.httpOptions)
     .pipe(
-      map(res => this.deserializeSnippet(res))
+      map(res => this.deserializeSnippet(res)),
+      catchError(this.handleError<any>("getSnippet"))
     );
   } 
 
@@ -124,8 +130,10 @@ export class ApiRequestsService {
   private deserializeSnippet(res: any | unknown): ISnippetDto {
     if(res.httpCode != 200)
     {
+      console.log(res);
       throw new Error(res.msg)
     }
+    console.log(res);
     let unpacked = <ISnippetDto> {
       id: res.content.id,
       comments: res.content.comments,
@@ -164,6 +172,10 @@ export class ApiRequestsService {
     return comments;
     
   }
+  unpackCreateResponse(res: any): void {
+    console.log("UNPACKING RESPONSE FROM ADD COMMENT...")
+    console.log(res.httpCode);
+  }
 
    /**
    * @param Operation -> name of operation we are running (i.e. updateComment)
@@ -172,7 +184,9 @@ export class ApiRequestsService {
   private handleError<T>(Operation = 'operation', result?: T)
   {
     return(error: any): Observable<T> => {
-      console.error(error);
+      console.log("hit error block...");
+      console.log(result);
+      console.log(error);
       console.log( Operation + ' failed');
       return of(result as T);
     }

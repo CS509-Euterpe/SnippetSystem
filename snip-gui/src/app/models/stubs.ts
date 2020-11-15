@@ -32,6 +32,7 @@ export class SnippetStub implements ISnippet
         this.language = LanguageTypeEnum.Java;
         this.content = "public static void main(String[] args) {\n\tSystem.out.println(\"Hello, World!\");\n}"
         this.password = "";
+
     }
     
 }
@@ -61,6 +62,7 @@ export class BlankSnippet implements ISnippet
         this.language = LanguageTypeEnum.Java;
         this.content = "// Add your snippet here..."
         this.password = "";
+        
     }
     
 }
