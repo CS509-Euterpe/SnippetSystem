@@ -47,25 +47,6 @@ export class ApiRequestsService {
 
   // /* user calls */
 
-
-  // deleteComment(snipId: string, commentId: string): Observable<any> {
-  //   const url = this.api + '/snippet/' + snipId + '/comments/' + commentId + '/delete'
-  //   return this.http.post(url, null)
-  //   .pipe(
-  //     tap(_ => console.log('deleting comment: ' + commentId + ' from snippet: ' + snipId)),
-  //     catchError(this.handleError<any>('deleteComment'))
-  //   );
-  // }
-
-  // updateComment(snipId: string, updateComment: IComment): Observable<any> {
-  //   const url = '${this.api}/snippet/${snipId}/comments';
-  //   return this.http.put(url, updateComment)
-  //   .pipe(
-  //     tap(_ => console.log('updating comment for snippet: ${snipId} with \n' + updateComment)),
-  //     catchError(this.handleError<any>('updateComment'))
-  //   );
-  // }
-
   getComments(snipId: number): Observable<IComment[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
     return this.http.get<IComment[]>(url, this.httpOptions)
@@ -76,13 +57,12 @@ export class ApiRequestsService {
     );
   }
   
-  updateSnippet(updateSnip: ISnippetDto): Observable<any> {
+  updateSnippet(updateSnip: ISnippetDto): Observable<ISnippetDto> {
     const url = this.api + "/snippet/" + updateSnip.id;
 
     return this.http.post(url, updateSnip)
     .pipe(
-      tap(_ => console.log('posting snippet: \n' + updateSnip)),
-      catchError(this.handleError<any>('updateSnippet'))
+      map(res => this.deserializeSnippet(res))
     );
   }
 
