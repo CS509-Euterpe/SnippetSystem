@@ -450,29 +450,33 @@ components:
         parameters:
           $ref: "#/components/schemas/Parameters"
         id:
-          type: "string"
-          format: "uuid"
-          example: "d290f1ee-6c54-4b01-90e6-d701748f0852"
+          type: "number"
+          example: 21
         snippetId:
-          type: "string"
-          format: "uuid"
-          example: "d290f1ee-6c54-4b01-90e6-d701748f0852"
+          type: "number"
+          example: 21
         timestamp:
           type: "string"
           format: "date-time"
-          example: "2016-08-29T09:12:33.001Z"
+          example: "2016-08-29"
         text:
           type: "string"
           example: "This is really good"
         region:
           type: "object"
           properties:
-            start:
+            startLine:
               type: "number"
               example: 4
-            end:
+            startChar:
               type: "number"
               example: 1E+1
+            endLine:
+              type: "number"
+              example: 4
+            endChar:
+              type: "number"
+              example: 4
     User:
       type: "string"
       enum:
