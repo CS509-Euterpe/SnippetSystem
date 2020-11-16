@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { IComment } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
+import { WebsocketService } from 'src/app/Services/websocket.service';
 
 @Component({
   selector: 'app-comment-panel',
@@ -20,10 +21,18 @@ export class CommentPanelComponent implements OnInit {
 
   constructor(
     private api: ApiRequestsService,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private websocketService: WebsocketService
   ) { }
 
   ngOnInit(): void {
+    this.websocketService.commentChanges(this.snippetId).subscribe(
+      x => { 
+        // Get comments 
+        console.log(x)
+      },
+      err => this.snackbar.showError(err)
+    )
   }
 
   deleteComment(): void {

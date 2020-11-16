@@ -31,6 +31,7 @@ import { LanguageSelectorComponent } from './Components/language-selector/langua
 import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component';
 import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { WebsocketService } from './Services/websocket.service';
 
 
 @NgModule({
@@ -70,7 +71,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatDialogModule
   ],
-  providers: [],
+  providers: [
+    WebsocketService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
