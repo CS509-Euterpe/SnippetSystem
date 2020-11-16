@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
+import { WebsocketService } from 'src/app/Services/websocket.service';
 import { DtoToSnippet, IAddComment, IComment, IRegion, ISnippet } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -25,6 +26,7 @@ export class SnippetViewComponent extends BaseSnippetComponent {
     private api: ApiRequestsService,
     private snackbar: SnackbarService,
     private router: Router,
+    private websocketService: WebsocketService,
     route: ActivatedRoute
   ) {
     super(route)
@@ -36,14 +38,17 @@ export class SnippetViewComponent extends BaseSnippetComponent {
     //call out to server to fetch the snippet
     this.getSnippetBody(this.id);
 
+    this.websocketService.commentChanges(this.id).subscribe(
+      x => { 
+        this.refreshComments()
+      },
+      err => this.snackbar.showError(err)
+    )
+
   }
 
   //Opens modal dialog
   addComment(): void {
-
-    console.log("this is the current region:");
-    console.log("direct fetch...")
-    console.log(this.snipPanel.selection);
 
     const dialogRef = this.dialog.open(AddCommentModalDialog, {
       width: '600px',
@@ -82,14 +87,13 @@ export class SnippetViewComponent extends BaseSnippetComponent {
   }
 
   refreshComments(): void {
-    this.snackbar.showMessage("refreshing comments");
+    this.snackbar.showMessage("Refreshing comments");
     this.api.getComments(this.snippet.id).subscribe(
       x => {
         this.snippet.comments = x;
         this.sortComments();
       },
-      err => this.snackbar.showError(err),
-      () => this.snackbar.showMessage("done")
+      err => this.snackbar.showError(err)
     );
   }
 
@@ -123,7 +127,6 @@ export class SnippetViewComponent extends BaseSnippetComponent {
   }
 
   sortComments(): void {
-    console.log("sort");
     this.snippet.comments.reverse();
   }
 }
@@ -148,11 +151,12 @@ export class AddCommentModalDialog {
   }
 
   create(): void {
+    this.snackbar.showMessage("Creating comment")
     //make api call to write snippet to DB
     this.api.createComment(this.newComment).subscribe(
-      x => {console.log(x)},
+      x => {},
       err => this.snackbar.showMessage(err),
-      () => {this.dialogRef.close(); console.log("DONE")}
+      () => {this.dialogRef.close();}
     )   
   }
 }

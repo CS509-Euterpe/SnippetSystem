@@ -22,7 +22,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SnippetViewComponent } from './Components/snippet-view/snippet-view.component';
 import { AddCommentModalDialog, SnippetViewComponent } from './Components/snippet-view/snippet-view.component';
 import { PasswordViewComponent } from './Components/password-view/password-view.component';
 import { CommentPanelComponent } from './Components/comment-panel/comment-panel.component';
@@ -33,7 +32,6 @@ import { SnippetInfoComponent } from './Components/snippet-info/snippet-info.com
 import { LanguageSelectorComponent } from './Components/language-selector/language-selector.component';
 import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component';
 import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { NoCommentsPanelComponent } from './Components/no-comments-panel/no-comments-panel.component';
 import { WebsocketService } from './Services/websocket.service';
 
@@ -78,18 +76,13 @@ import { WebsocketService } from './Services/websocket.service';
     MatDialogModule
   ],
   exports: [
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule
   ],
-  
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
     WebsocketService
   ],
-  bootstrap: [AppComponent, AddCommentModalDialog],
+  bootstrap: [AppComponent],
   entryComponents: [
-    AddCommentModalDialog, 
     SnippetViewComponent
   ],
 })

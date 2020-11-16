@@ -71,13 +71,24 @@ export class SnippetPanelComponent extends BaseSnippetComponent{
 
   get selection(): IRegion{
     let selections = this.editor.codeMirror.listSelections()
+    
     if (selections.length != 0)
     {
+      let head = selections[0].head
+      let tail = selections[0].anchor
+
+      if (tail.line < head.line || (tail.line == head.line && tail.ch < head.ch))
+      {
+        let temp = head;
+        head = tail;
+        tail = temp;
+      }
+
       let region = <IRegion> {
-        startLine: selections[0].anchor.line,
-        startChar: selections[0].anchor.ch,
-        endLine: selections[0].head.line,
-        endChar: selections[0].head.ch,
+        startLine: head.line,
+        startChar: head.ch,
+        endLine: tail.line,
+        endChar: tail.ch,
       }
       return region
     }
