@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ISnippetDto, ISnippet, IComment, IModifySnippet } from '../models/models'; 
+import { ISnippetDto, ISnippet, IComment, IAddComment, IModifySnippet } from '../models/models'; 
 import { UserAccessEnum } from '../models/enums';
 
 @Injectable({
@@ -14,7 +14,10 @@ export class ApiRequestsService {
   private api = 'https://s3bv1jczza.execute-api.us-east-1.amazonaws.com/Alpha/api/v1';
   
   private httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({
+                               'Content-Type': 'application/json',
+                               'Accept' : 'application/json'
+                              })
   };
   
   constructor(
@@ -57,28 +60,31 @@ export class ApiRequestsService {
   //   );
   // }
 
-  // updateComment(snipId: string, updateComment: IComment): Observable<any> {
-  //   const url = '${this.api}/snippet/${snipId}/comments';
-  //   return this.http.put(url, updateComment)
-  //   .pipe(
-  //     tap(_ => console.log('updating comment for snippet: ${snipId} with \n' + updateComment)),
-  //     catchError(this.handleError<any>('updateComment'))
-  //   );
-  // }
+  createComment(createComment: IAddComment): Observable<any> {
+    const url = `${this.api}/snippet/${createComment.snippetId}/comments`;
+    console.log("sending to " + url + " with comment: ");
+    console.log(createComment);
+    return this.http.put<any>(url, createComment, this.httpOptions)
+    .pipe(
+      tap(_ => console.log('creating comment...' + createComment.snippetId + ' with \n' + createComment)),
+      map(res => this.unpackCreateResponse(res)),
+      catchError(this.handleError<any>('createComment'))
+    );
+  }
 
   getComments(snipId: number): Observable<IComment[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
+    console.log("sending to " + url + " with snipId: " + snipId);
     return this.http.get<IComment[]>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('get Comments for snip: ' + snipId)),
-      map( res => this.deserializeComments(res)),
+      map( res => res as IComment[]),
       catchError(this.handleError<IComment[]>('getComments', []))
     );
   }
   
   updateSnippet(updateSnip: ISnippetDto): Observable<any> {
     const url = this.api + "/snippet/" + updateSnip.id;
-
     return this.http.post(url, updateSnip)
     .pipe(
       tap(_ => console.log('posting snippet: \n' + updateSnip)),
@@ -87,10 +93,12 @@ export class ApiRequestsService {
   }
 
   getSnippet(snipId: number): Observable<ISnippetDto> {
+    console.log("GETTING SNIPPET");
     const url = this.api + '/snippet/' + snipId;
     return this.http.get<ISnippetDto>(url, this.httpOptions)
     .pipe(
-      map(res => this.deserializeSnippet(res))
+      map(res => this.deserializeSnippet(res)),
+      catchError(this.handleError<any>("getSnippet"))
     );
   } 
 
@@ -111,8 +119,6 @@ export class ApiRequestsService {
     );
   }
   
-  
-  //this one works right now...
   createSnippet(createSnip: IModifySnippet): Observable<ISnippetDto> {
     const url = this.api + '/snippet';
     return this.http.put<IModifySnippet>(url, createSnip, this.httpOptions)
@@ -124,8 +130,10 @@ export class ApiRequestsService {
   private deserializeSnippet(res: any | unknown): ISnippetDto {
     if(res.httpCode != 200)
     {
+      console.log(res);
       throw new Error(res.msg)
     }
+    console.log(res);
     let unpacked = <ISnippetDto> {
       id: res.content.id,
       comments: res.content.comments,
@@ -140,14 +148,15 @@ export class ApiRequestsService {
   }
 
   private deserializeComments(res: any): IComment[] {
-    
+    console.log("Deserializing comments...")
+    console.log(res);
     if(res.httpCode != 200)
     {
       throw new Error(res.msg)
     }
 
     var comments = [];
-
+    console.log(res); 
     res.content.array.forEach(element => {
       comments.push(
         <IComment> {
@@ -163,6 +172,10 @@ export class ApiRequestsService {
     return comments;
     
   }
+  unpackCreateResponse(res: any): void {
+    console.log("UNPACKING RESPONSE FROM ADD COMMENT...")
+    console.log(res.httpCode);
+  }
 
    /**
    * @param Operation -> name of operation we are running (i.e. updateComment)
@@ -171,7 +184,9 @@ export class ApiRequestsService {
   private handleError<T>(Operation = 'operation', result?: T)
   {
     return(error: any): Observable<T> => {
-      console.error(error);
+      console.log("hit error block...");
+      console.log(result);
+      console.log(error);
       console.log( Operation + ' failed');
       return of(result as T);
     }

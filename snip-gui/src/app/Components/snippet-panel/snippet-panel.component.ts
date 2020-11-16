@@ -87,7 +87,7 @@ export class SnippetPanelComponent extends BaseSnippetComponent{
   highlight() 
   {
     this.clearHighlighting()
-    this.highlightRegion(this.selection)    
+    this.highlightRegion(this.selection)
   }
 
   onLanguageChanged(language: LanguageTypeEnum): void {
@@ -109,7 +109,8 @@ export class SnippetPanelComponent extends BaseSnippetComponent{
   selector: 'share-modal',
   templateUrl: 'share-modal.html'
 })
-export class ShareModalDialog {
+export class ShareModalDialog{
+
 
   constructor(
     public dialogRef: MatDialogRef<ShareModalDialog>,
@@ -119,4 +120,5 @@ export class ShareModalDialog {
   closeClick(): void {
     this.dialogRef.close();
   }
+  
 }

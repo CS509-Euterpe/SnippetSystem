@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IComment } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
@@ -16,6 +16,8 @@ export class CommentPanelComponent implements OnInit {
   createMode: boolean;
   @Input() comment: IComment;
   @Input() snippetId: number;
+
+  @Output() commentDeleted = new EventEmitter<string>();
   
 
   constructor(
@@ -28,9 +30,11 @@ export class CommentPanelComponent implements OnInit {
 
   deleteComment(): void {
     this.api.deleteComment(this.snippetId, this.comment.id).subscribe(
-      x => this.snackbar.showMessage("Deleted comment"),
+      x => {
+        this.snackbar.showMessage("Deleted comment");
+        this.commentDeleted.emit('commentDeleted');
+      },
       err => this.snackbar.showError(err.message)
     )
   }
-
 }

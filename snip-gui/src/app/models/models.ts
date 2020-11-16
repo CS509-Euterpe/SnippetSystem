@@ -4,6 +4,7 @@
  * each class we have here should line up with an object on the java side 
  */
 
+import { StringStream } from 'codemirror';
 import { LanguageTypeEnum } from './enums'; 
 import { CommentStub } from './stubs';
 
@@ -30,15 +31,6 @@ export function DtoToSnippet(dto: ISnippetDto): ISnippet {
 
     let snippet = dto as ISnippet;
     snippet.isCreating = false;
-    snippet.comments =[
-            new CommentStub(),
-            new CommentStub(),
-            new CommentStub(),
-            new CommentStub(),
-            new CommentStub(),
-            new CommentStub(),
-            new CommentStub(),
-        ];
     return snippet
 }
 
@@ -51,8 +43,17 @@ export interface IModifySnippet {
     timestamp: string;
 }
 
+export interface IAddComment {
+    snippetId: number;
+    timestamp: string;
+    text: string;
+    name: string;
+    region: IRegion;
+}
+
 export interface IComment {
     id: number;
+    snippetId: number;
     timestamp: string;
     text: string;
     name: string;
