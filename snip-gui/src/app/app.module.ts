@@ -33,6 +33,7 @@ import { LanguageSelectorComponent } from './Components/language-selector/langua
 import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component';
 import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component';
 import { NoCommentsPanelComponent } from './Components/no-comments-panel/no-comments-panel.component';
+import { WebsocketService } from './Services/websocket.service';
 
 
 @NgModule({
@@ -75,17 +76,13 @@ import { NoCommentsPanelComponent } from './Components/no-comments-panel/no-comm
     MatDialogModule
   ],
   exports: [
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule
   ],
-  
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    WebsocketService
   ],
-  bootstrap: [AppComponent, AddCommentModalDialog],
+  bootstrap: [AppComponent],
   entryComponents: [
-    AddCommentModalDialog, 
     SnippetViewComponent
   ],
 })

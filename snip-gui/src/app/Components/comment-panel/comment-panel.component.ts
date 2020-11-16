@@ -26,6 +26,7 @@ export class CommentPanelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
   }
 
   deleteComment(): void {

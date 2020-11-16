@@ -66,3 +66,8 @@ export interface IRegion {
     endLine: number
     endChar: number;
 }
+
+export interface INotification {
+    eventType: string;
+    snippetId: number;
+}

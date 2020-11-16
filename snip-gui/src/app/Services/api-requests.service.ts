@@ -74,7 +74,6 @@ export class ApiRequestsService {
 
   getComments(snipId: number): Observable<IComment[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
-    console.log("sending to " + url + " with snipId: " + snipId);
     return this.http.get<IComment[]>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('get Comments for snip: ' + snipId)),
@@ -83,22 +82,19 @@ export class ApiRequestsService {
     );
   }
   
-  updateSnippet(updateSnip: ISnippetDto): Observable<any> {
+  updateSnippet(updateSnip: ISnippetDto): Observable<ISnippetDto> {
     const url = this.api + "/snippet/" + updateSnip.id;
     return this.http.post(url, updateSnip)
     .pipe(
-      tap(_ => console.log('posting snippet: \n' + updateSnip)),
-      catchError(this.handleError<any>('updateSnippet'))
+      map(res => this.deserializeSnippet(res))
     );
   }
 
   getSnippet(snipId: number): Observable<ISnippetDto> {
-    console.log("GETTING SNIPPET");
     const url = this.api + '/snippet/' + snipId;
     return this.http.get<ISnippetDto>(url, this.httpOptions)
     .pipe(
-      map(res => this.deserializeSnippet(res)),
-      catchError(this.handleError<any>("getSnippet"))
+      map(res => this.deserializeSnippet(res))
     );
   } 
 
@@ -130,10 +126,8 @@ export class ApiRequestsService {
   private deserializeSnippet(res: any | unknown): ISnippetDto {
     if(res.httpCode != 200)
     {
-      console.log(res);
       throw new Error(res.msg)
     }
-    console.log(res);
     let unpacked = <ISnippetDto> {
       id: res.content.id,
       comments: res.content.comments,
@@ -148,15 +142,12 @@ export class ApiRequestsService {
   }
 
   private deserializeComments(res: any): IComment[] {
-    console.log("Deserializing comments...")
-    console.log(res);
     if(res.httpCode != 200)
     {
       throw new Error(res.msg)
     }
 
     var comments = [];
-    console.log(res); 
     res.content.array.forEach(element => {
       comments.push(
         <IComment> {
@@ -184,9 +175,7 @@ export class ApiRequestsService {
   private handleError<T>(Operation = 'operation', result?: T)
   {
     return(error: any): Observable<T> => {
-      console.log("hit error block...");
-      console.log(result);
-      console.log(error);
+      console.error(error);
       console.log( Operation + ' failed');
       return of(result as T);
     }
