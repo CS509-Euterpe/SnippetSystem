@@ -78,7 +78,7 @@ export class ApiRequestsService {
     return this.http.get<IComment[]>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('get Comments for snip: ' + snipId)),
-      map( res => this.deserializeComments(res)),
+      map( res => res as IComment[]),
       catchError(this.handleError<IComment[]>('getComments', []))
     );
   }
@@ -149,9 +149,9 @@ export class ApiRequestsService {
 
   private deserializeComments(res: any): IComment[] {
     console.log("Deserializing comments...")
+    console.log(res);
     if(res.httpCode != 200)
     {
-      console.log("got error response: " + res.httpCode)
       throw new Error(res.msg)
     }
 

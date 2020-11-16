@@ -2,13 +2,10 @@ import { Component, OnInit, Input, Inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
 import { DtoToSnippet, IAddComment, IComment, IRegion, ISnippet } from 'src/app/models/models';
-import { CommentStub } from 'src/app/models/stubs';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserAccessEnum } from 'src/app/models/enums';
 import { BaseSnippetComponent } from '../base-snippet/base-snippet-component';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { CommentPanelComponent } from '../comment-panel/comment-panel.component';
 import { SnippetPanelComponent } from '../snippet-panel/snippet-panel.component';
 
 @Component({
@@ -39,9 +36,6 @@ export class SnippetViewComponent extends BaseSnippetComponent {
     //call out to server to fetch the snippet
     this.getSnippetBody(this.id);
 
-    this.route.params.subscribe( routeParams => {
-      this.getSnippetBody(routeParams.id)
-    })
   }
 
   //Opens modal dialog
@@ -53,7 +47,7 @@ export class SnippetViewComponent extends BaseSnippetComponent {
 
     const dialogRef = this.dialog.open(AddCommentModalDialog, {
       width: '600px',
-      height: '600px',
+      height: '450px',
       data: { snippetId: this.snippet.id,
               timestamp: new Date().toISOString().split('T')[0],
               text: "",
@@ -63,9 +57,12 @@ export class SnippetViewComponent extends BaseSnippetComponent {
     });
 
     //refresh the comments that are on the page...
-    // dialogRef.afterClosed().toPromise().then(
-    //   x => this.refreshComments()
-    // )
+    dialogRef.afterClosed().toPromise().then(
+      x => {
+        this.refreshComments();
+        this.snipPanel.clearHighlighting();
+      } 
+    )
 
   }
 
@@ -78,17 +75,21 @@ export class SnippetViewComponent extends BaseSnippetComponent {
     this.api.getSnippet(snipId).subscribe(
       x => {     
         this.snippet = DtoToSnippet(x)
+        this.sortComments(); 
       }, 
       err => this.snackbar.showError(err.message)
     );
   }
 
   refreshComments(): void {
-    //refresh the page to hold all of the new comments...
+    this.snackbar.showMessage("refreshing comments");
     this.api.getComments(this.snippet.id).subscribe(
-      x => {console.log(x)},
+      x => {
+        this.snippet.comments = x;
+        this.sortComments();
+      },
       err => this.snackbar.showError(err),
-      () => this.snackbar.showMessage("snippet comments refreshed")
+      () => this.snackbar.showMessage("done")
     );
   }
 
@@ -114,15 +115,17 @@ export class SnippetViewComponent extends BaseSnippetComponent {
       err => this.snackbar.showError(err.message)
     )
   }
-  
 
   /** When a user clicks on a comment. display the highlighted region... */
   displayHighlight(comment: IComment): void {
-    console.log("DISPLAYING REGION OF...");
-    console.log(comment);
-    
+    this.snipPanel.clearHighlighting();
+    this.snipPanel.highlightRegion(comment.region);
   }
 
+  sortComments(): void {
+    console.log("sort");
+    this.snippet.comments.reverse();
+  }
 }
 
 /* Add Comment Modal */

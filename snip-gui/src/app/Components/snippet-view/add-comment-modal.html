@@ -3,19 +3,27 @@
     <div class="row">
         <mat-form-field>
             <mat-label>Name</mat-label>
-            <input matInput [(ngModel)]="newComment.name" placeholder="your name here">
+            <input matInput [(ngModel)]="newComment.name" placeholder="who is this?">
         </mat-form-field>
     </div>
     <div class="row">
-        <div><span class="label">starting &nbsp;</span>line {{comment.region.startLine}}, col {{comment.region.startChar}}</div>
+        <div class="col-sm-5">
+            <div class="row">
+                <div><span class="label">starting:&nbsp;</span>line {{comment.region.startLine}}, col {{comment.region.startChar}}</div>
+            </div>
+            <div class="row">
+                <div><span class="label">ending:&nbsp;&nbsp;</span>line {{comment.region.endLine}}, col {{comment.region.endChar}}</div>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <span class="label">Select an area of code first to include</span>
+        </div>
     </div>
-    <div class="row">
-        <div><span class="label">ending &nbsp;</span>line {{comment.region.endLine}}, col {{comment.region.endChar}}</div>
-    </div>
+
     <div class="row">
         <mat-form-field>
             <mat-label>Comment</mat-label>
-            <textarea matInput [(ngModel)]="newComment.text" placeholder="your comment here..."></textarea>
+            <textarea matInput [(ngModel)]="newComment.text" placeholder="waddya say?"></textarea>
         </mat-form-field>
     </div>
 
