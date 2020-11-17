@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
 import { WebsocketService } from 'src/app/Services/websocket.service';
-import { DtoToSnippet, IAddComment, IComment, IRegion, ISnippet } from 'src/app/models/models';
+import { DtoToSnippet, IAddComment, IComment, ISnippet } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserAccessEnum } from 'src/app/models/enums';
@@ -14,10 +14,9 @@ import { SnippetPanelComponent } from '../snippet-panel/snippet-panel.component'
   templateUrl: './snippet-view.component.html',
   styleUrls: ['./snippet-view.component.css']
 })
-export class SnippetViewComponent extends BaseSnippetComponent {
+export class SnippetViewComponent extends BaseSnippetComponent implements OnDestroy{
 
   snippet: ISnippet
-  id: number
 
   @ViewChild(SnippetPanelComponent) snipPanel: SnippetPanelComponent;
   
@@ -34,17 +33,19 @@ export class SnippetViewComponent extends BaseSnippetComponent {
 
   ngOnInit(): void { 
     super.ngOnInit()   
-    this.id = this.getRouteId();
-    //call out to server to fetch the snippet
-    this.getSnippetBody(this.id);
+    
+    this.loadSnippet(this.getRouteId())
 
-    this.websocketService.commentChanges(this.id).subscribe(
-      x => { 
-        this.refreshComments()
-      },
-      err => this.snackbar.showError(err)
+    this.route.params.subscribe( 
+      routeParams => this.loadSnippet(routeParams.id)
     )
+  }
 
+  ngOnDestroy(): void {
+    if(this.snippet != null)
+    {
+      this.websocketService.closeConnection(this.snippet.id)
+    }
   }
 
   //Opens modal dialog
@@ -76,11 +77,15 @@ export class SnippetViewComponent extends BaseSnippetComponent {
     return parseInt(strId);
   }
 
-  getSnippetBody(snipId: number): void {
+  loadSnippet(snipId: number): void {
     this.api.getSnippet(snipId).subscribe(
       x => {     
         this.snippet = DtoToSnippet(x)
         this.sortComments(); 
+        this.websocketService.commentChanges(snipId).subscribe(
+          msg => this.refreshComments(),
+          e => this.snackbar.showError(e)
+        )
       }, 
       err => this.snackbar.showError(err.message)
     );
@@ -105,7 +110,7 @@ export class SnippetViewComponent extends BaseSnippetComponent {
         this.snackbar.showMessage("Saved!")
       },
       err => this.snackbar.showError(err.message),
-      () => this.getSnippetBody(this.snippet.id)
+      () => this.loadSnippet(this.snippet.id)
     )
   }
 
