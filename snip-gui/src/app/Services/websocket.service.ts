@@ -11,6 +11,7 @@ export class WebsocketService {
   private ws: WebSocketSubject<any>
   private url = "wss://6u65iac1vf.execute-api.us-east-1.amazonaws.com/Alpha";
   private connectionId: string;
+  private currentSnippet: number;
 
   public commentChanges(snippetId: number): Observable<INotification> {
     return this.getWebSocket(snippetId).pipe(
@@ -26,9 +27,30 @@ export class WebsocketService {
     )
   }
 
+  public closeConnection(snippetId: number): void
+  {
+    console.log("Closing old snippet...")
+    if(this.ws == null) return;
+    this.ws.next({
+      eventType:"close",
+      snippetId:snippetId
+    })
+    this.ws.complete();
+    this.ws = null;
+  }
+
   private getWebSocket(snippetId: number): WebSocketSubject<any> {
-    if (this.ws != null) return this.ws
+    if (this.currentSnippet != snippetId)
+    {
+      this.closeConnection(this.currentSnippet);
+    }
+    if (this.ws != null)
+    {
+      return this.ws
+    }
+
     this.ws = webSocket(this.url)
+    this.currentSnippet = snippetId;
     
     this.ws.pipe(
       filter( msg => msg.connectionId != null)
