@@ -1,8 +1,8 @@
 <div class="info-group" *ngIf="snippet">
     <div *ngIf="!snippet.isCreating">
-        <div><span class="label">Created By</span>{{snippet.name}}</div>
-        <div><span class="label">Last Modified</span>{{snippet.timestamp}}</div>
-        <div><span class="label">Snippet ID</span>{{snippet.id}}</div>
+        <div><span class="label">Created By&nbsp;</span>{{snippet.name}}</div>
+        <div><span class="label">Last Modified&nbsp;</span>{{snippet.timestamp}}</div>
+        <div><span class="label">Snippet ID&nbsp;</span>{{snippet.id}}</div>
     </div>
     <div *ngIf="snippet.isCreating">
         <mat-form-field>
@@ -12,7 +12,10 @@
     </div>
     <mat-form-field >
         <mat-label>Info</mat-label>
-        <textarea matInput [(ngModel)]="snippet.info" placeholder="Add Some Details...." > </textarea >
+        <textarea matInput 
+            [disabled]="!(snippet.isCreating || isCreator)"
+            [(ngModel)]="snippet.info" 
+            placeholder="Add Some Details...." > </textarea >
     </mat-form-field>
     <app-language-selector [(selected)]="snippet.language"
                            (languageChanged)="onLanguageChanged($event)">

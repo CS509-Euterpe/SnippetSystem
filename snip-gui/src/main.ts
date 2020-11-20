@@ -8,6 +8,7 @@ import 'codemirror/mode/htmlembedded/htmlembedded';
 import 'codemirror/mode/perl/perl';
 import 'codemirror/mode/python/python';
 import 'codemirror/mode/go/go';
+import 'codemirror/addon/selection/mark-selection'
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';

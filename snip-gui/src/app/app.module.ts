@@ -8,7 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldModule,MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MatInputModule }  from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,11 +19,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-
+import { MatDialogModule } from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SnippetViewComponent } from './Components/snippet-view/snippet-view.component';
+import { AddCommentModalDialog, SnippetViewComponent } from './Components/snippet-view/snippet-view.component';
 import { PasswordViewComponent } from './Components/password-view/password-view.component';
 import { CommentPanelComponent } from './Components/comment-panel/comment-panel.component';
 import { HomeViewComponent } from './Components/home-view/home-view.component';
@@ -33,7 +32,8 @@ import { SnippetInfoComponent } from './Components/snippet-info/snippet-info.com
 import { LanguageSelectorComponent } from './Components/language-selector/language-selector.component';
 import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.component';
 import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { NoCommentsPanelComponent } from './Components/no-comments-panel/no-comments-panel.component';
+import { WebsocketService } from './Services/websocket.service';
 
 
 @NgModule({
@@ -48,7 +48,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     SnippetInfoComponent,
     LanguageSelectorComponent,
     SnippetPanelComponent,
-    NavigationToolbarComponent
+    NavigationToolbarComponent,
+    AddCommentModalDialog,
+    NoCommentsPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +78,15 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSnackBarModule,
     MatDialogModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  exports: [
+  ],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+    WebsocketService
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    SnippetViewComponent
+  ],
 })
 export class AppModule { }

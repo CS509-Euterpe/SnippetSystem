@@ -25,3 +25,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .snackbar-message  .mat-simple-snackbar-action  {
     color:rgb(28, 56, 28);
 }
+
+.editor-comment-region { 
+    background-color: #f0f066; 
+}

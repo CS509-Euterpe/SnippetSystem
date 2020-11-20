@@ -1,13 +1,16 @@
 <!-- This component is not its own page. it is to be inserted to the snippet view dynamically -->
 
 <mat-card *ngIf="comment">
-    <!--Comment metadata-->
-    <mat-card-header>
-        <mat-card-title>{{ comment.name }}</mat-card-title>
-        <mat-card-subtitle>{{ comment.timestamp }}</mat-card-subtitle>
-    </mat-card-header>
     <!-- Comment -->
     <mat-card-content>
-            <textarea matInput [(ngModel)]="comment.text" placeholder="name" ></textarea>
+            <div><span class="label">Posted by </span>{{comment.name}}</div>
+            <div><span class="label">Created on</span>{{comment.timestamp}}</div>
+            <div><span class="label">id</span>{{comment.id}}</div>
+            <p> {{comment.text}} </p>
     </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-icon-button (click)="deleteComment()">
+            <mat-icon>delete_forever</mat-icon>
+        </button>
+    </mat-card-actions>
 </mat-card>
