@@ -24,13 +24,19 @@
             </div>
             <div class="row">
                 <!-- dynamically generated set of comments -->
-                <div name="commentTable" class="col-xl" style="max-height: 700px;">
+                <div name="commentTable" class="col-xl" style="max-height: 700px;"
+                    (click)="outerClick($event)">
                     <ng-scrollbar>
                         <div *ngIf="(snippet.comments === undefined || snippet.comments.length == 0)">
                             <app-no-comments-panel></app-no-comments-panel>
                         </div>
                         <div *ngFor="let comment of snippet.comments">
-                            <app-comment-panel [comment]=comment [snippetId]=snippet.id (click)="displayHighlight(comment)" (commentDeleted)="refreshComments()"></app-comment-panel>
+                            <app-comment-panel 
+                            [comment]=comment 
+                            [snippetId]=snippet.id 
+                            (click)="selectComment(comment)" 
+                            (commentDeleted)="refreshComments()">
+                        </app-comment-panel>
                         </div> 
                     </ng-scrollbar>
                 </div>

@@ -12,9 +12,13 @@ export interface ISnippet extends ISnippetDto{
     isCreating: boolean;
 }
 
+export interface IComment extends ICommentDto{
+    isSelected: boolean;
+}
+
 export interface ISnippetDto {
     id: number;
-    comments: IComment[]; 
+    comments: ICommentDto[]; 
     info: string;
     language: LanguageTypeEnum;
     timestamp: string;
@@ -31,6 +35,17 @@ export function DtoToSnippet(dto: ISnippetDto): ISnippet {
 
     let snippet = dto as ISnippet;
     snippet.isCreating = false;
+    return snippet
+}
+
+export function DtoToComment(dto: ICommentDto): IComment {
+    if (dto == null)
+    {
+        return null
+    }
+
+    let snippet = dto as IComment;
+    snippet.isSelected = false;
     return snippet
 }
 
@@ -51,7 +66,8 @@ export interface IAddComment {
     region: IRegion;
 }
 
-export interface IComment {
+
+export interface ICommentDto {
     id: number;
     snippetId: number;
     timestamp: string;

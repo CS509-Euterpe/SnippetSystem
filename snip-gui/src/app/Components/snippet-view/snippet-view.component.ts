@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject, ViewChild, OnDestroy } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
 import { WebsocketService } from 'src/app/Services/websocket.service';
-import { DtoToSnippet, IAddComment, IComment, ISnippet } from 'src/app/models/models';
+import { DtoToSnippet, IAddComment, ICommentDto, ISnippet, IComment } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserAccessEnum } from 'src/app/models/enums';
@@ -132,9 +132,19 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   }
 
   /** When a user clicks on a comment. display the highlighted region... */
-  displayHighlight(comment: IComment): void {
-    this.snipPanel.clearHighlighting();
+  selectComment(comment: IComment): void {
+    this.clearHighlighting()
+    comment.isSelected = true;
     this.snipPanel.highlightRegion(comment.region);
+  }
+
+  outerClick(event: MouseEvent): void {
+    // Figure out how to clear highlighting without suppressing selection
+  }
+
+  clearHighlighting(): void {
+    this.snippet.comments.forEach(c => (c as IComment).isSelected = false)
+    this.snipPanel.clearHighlighting();
   }
 
   sortComments(): void {

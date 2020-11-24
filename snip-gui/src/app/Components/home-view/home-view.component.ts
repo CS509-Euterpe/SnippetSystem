@@ -43,7 +43,7 @@ export class HomeViewComponent implements OnInit {
       timestamp : this.blankSnippet.timestamp
     }
 
-    this.snackbar.showMessage("Creating you snippet...")
+    this.snackbar.showMessage("Creating your snippet...")
 
     this.api.createSnippet(newSnip).subscribe(
       x => this.redirectToSnippet(x.id),

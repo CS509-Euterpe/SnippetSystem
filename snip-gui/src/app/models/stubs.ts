@@ -75,6 +75,7 @@ export class CommentStub implements IComment
     text: string;
     region: IRegion;
     name: string
+    isSelected: boolean
 
     constructor()
     {
@@ -83,6 +84,7 @@ export class CommentStub implements IComment
         this.timestamp = Date().toLocaleLowerCase();
         this.name = "Joe User"
         this.text = "Nice job!\nLots of good stuff here";
+        this.isSelected = false;
         this.region = {
             startLine: 0,
             startChar: 3,
