@@ -34,10 +34,16 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   ngOnInit(): void { 
     super.ngOnInit()   
     
-    this.loadSnippet(this.getRouteId())
+    let id = this.getRouteId()
+    this.loadSnippet(id)
 
     this.route.params.subscribe( 
       routeParams => this.loadSnippet(routeParams.id)
+    )
+
+    this.websocketService.snippetChanges(id).subscribe(
+      msg => this.loadSnippet(id),
+      e => this.snackbar.showError(e)
     )
   }
 
