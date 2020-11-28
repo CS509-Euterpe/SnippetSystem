@@ -1,22 +1,24 @@
 <!-- this component is meant to hold simple preview information about each snippet -->
 
 <mat-card style="width: 100%;">
-    <mat-card-content class="col-lg-9">
-        <div class="row">
+    <mat-card-content class="col-lg-10">
+        <div class="row small-margin" >
             <div class="col-lg-4">
-                <mat-label>id: {{ snippet?.id }}</mat-label><br>
-                <mat-label>created on: {{ snippet?.timestamp }}</mat-label><br>
-                <mat-label>created by: {{ snippet?.name }}</mat-label><br>
-                <mat-label>language: {{ snippet?.language }}</mat-label><br>
-                <mat-label>comments: {{ snippet?.comments.length }}</mat-label><br>
+                <mat-label>id : {{ snippet?.id }}</mat-label><br>
+                <mat-label>created on : {{ snippet?.timestamp }}</mat-label><br>
+                <mat-label>created by : {{ snippet?.name }}</mat-label><br>
+                <mat-label>language : {{ snippet?.language }}</mat-label><br>
+                <mat-label>comments : {{ snippet?.comments.length }}</mat-label><br>
             </div>
+            <span class="spacer"></span>
             <div class="col-lg-4">
-                <mat-label>Info:</mat-label>
+                <mat-label>Info:</mat-label><br>
                 <p>{{ snippet?.info }}</p>
             </div>
+            <span class="spacer"></span>
             <div class="col-lg-1" style="float: right;">
-                <button mat-raised-button color="primary">Go To </button><br>  
-                <button mat-raised-button color="warn">Delete</button>
+                <button mat-raised-button color="primary" class="small-margin">Go To </button><br>  
+                <button mat-raised-button color="warn" class="small-margin">Delete</button>
             </div>
         </div>
     </mat-card-content>

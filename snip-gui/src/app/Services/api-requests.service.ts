@@ -67,14 +67,13 @@ export class ApiRequestsService {
   getAllSnippets(): Observable<ISnippetDto[]> {
     const url = this.api + '/snippets';
     console.log("sending: " + url);
-    return this.http.get<ISnippetDto[]>(url, this.httpOptions)
+    return this.http.get<any>(url, this.httpOptions)
     .pipe(
       tap( _ => console.log("Getting all snippets")),
-        map( res => this.deserializeSnippets(res)),
-        catchError(this.handleError<ISnippetDto[]>('getSnippets', []))
+      map( res => res as ISnippetDto[]),
+      catchError(this.handleError<ISnippetDto[]>('getSnippets', []))
     );
   }
-  
 
   /* User calls */
   getComments(snipId: number): Observable<IComment[]> {
@@ -146,9 +145,10 @@ export class ApiRequestsService {
     return unpacked;
   }
 
-  deserializeSnippets(res: any | unknown): ISnippetDto[] {
+  deserializeSnippets(res: any ): ISnippetDto[] {
 
     console.log("DESERIALIZING SNIPPETS")
+    console.log(res.httpCode);
     console.log(res); 
     return res;
   }

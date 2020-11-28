@@ -19,6 +19,7 @@ export class AdminViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getSnippets();
   }
 
   getSnippets(): void {
@@ -27,16 +28,20 @@ export class AdminViewComponent implements OnInit {
   
     //build up the list of snippets
     this.api.getAllSnippets().subscribe(
-      (data: ISnippetDto[]) => {
-        console.log(data);
-        this.allSnippets = data;
+      x => {
+        console.log("GOT BACK:");
+        console.log(x);
       },
       err => {
         console.log(err);
         this.snackbar.showError(err)
       },
-      () => console.log(this.allSnippets)
+      () => console.log("DONE")
     );
+  }
+
+  removeOldSnippets(): void {
+
   }
 
 

@@ -8,8 +8,8 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-1"></div>
-        <div class="col-lg-10 border" style="height: 500px;">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 border" style="height: 500px;">
             <ng-scrollbar>
                 <app-snippet-preview></app-snippet-preview>
                 <app-snippet-preview></app-snippet-preview>
@@ -24,11 +24,10 @@
                 </div> -->
             </ng-scrollbar>
         </div>
-        <div class="col-lg-1"></div>
+        <div class="col-lg-2"></div>
     </div>
-    <!-- Remove old snippet functionality -->
     <div class="row">
-        <div class="col-lg-5 border">
+        <div class="col-lg-12 border">
             <mat-form-field appearance="fill">
                 <mat-label>Remove older than</mat-label>                
                 <input matInput [matDatepicker]="picker">
@@ -37,7 +36,7 @@
                 &nbsp;
             </mat-form-field>
             <div class="col-sm-1"></div>
-            <button mat-raised-button color="warn">Remove Old</button><br>
+            <button mat-raised-button color="warn" (click)="removeOldSnippets()">Remove Old</button><br>
         </div>
     </div>
 </div>
