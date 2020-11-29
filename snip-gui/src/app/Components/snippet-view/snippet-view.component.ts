@@ -99,6 +99,7 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
 
   refreshComments(): void {
     this.snackbar.showMessage("Refreshing comments");
+    this.clearHighlighting();
     this.api.getComments(this.snippet.id).subscribe(
       x => {
         this.snippet.comments = x;
