@@ -10,7 +10,8 @@
                 (click)="save()">Save</button>           
         </div>
         <!-- Comments pane -->
-        <div class="col-xl-5 border-left">
+        <div class="col-xl-5 border-left"
+            (click)="outerClick($event)">
             <!-- Actual comment 'box' -->
             <div class="row">
                 <div class="col-lg-10">
@@ -24,8 +25,7 @@
             </div>
             <div class="row">
                 <!-- dynamically generated set of comments -->
-                <div name="commentTable" class="col-xl" style="max-height: 700px;"
-                    (click)="outerClick($event)">
+                <div name="commentTable" class="col-xl" style="max-height: 700px;">
                     <ng-scrollbar>
                         <div *ngIf="(snippet.comments === undefined || snippet.comments.length == 0)">
                             <app-no-comments-panel></app-no-comments-panel>
@@ -34,7 +34,7 @@
                             <app-comment-panel 
                             [comment]=comment 
                             [snippetId]=snippet.id 
-                            (click)="selectComment(comment)" 
+                            (click)="selectComment(comment, $event)" 
                             (commentDeleted)="refreshComments()">
                         </app-comment-panel>
                         </div> 

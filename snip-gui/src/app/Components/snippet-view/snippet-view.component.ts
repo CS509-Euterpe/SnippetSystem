@@ -133,14 +133,15 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   }
 
   /** When a user clicks on a comment. display the highlighted region... */
-  selectComment(comment: IComment): void {
-    this.clearHighlighting()
+  selectComment(comment: IComment, event: MouseEvent): void {
+    this.clearHighlighting();
+    event.stopPropagation();
     comment.isSelected = true;
     this.snipPanel.highlightRegion(comment.region);
   }
 
   outerClick(event: MouseEvent): void {
-    // Figure out how to clear highlighting without suppressing selection
+    this.clearHighlighting();
   }
 
   clearHighlighting(): void {
