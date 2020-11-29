@@ -18,3 +18,7 @@ textarea{
     font-size: smaller;
     padding-right: 1em;
 }
+
+.selected-comment {
+    background-color: #f0f066; 
+}

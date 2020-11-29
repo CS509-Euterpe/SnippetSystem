@@ -10,7 +10,8 @@
                 (click)="save()">Save</button>           
         </div>
         <!-- Comments pane -->
-        <div class="col-xl-5 border-left">
+        <div class="col-xl-5 border-left"
+            (click)="outerClick($event)">
             <!-- Actual comment 'box' -->
             <div class="row">
                 <div class="col-lg-10">
@@ -30,7 +31,12 @@
                             <app-no-comments-panel></app-no-comments-panel>
                         </div>
                         <div *ngFor="let comment of snippet.comments">
-                            <app-comment-panel [comment]=comment [snippetId]=snippet.id (click)="displayHighlight(comment)" (commentDeleted)="refreshComments()"></app-comment-panel>
+                            <app-comment-panel 
+                            [comment]=comment 
+                            [snippetId]=snippet.id 
+                            (click)="selectComment(comment, $event)" 
+                            (commentDeleted)="refreshComments()">
+                        </app-comment-panel>
                         </div> 
                     </ng-scrollbar>
                 </div>

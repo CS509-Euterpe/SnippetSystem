@@ -26,7 +26,10 @@ export class CommentPanelComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
+    if (this.comment.isSelected == null)
+    {
+      this.comment.isSelected = false;
+    }
   }
 
   deleteComment(): void {
