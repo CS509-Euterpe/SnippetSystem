@@ -8,7 +8,6 @@
                 <mat-label>created on : {{ snippet?.timestamp }}</mat-label><br>
                 <mat-label>created by : {{ snippet?.name }}</mat-label><br>
                 <mat-label>language : {{ snippet?.language }}</mat-label><br>
-                <mat-label>comments : {{ snippet?.comments.length }}</mat-label><br>
             </div>
             <span class="spacer"></span>
             <div class="col-lg-4">
@@ -17,8 +16,14 @@
             </div>
             <span class="spacer"></span>
             <div class="col-lg-1" style="float: right;">
-                <button mat-raised-button color="primary" class="small-margin">Go To </button><br>  
-                <button mat-raised-button color="warn" class="small-margin">Delete</button>
+                <button mat-raised-button color="primary" 
+                        class="small-margin" 
+                        (click)="goTo()">Go To 
+                </button><br>  
+                <button mat-raised-button color="warn"
+                        class="small-margin"
+                        (click)="deleteSnip()">Delete
+                </button>
             </div>
         </div>
     </mat-card-content>

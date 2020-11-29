@@ -27,29 +27,15 @@ export class ApiRequestsService {
 
   }
 
-  //NOT FULLY IMPLEMENTED API CALLS
-
   // //olderThan -> delete snippets older than this many days
-  // deleteStaleSnippets(olderThan: number): Observable<any> {
-  //   const url = this.api + '/snippets/delete-stale';
-  //   return this.http.post(url, null)
-  //   .pipe(
-  //     tap(_ => console.log('delete stale snippets older than ' + olderThan + ' days')),
-  //     catchError(this.handleError<any>('deleteStaleSnippets'))
-  //   );
-  // }
-
-  // /* user calls */
-
-
-  // deleteComment(snipId: string, commentId: string): Observable<any> {
-  //   const url = this.api + '/snippet/' + snipId + '/comments/' + commentId + '/delete'
-  //   return this.http.post(url, null)
-  //   .pipe(
-  //     tap(_ => console.log('deleting comment: ' + commentId + ' from snippet: ' + snipId)),
-  //     catchError(this.handleError<any>('deleteComment'))
-  //   );
-  // }
+  deleteStaleSnippets(olderThan: number): Observable<any> {
+    const url = this.api + '/snippets/delete-stale?days=' + olderThan;
+    return this.http.post(url, null)
+    .pipe(
+      tap(_ => console.log('delete stale snippets older than ' + olderThan + ' days')),
+      catchError(this.handleError<any>('deleteStaleSnippets'))
+    );
+  }
 
   createComment(createComment: IAddComment): Observable<any> {
     const url = `${this.api}/snippet/${createComment.snippetId}/comments`;

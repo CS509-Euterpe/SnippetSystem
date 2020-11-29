@@ -1,7 +1,6 @@
 <!-- This is the admin page -->
 <h4>Admin Page</h4>
 <div class="Container">
-    <button mat-raised-button (click)="getSnippets()">GET ALL SNIPPETS</button>
     <div class="row">
         <div class="col-lg-3">
             <h3>All Snippets</h3>
@@ -11,17 +10,9 @@
         <div class="col-lg-2"></div>
         <div class="col-lg-8 border" style="height: 500px;">
             <ng-scrollbar>
-                <app-snippet-preview></app-snippet-preview>
-                <app-snippet-preview></app-snippet-preview>
-                <app-snippet-preview></app-snippet-preview>
-                <app-snippet-preview></app-snippet-preview>
-                <app-snippet-preview></app-snippet-preview>
-                <app-snippet-preview></app-snippet-preview>
-                <app-snippet-preview></app-snippet-preview>
-                <app-snippet-preview></app-snippet-preview>
-                <!-- <div *ngFor="let snippet of allSnippets">
+                <div *ngFor="let snippet of allSnippets">
                     <app-snippet-preview [snippet]=snippet></app-snippet-preview>
-                </div> -->
+                </div>
             </ng-scrollbar>
         </div>
         <div class="col-lg-2"></div>
