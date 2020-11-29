@@ -1,6 +1,6 @@
 <!-- This component is the page that a user will view a snippet on -->
-<div class="container-fluid" *ngIf="snippet">
-    <div class="row">
+<div class="container-fluid" *ngIf="snippet" >
+    <div class="row"  *ngIf="this.showsnip">
         <!-- Snippet pane -->
         <div class="col-xl-7">
             <app-snippet-panel [snippet]=snippet></app-snippet-panel> 

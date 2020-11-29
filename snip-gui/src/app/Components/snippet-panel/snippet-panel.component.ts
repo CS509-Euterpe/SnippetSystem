@@ -43,7 +43,7 @@ export class SnippetPanelComponent extends BaseSnippetComponent{
   }
 
   openDialog(): void {
-    var d = <ShareDialog> {snipUrl: window.location.origin + '/' + this.route.snapshot.url.join('/')};
+    var d = <ShareDialog> {snipUrl: window.location.origin + '/snippet/' + this.snippet.id};
 
     console.log(location)
     const dialogRef = this.dialog.open(ShareModalDialog, {

@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { UserAccessEnum } from 'src/app/models/enums';
 import { BaseSnippetComponent } from '../base-snippet/base-snippet-component';
 import { SnippetPanelComponent } from '../snippet-panel/snippet-panel.component';
+import { PasswordWallComponent } from 'src/app/password-wall/password-wall.component';
 
 @Component({
   selector: 'app-snippet-view',
@@ -17,6 +18,7 @@ import { SnippetPanelComponent } from '../snippet-panel/snippet-panel.component'
 export class SnippetViewComponent extends BaseSnippetComponent implements OnDestroy{
 
   snippet: ISnippet
+  showsnip: boolean = false; 
 
   @ViewChild(SnippetPanelComponent) snipPanel: SnippetPanelComponent;
   
@@ -36,9 +38,6 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
     
     this.loadSnippet(this.getRouteId())
 
-    this.route.params.subscribe( 
-      routeParams => this.loadSnippet(routeParams.id)
-    )
   }
 
   ngOnDestroy(): void {
@@ -72,6 +71,30 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
 
   }
 
+  authenticatePassword(pwd: String): void {
+
+    if(pwd != undefined && pwd != '')
+    {
+      console.log("showing dialog");
+      const dialogRef = this.dialog.open(PasswordWallComponent, {
+        width: '100%',
+        height: '100%',
+        data: pwd
+      })
+
+      dialogRef.afterClosed().toPromise().then(
+        x => {
+          this.showsnip = true; 
+        }
+      )
+
+    }
+    else
+    {
+      this.showsnip = true;
+    }
+  }
+
   getRouteId(): number {
     var strId = this.route.snapshot.paramMap.get('id');
     return parseInt(strId);
@@ -79,7 +102,15 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
 
   loadSnippet(snipId: number): void {
     this.api.getSnippet(snipId).subscribe(
-      x => {     
+      x => {   
+        
+        //check if snippet has a password attached to it (no password is empty string?)
+        console.log("Password is");
+        console.log(x.password);
+        console.log(x);
+        this.authenticatePassword(x.password);
+        //if this succeedes, finish loading the snippet. 
+        
         this.snippet = DtoToSnippet(x)
         this.sortComments(); 
         this.websocketService.commentChanges(snipId).subscribe(
