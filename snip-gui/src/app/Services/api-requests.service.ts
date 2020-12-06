@@ -66,7 +66,7 @@ export class ApiRequestsService {
     console.log(createComment);
     return this.http.put<any>(url, createComment, this.httpOptions)
     .pipe(
-      tap(_ => console.log('creating comment...' + createComment.snippetId + ' with \n' + createComment)),
+      tap(_ => console.log('creating comment: ' + createComment.snippetId + ' with \n' + createComment)),
       map(res => this.unpackCreateResponse(res)),
       catchError(this.handleError<any>('createComment'))
     );
@@ -141,28 +141,6 @@ export class ApiRequestsService {
     return unpacked;
   }
 
-  private deserializeComments(res: any): IComment[] {
-    if(res.httpCode != 200)
-    {
-      throw new Error(res.msg)
-    }
-
-    var comments = [];
-    res.content.array.forEach(element => {
-      comments.push(
-        <IComment> {
-          id: element.id,
-          timestamp: element.timestamp,
-          text: element.text,
-          name: element.name,
-          region: element.region //this probably won't jive with the response body
-        }
-      )
-    });
-
-    return comments;
-    
-  }
   unpackCreateResponse(res: any): void {
     console.log("UNPACKING RESPONSE FROM ADD COMMENT...")
     console.log(res.httpCode);

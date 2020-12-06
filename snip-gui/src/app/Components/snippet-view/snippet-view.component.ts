@@ -47,14 +47,16 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
     }
   }
 
-  //Opens modal dialog
+  /**
+   * Opens modal dialog to go through the comment creation process
+   */
   addComment(): void {
 
     const dialogRef = this.dialog.open(AddCommentModalDialog, {
       width: '600px',
       height: '450px',
       data: { snippetId: this.snippet.id,
-              timestamp: new Date().toISOString().split('T')[0],
+              timestamp: null,
               text: "",
               name: "",
               region: this.snipPanel.selection
@@ -71,15 +73,20 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
 
   }
 
+  /**
+   * Opens modal dialog for password verificaion process
+   * @param pwd correct password to view the snippet
+   */
   authenticatePassword(pwd: String): void {
 
     if(pwd != undefined && pwd != '')
     {
       console.log("showing dialog");
       const dialogRef = this.dialog.open(PasswordWallComponent, {
-        width: '100%',
-        height: '100%',
-        data: pwd
+        disableClose: true,
+        width: '50%',
+        height: '50%',
+        data: pwd,
       })
 
       dialogRef.afterClosed().toPromise().then(
@@ -101,16 +108,16 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   }
 
   loadSnippet(snipId: number): void {
+    
     this.api.getSnippet(snipId).subscribe(
       x => {   
         
-        //check if snippet has a password attached to it (no password is empty string?)
-        console.log("Password is");
-        console.log(x.password);
-        console.log(x);
-        this.authenticatePassword(x.password);
-        //if this succeedes, finish loading the snippet. 
+        //display password dialog. snippet detail becomes visible
+        //when this completes
+        //this.authenticatePassword(x.password);
+        this.showsnip = true;
         
+        //finish loading the snippet
         this.snippet = DtoToSnippet(x)
         this.sortComments(); 
         this.websocketService.commentChanges(snipId).subscribe(
@@ -127,6 +134,7 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
     this.api.getComments(this.snippet.id).subscribe(
       x => {
         this.snippet.comments = x;
+        console.log(x);
         this.sortComments();
       },
       err => this.snackbar.showError(err)
@@ -187,7 +195,13 @@ export class AddCommentModalDialog {
   }
 
   create(): void {
-    this.snackbar.showMessage("Creating comment")
+
+    // YYYY-MM-DD HH:mm:SS
+    this.newComment.timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+
+    this.snackbar.showMessage("Creating comment with timestamp")
+    console.log(this.newComment.timestamp);
     //make api call to write snippet to DB
     this.api.createComment(this.newComment).subscribe(
       x => {},
