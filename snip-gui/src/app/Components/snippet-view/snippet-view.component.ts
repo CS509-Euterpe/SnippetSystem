@@ -93,7 +93,10 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
           e => this.snackbar.showError(e)
         )
       }, 
-      err => this.snackbar.showError(err.message)
+      err =>{
+        this.snippet = null;
+        this.snackbar.showError(err.message)
+      }
     );
   }
 
