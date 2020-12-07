@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject, ViewChild, OnDestroy } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service'
 import { WebsocketService } from 'src/app/Services/websocket.service';
-import { DtoToSnippet, IAddComment, IComment, ISnippet } from 'src/app/models/models';
+import { DtoToSnippet, IAddComment, ICommentDto, ISnippet, IComment } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserAccessEnum } from 'src/app/models/enums';
@@ -34,10 +34,16 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   ngOnInit(): void { 
     super.ngOnInit()   
     
-    this.loadSnippet(this.getRouteId())
+    let id = this.getRouteId()
+    this.loadSnippet(id)
 
     this.route.params.subscribe( 
       routeParams => this.loadSnippet(routeParams.id)
+    )
+
+    this.websocketService.snippetChanges(id).subscribe(
+      msg => this.loadSnippet(id),
+      e => this.snackbar.showError(e)
     )
   }
 
@@ -87,12 +93,16 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
           e => this.snackbar.showError(e)
         )
       }, 
-      err => this.snackbar.showError(err.message)
+      err =>{
+        this.snippet = null;
+        this.snackbar.showError(err.message)
+      }
     );
   }
 
   refreshComments(): void {
     this.snackbar.showMessage("Refreshing comments");
+    this.clearHighlighting();
     this.api.getComments(this.snippet.id).subscribe(
       x => {
         this.snippet.comments = x;
@@ -126,9 +136,20 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   }
 
   /** When a user clicks on a comment. display the highlighted region... */
-  displayHighlight(comment: IComment): void {
-    this.snipPanel.clearHighlighting();
+  selectComment(comment: IComment, event: MouseEvent): void {
+    this.clearHighlighting();
+    event.stopPropagation();
+    comment.isSelected = true;
     this.snipPanel.highlightRegion(comment.region);
+  }
+
+  outerClick(event: MouseEvent): void {
+    this.clearHighlighting();
+  }
+
+  clearHighlighting(): void {
+    this.snippet.comments.forEach(c => (c as IComment).isSelected = false)
+    this.snipPanel.clearHighlighting();
   }
 
   sortComments(): void {
