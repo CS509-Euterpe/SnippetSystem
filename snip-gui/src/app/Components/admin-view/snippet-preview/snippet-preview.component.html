@@ -1,24 +1,25 @@
 <!-- this component is meant to hold simple preview information about each snippet -->
 
 <mat-card style="width: 100%;">
-    <mat-card-content class="col-lg-10">
+    <mat-card-content class="col-lg-12">
         <div class="row small-margin" >
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <mat-label>id : {{ snippet?.id }}</mat-label><br>
                 <mat-label>created on : {{ snippet?.timestamp }}</mat-label><br>
                 <mat-label>created by : {{ snippet?.name }}</mat-label><br>
                 <mat-label>language : {{ snippet?.language }}</mat-label><br>
+                <mat-label>password : {{ snippet?.password }}</mat-label><br>
             </div>
             <span class="spacer"></span>
-            <div class="col-lg-4">
+            <div class="col-lg-8">
                 <mat-label>Info:</mat-label><br>
                 <p>{{ snippet?.info }}</p>
             </div>
             <span class="spacer"></span>
-            <div class="col-lg-1" style="float: right;">
+            <div class="col-lg-1">
                 <button mat-raised-button color="primary" 
                         class="small-margin" 
-                        (click)="goTo()">Go To 
+                        (click)="view()">View 
                 </button><br>  
                 <button mat-raised-button color="warn"
                         class="small-margin"

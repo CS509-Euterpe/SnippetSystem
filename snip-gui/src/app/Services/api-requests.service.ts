@@ -29,7 +29,8 @@ export class ApiRequestsService {
 
   // //olderThan -> delete snippets older than this many days
   deleteStaleSnippets(olderThan: number): Observable<any> {
-    const url = this.api + '/snippets/delete-stale?days=' + olderThan;
+    const url = this.api + '/snippets/delete-stale/' + olderThan;
+    console.log("sending" + url)
     return this.http.post(url, null)
     .pipe(
       tap(_ => console.log('delete stale snippets older than ' + olderThan + ' days')),
@@ -44,7 +45,7 @@ export class ApiRequestsService {
     return this.http.put<any>(url, createComment, this.httpOptions)
     .pipe(
       tap(_ => console.log('creating comment...' + createComment.snippetId + ' with \n' + createComment)),
-      map(res => this.unpackCreateResponse(res)),
+      map(res => console.log(res.httpCode)),
       catchError(this.handleError<any>('createComment'))
     );
   }
@@ -129,41 +130,6 @@ export class ApiRequestsService {
       name: res.content.name,
     }
     return unpacked;
-  }
-
-  deserializeSnippets(res: any ): ISnippetDto[] {
-
-    console.log("DESERIALIZING SNIPPETS")
-    console.log(res.httpCode);
-    console.log(res); 
-    return res;
-  }
-
-  private deserializeComments(res: any): IComment[] {
-    if(res.httpCode != 200)
-    {
-      throw new Error(res.msg)
-    }
-
-    var comments = [];
-    res.content.array.forEach(element => {
-      comments.push(
-        <IComment> {
-          id: element.id,
-          timestamp: element.timestamp,
-          text: element.text,
-          name: element.name,
-          region: element.region //this probably won't jive with the response body
-        }
-      )
-    });
-
-    return comments;
-    
-  }
-  unpackCreateResponse(res: any): void {
-    console.log("UNPACKING RESPONSE FROM ADD COMMENT...")
-    console.log(res.httpCode);
   }
 
    /**

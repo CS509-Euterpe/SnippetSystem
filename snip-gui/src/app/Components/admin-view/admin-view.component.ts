@@ -12,57 +12,60 @@ import { SnackbarService } from 'src/app/Services/snackbar.service';
 export class AdminViewComponent implements OnInit {
 
   allSnippets: IModifySnippet[]; //server returns this same object
-  olderThanDate: Date; 
+  olderThanDate: Date;
+  todayDate: Date;
 
   constructor(
     private api: ApiRequestsService,
     private snackbar: SnackbarService
-  ) { }
+  ) {
+    this.todayDate = new Date();
+   }
 
   ngOnInit(): void {
     this.getSnippets();
   }
 
   getSnippets(): void {
-
-    console.log("getting all snippets");
-  
     //build up the list of snippets
     this.api.getAllSnippets().subscribe(
       x => {
-        console.log(x);
         this.allSnippets = x as IModifySnippet[]; 
       },
       err => {
-        console.log(err);
+        console.error(err);
         this.snackbar.showError(err)
       },
-      () => console.log("DONE")
+      () => this.snackbar.showMessage("snippets refreshed")
     );
   }
 
   removeOldSnippets(): void {
 
-    console.log("removing old snippets");
-
     //calculate "older than" based on selected date & todays date
+    if(this.olderThanDate < this.todayDate)
+    {
+      let olderThan =  Math.round((this.todayDate.getTime() - this.olderThanDate.getTime()) / (1000 * 3600 * 24));
 
-    let olderThan = 4;//TODO Calculate :) 
-
-    //Send request to API to remove snippet older than calculated day
-    this.api.deleteStaleSnippets(olderThan).subscribe(
-      x => {
-        console.log(x);
-      },
-      err => {
-        this.snackbar.showError(err)
-      },
-      () => {
-        this.getSnippets()
-      } //refresh snippets on the admin page
-    ) 
+      this.snackbar.showMessage(`removing snippets older than: ${olderThan} day(s)`);    
+      //Send request to API to remove snippet older than calculated day
+      this.api.deleteStaleSnippets(olderThan).subscribe(
+        x => {
+          this.snackbar.showMessage(`removing snippets older than: ${olderThan} day(s)`);
+        },
+        err => {
+          this.snackbar.showError(err);
+        },
+        () => {
+          this.snackbar.showMessage(`snippets older than: ${olderThan} day(s) removed!`);
+          this.getSnippets();
+        }
+      ) 
+    }
+    else
+    {
+      this.snackbar.showError("cannot remove in this range!");
+    }
 
   }
-
-
 }
