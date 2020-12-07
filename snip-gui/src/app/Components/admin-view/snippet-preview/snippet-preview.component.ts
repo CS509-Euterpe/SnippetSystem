@@ -27,18 +27,18 @@ export class SnippetPreviewComponent implements OnInit {
   }
 
   view(): void {
-    this.snackbar.showMessage("going to snippet: " + this.snippet.id);
+    this.snackbar.showMessage("Going to snippet " + this.snippet.id);
     this.router.navigateByUrl('snippet/' + this.snippet.id);
   }
 
   deleteSnip(): void {
     //delete snippet
-    this.snackbar.showMessage("deleting snip: " + this.snippet.id)
+    this.snackbar.showMessage("Deleting snippet " + this.snippet.id)
     this.api.deleteSnippet(this.snippet.id, UserAccessEnum.Admin).subscribe(
       x => {},
-      err => {this.snackbar.showError("failed to delete snip")},
+      err => {this.snackbar.showError("Failed to delete snippet")},
       () => {
-        this.snackbar.showMessage("done deleting snip")
+        this.snackbar.showMessage("Successfully deleted snippet")
         this.snippetDeleted.emit('snippetDeleted');
       }
     )

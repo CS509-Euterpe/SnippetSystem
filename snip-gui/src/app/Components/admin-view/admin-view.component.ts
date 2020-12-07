@@ -36,7 +36,7 @@ export class AdminViewComponent implements OnInit {
         console.error(err);
         this.snackbar.showError(err)
       },
-      () => this.snackbar.showMessage("snippets refreshed")
+      () => this.snackbar.showMessage("Snippets refreshed")
     );
   }
 
@@ -47,17 +47,17 @@ export class AdminViewComponent implements OnInit {
     {
       let olderThan =  Math.round((this.todayDate.getTime() - this.olderThanDate.getTime()) / (1000 * 3600 * 24));
 
-      this.snackbar.showMessage(`removing snippets older than: ${olderThan} day(s)`);    
+      this.snackbar.showMessage(`Removing snippets older than ${olderThan} day(s)`);    
       //Send request to API to remove snippet older than calculated day
       this.api.deleteStaleSnippets(olderThan).subscribe(
         x => {
-          this.snackbar.showMessage(`removing snippets older than: ${olderThan} day(s)`);
+          this.snackbar.showMessage(`Removing snippets older than ${olderThan} day(s)`);
         },
         err => {
           this.snackbar.showError(err);
         },
         () => {
-          this.snackbar.showMessage(`snippets older than: ${olderThan} day(s) removed!`);
+          this.snackbar.showMessage(`Snippets older than ${olderThan} day(s) removed!`);
           this.getSnippets();
         }
       ) 
