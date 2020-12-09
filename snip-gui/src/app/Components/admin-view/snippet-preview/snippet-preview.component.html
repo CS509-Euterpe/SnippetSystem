@@ -1,23 +1,33 @@
 <!-- this component is meant to hold simple preview information about each snippet -->
-<div class="Container col-lg-12 " style="height: 200px;">
-    <div class="row">
-        <div id="snipSummary" class="col-md-3">
-            <label>creator</label><br>
-            <label>timestamp</label><br>
-            <label>uuid</label><br>
-            <label>language</label><br>
-            <label>n comment(s)</label><br>
-        </div>
-        <div id="snipPreview" class="col-md-7 border">
-            <p>partial view of the code here...</p>
-        </div>
-        <div id="snipOpers" class="col-sm-2 border">
-            <div class="Row">
-                <button>Go To Full</button>
+
+<mat-card style="width: 100%;">
+    <mat-card-content>
+        <div class="container">
+        <div class="row small-margin" >
+            <div class="col-lg-3">
+                <mat-label>ID : {{ snippet?.id }}</mat-label><br>
+                <mat-label>Created on : {{ snippet?.timestamp }}</mat-label><br>
+                <mat-label>Created by : {{ snippet?.name }}</mat-label><br>
+                <mat-label>Language : {{ snippet?.language }}</mat-label><br>
+                <mat-label>Password : {{ snippet?.password }}</mat-label><br>
             </div>
-            <div class="Row">
-                <button>Delete Snippet</button>
+            <span class="spacer"></span>
+            <div class="col-lg-7">
+                <mat-label>Info:</mat-label><br>
+                <p>{{ snippet?.info }}</p>
+            </div>
+            <span class="spacer"></span>
+            <div class="col-lg-2">
+                <button mat-raised-button color="primary" 
+                        class="small-margin" 
+                        (click)="view()">View 
+                </button><br>  
+                <button mat-raised-button color="warn"
+                        class="small-margin"
+                        (click)="deleteSnip()">Delete
+                </button>
             </div>
         </div>
-    </div>
-</div>
+        </div>
+    </mat-card-content>
+</mat-card>

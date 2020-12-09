@@ -27,38 +27,16 @@ export class ApiRequestsService {
 
   }
 
-  //NOT FULLY IMPLEMENTED API CALLS
-  // /* admin calls */
-  // getAllSnippets(): Observable<ISnippetDto[]> {
-  //   const url = this.api + '/snippets';
-  //   return this.http.get<ISnippetDto[]>(url)
-  //     .pipe(
-  //       tap(_ => console.log("fetched snippets")),
-  //       catchError(this.handleError<ISnippetDto[]>('getAllSnippets', []))
-  //     );
-  // }
-
   // //olderThan -> delete snippets older than this many days
-  // deleteStaleSnippets(olderThan: number): Observable<any> {
-  //   const url = this.api + '/snippets/delete-stale';
-  //   return this.http.post(url, null)
-  //   .pipe(
-  //     tap(_ => console.log('delete stale snippets older than ' + olderThan + ' days')),
-  //     catchError(this.handleError<any>('deleteStaleSnippets'))
-  //   );
-  // }
-
-  // /* user calls */
-
-
-  // deleteComment(snipId: string, commentId: string): Observable<any> {
-  //   const url = this.api + '/snippet/' + snipId + '/comments/' + commentId + '/delete'
-  //   return this.http.post(url, null)
-  //   .pipe(
-  //     tap(_ => console.log('deleting comment: ' + commentId + ' from snippet: ' + snipId)),
-  //     catchError(this.handleError<any>('deleteComment'))
-  //   );
-  // }
+  deleteStaleSnippets(olderThan: number): Observable<any> {
+    const url = this.api + '/snippets/delete-stale/' + olderThan;
+    console.log("sending" + url)
+    return this.http.post(url, null)
+    .pipe(
+      tap(_ => console.log('delete stale snippets older than ' + olderThan + ' days')),
+      catchError(this.handleError<any>('deleteStaleSnippets'))
+    );
+  }
 
   createComment(createComment: IAddComment): Observable<any> {
     const url = `${this.api}/snippet/${createComment.snippetId}/comments`;
@@ -66,12 +44,25 @@ export class ApiRequestsService {
     console.log(createComment);
     return this.http.put<any>(url, createComment, this.httpOptions)
     .pipe(
-      tap(_ => console.log('creating comment: ' + createComment.snippetId + ' with \n' + createComment)),
-      map(res => this.unpackCreateResponse(res)),
+      tap(_ => console.log('creating comment...' + createComment.snippetId + ' with \n' + createComment)),
+      map(res => console.log(res.httpCode)),
       catchError(this.handleError<any>('createComment'))
     );
   }
 
+  // /* admin calls */
+  getAllSnippets(): Observable<ISnippetDto[]> {
+    const url = this.api + '/snippets';
+    console.log("sending: " + url);
+    return this.http.get<any>(url, this.httpOptions)
+    .pipe(
+      tap( _ => console.log("Getting all snippets")),
+      map( res => res as ISnippetDto[]),
+      catchError(this.handleError<ISnippetDto[]>('getSnippets', []))
+    );
+  }
+
+  /* User calls */
   getComments(snipId: number): Observable<ICommentDto[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
     return this.http.get<ICommentDto[]>(url, this.httpOptions)
@@ -139,34 +130,6 @@ export class ApiRequestsService {
       name: res.content.name,
     }
     return unpacked;
-  }
-
-  private deserializeComments(res: any): IComment[] {
-    if(res.httpCode != 200)
-    {
-      throw new Error(res.msg)
-    }
-
-    var comments = [];
-    res.content.array.forEach(element => {
-      comments.push(
-        <IComment> {
-          id: element.id,
-          timestamp: element.timestamp,
-          text: element.text,
-          name: element.name,
-          region: element.region, //this probably won't jive with the response body
-          isSelected: false
-        }
-      )
-    });
-
-    return comments;
-    
-  }
-  unpackCreateResponse(res: any): void {
-    console.log("UNPACKING RESPONSE FROM ADD COMMENT...")
-    console.log(res.httpCode);
   }
 
    /**
