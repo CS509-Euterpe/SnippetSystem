@@ -33,6 +33,7 @@ export class SnippetPreviewComponent implements OnInit {
 
   deleteSnip(): void {
     //delete snippet
+    console.log("deleting...");
     this.snackbar.showMessage("Deleting snippet " + this.snippet.id)
     this.api.deleteSnippet(this.snippet.id, UserAccessEnum.Admin).subscribe(
       x => {},

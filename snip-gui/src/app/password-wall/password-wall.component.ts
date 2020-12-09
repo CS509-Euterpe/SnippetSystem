@@ -22,12 +22,11 @@ export class PasswordWallComponent implements OnInit {
   ) { this.real = password;   }
 
   ngOnInit(): void {
-    console.log("Init password wall, password is")
-    console.log(this.password);
+
   }
 
   checkPassword(): void {
-    console.log("guess: " + this.guess + " real: " + this.real)
+
     if(this.password == this.guess)
     {
       
@@ -38,6 +37,7 @@ export class PasswordWallComponent implements OnInit {
     {
       this.snackbar.showError("Incorrect Password!");
     }
+
   }
 
   goHome(): void {

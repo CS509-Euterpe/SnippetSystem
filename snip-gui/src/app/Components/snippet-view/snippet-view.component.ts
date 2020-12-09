@@ -119,8 +119,8 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
         
         //display password dialog. snippet detail becomes visible
         //when this completes
-        //this.authenticatePassword(x.password);
-        this.showsnip = true;
+        this.authenticatePassword(x.password);
+        //this.showsnip = true;
         
         //finish loading the snippet
         this.snippet = DtoToSnippet(x)
@@ -163,6 +163,8 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   }
 
   delete(): void {
+    this.snackbar.showMessage("Deleting Snippet " + this.snippet.id);
+    
     this.api.deleteSnippet(this.snippet.id, this.isCreator? UserAccessEnum.Creator : UserAccessEnum.Viewer).subscribe(
       x => 
       {

@@ -34,6 +34,11 @@ export class HomeViewComponent implements OnInit {
     //the server side can handle
     this.blankSnippet.timestamp = new Date().toISOString().split('T')[0];
 
+    //YYYY-MM-DD HH:mm:SS
+    //server error when using this format. 
+    //this.blankSnippet.timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+
     var newSnip = <IModifySnippet> {
       info : this.blankSnippet.info,
       language : this.blankSnippet.language,

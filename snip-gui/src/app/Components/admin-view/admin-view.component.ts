@@ -3,6 +3,8 @@ import { IModifySnippet, ISnippetDto } from 'src/app/models/models';
 import { ApiRequestsService } from 'src/app/Services/api-requests.service';
 import { ActivatedRoute } from '@angular/router';
 import { SnackbarService } from 'src/app/Services/snackbar.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PasswordWallComponent } from 'src/app/password-wall/password-wall.component';
 
 @Component({
   selector: 'app-admin-view',
@@ -14,17 +16,54 @@ export class AdminViewComponent implements OnInit {
   allSnippets: IModifySnippet[]; //server returns this same object
   olderThanDate: Date;
   todayDate: Date;
+  adminPassword: String;
+  showadmin: Boolean; 
 
   constructor(
+    public dialog: MatDialog,
     private api: ApiRequestsService,
     private snackbar: SnackbarService
   ) {
     this.todayDate = new Date();
+    this.adminPassword = "admin";
    }
 
   ngOnInit(): void {
+    //show password to user...
+    this.showadmin = false;
+    this.authenticatePassword(this.adminPassword);
     this.getSnippets();
   }
+
+    /**
+   * Opens modal dialog for password verificaion process
+   * @param pwd correct password to view the snippet
+   */
+  authenticatePassword(pwd: String): void {
+
+    if(pwd != undefined && pwd != '')
+    {
+      console.log("showing dialog");
+      const dialogRef = this.dialog.open(PasswordWallComponent, {
+        disableClose: true,
+        width: '50%',
+        height: '50%',
+        data: pwd,
+      })
+
+      dialogRef.afterClosed().toPromise().then(
+        x => {
+          this.showadmin = true; 
+        }
+      )
+
+    }
+    else
+    {
+      this.showadmin = true;
+    }
+  }
+
 
   getSnippets(): void {
     //build up the list of snippets
