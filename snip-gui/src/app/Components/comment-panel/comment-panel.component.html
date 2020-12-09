@@ -1,6 +1,8 @@
 <!-- This component is not its own page. it is to be inserted to the snippet view dynamically -->
 
-<mat-card *ngIf="comment">
+<mat-card *ngIf="comment"
+    [ngClass]="{'selected-comment': comment.isSelected}"
+>
     <!-- Comment -->
     <mat-card-content>
             <div><span class="label">Posted by </span>{{comment.name}}</div>

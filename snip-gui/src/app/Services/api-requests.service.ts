@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { ISnippetDto, ISnippet, IComment, IAddComment, IModifySnippet } from '../models/models'; 
+import { ISnippetDto, IComment, ICommentDto, IAddComment, IModifySnippet } from '../models/models'; 
 import { UserAccessEnum } from '../models/enums';
 
 @Injectable({
@@ -72,13 +72,13 @@ export class ApiRequestsService {
     );
   }
 
-  getComments(snipId: number): Observable<IComment[]> {
+  getComments(snipId: number): Observable<ICommentDto[]> {
     const url = this.api + '/snippet/' + snipId + '/comments';
-    return this.http.get<IComment[]>(url, this.httpOptions)
+    return this.http.get<ICommentDto[]>(url, this.httpOptions)
     .pipe(
       tap(_ => console.log('get Comments for snip: ' + snipId)),
-      map( res => res as IComment[]),
-      catchError(this.handleError<IComment[]>('getComments', []))
+      map( res => res as ICommentDto[]),
+      catchError(this.handleError<ICommentDto[]>('getComments', []))
     );
   }
   
@@ -141,6 +141,29 @@ export class ApiRequestsService {
     return unpacked;
   }
 
+  private deserializeComments(res: any): IComment[] {
+    if(res.httpCode != 200)
+    {
+      throw new Error(res.msg)
+    }
+
+    var comments = [];
+    res.content.array.forEach(element => {
+      comments.push(
+        <IComment> {
+          id: element.id,
+          timestamp: element.timestamp,
+          text: element.text,
+          name: element.name,
+          region: element.region, //this probably won't jive with the response body
+          isSelected: false
+        }
+      )
+    });
+
+    return comments;
+    
+  }
   unpackCreateResponse(res: any): void {
     console.log("UNPACKING RESPONSE FROM ADD COMMENT...")
     console.log(res.httpCode);
