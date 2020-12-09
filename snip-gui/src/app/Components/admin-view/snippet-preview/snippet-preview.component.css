@@ -1,0 +1,19 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+.small-margin {
+    margin-left: 13px;
+    margin-right: 3px;
+}
+
+.text-col {
+    text-align: right;
+}
+
+button {
+    width: 75px;
+    margin-bottom: 2px;
+    text-align: center;
+}
+

@@ -9,7 +9,6 @@ export class SnackbarService {
   private position: MatSnackBarVerticalPosition = "bottom";
   private duration = 2000;
 
-
   private options: MatSnackBarConfig = {
     duration: this.duration,
     verticalPosition: this.position,
