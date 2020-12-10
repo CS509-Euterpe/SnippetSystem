@@ -34,6 +34,7 @@ import { SnippetPanelComponent } from './Components/snippet-panel/snippet-panel.
 import { NavigationToolbarComponent } from './Components/navigation-toolbar/navigation-toolbar.component';
 import { NoCommentsPanelComponent } from './Components/no-comments-panel/no-comments-panel.component';
 import { WebsocketService } from './Services/websocket.service';
+import { PasswordWallComponent } from './password-wall/password-wall.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { WebsocketService } from './Services/websocket.service';
     SnippetPanelComponent,
     NavigationToolbarComponent,
     AddCommentModalDialog,
-    NoCommentsPanelComponent
+    NoCommentsPanelComponent,
+    PasswordWallComponent
   ],
   imports: [
     BrowserModule,

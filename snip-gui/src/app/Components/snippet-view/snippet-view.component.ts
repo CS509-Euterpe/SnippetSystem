@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { UserAccessEnum } from 'src/app/models/enums';
 import { BaseSnippetComponent } from '../base-snippet/base-snippet-component';
 import { SnippetPanelComponent } from '../snippet-panel/snippet-panel.component';
+import { PasswordWallComponent } from 'src/app/password-wall/password-wall.component';
 
 @Component({
   selector: 'app-snippet-view',
@@ -17,6 +18,7 @@ import { SnippetPanelComponent } from '../snippet-panel/snippet-panel.component'
 export class SnippetViewComponent extends BaseSnippetComponent implements OnDestroy{
 
   snippet: ISnippet
+  showsnip: boolean = false; 
 
   @ViewChild(SnippetPanelComponent) snipPanel: SnippetPanelComponent;
   
@@ -37,10 +39,6 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
     let id = this.getRouteId()
     this.loadSnippet(id)
 
-    this.route.params.subscribe( 
-      routeParams => this.loadSnippet(routeParams.id)
-    )
-
     this.websocketService.snippetChanges(id).subscribe(
       msg => this.loadSnippet(id),
       e => this.snackbar.showError(e)
@@ -54,14 +52,16 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
     }
   }
 
-  //Opens modal dialog
+  /**
+   * Opens modal dialog to go through the comment creation process
+   */
   addComment(): void {
 
     const dialogRef = this.dialog.open(AddCommentModalDialog, {
       width: '600px',
       height: '450px',
       data: { snippetId: this.snippet.id,
-              timestamp: new Date().toISOString().split('T')[0],
+              timestamp: null,
               text: "",
               name: "",
               region: this.snipPanel.selection
@@ -78,14 +78,51 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
 
   }
 
+  /**
+   * Opens modal dialog for password verificaion process
+   * @param pwd correct password to view the snippet
+   */
+  authenticatePassword(pwd: String): void {
+
+    if(pwd != undefined && pwd != '')
+    {
+      console.log("showing dialog");
+      const dialogRef = this.dialog.open(PasswordWallComponent, {
+        disableClose: true,
+        width: '50%',
+        height: '50%',
+        data: pwd,
+      })
+
+      dialogRef.afterClosed().toPromise().then(
+        x => {
+          this.showsnip = true; 
+        }
+      )
+
+    }
+    else
+    {
+      this.showsnip = true;
+    }
+  }
+
   getRouteId(): number {
     var strId = this.route.snapshot.paramMap.get('id');
     return parseInt(strId);
   }
 
   loadSnippet(snipId: number): void {
+    
     this.api.getSnippet(snipId).subscribe(
-      x => {     
+      x => {   
+        
+        //display password dialog. snippet detail becomes visible
+        //when this completes
+        this.authenticatePassword(x.password);
+        //this.showsnip = true;
+        
+        //finish loading the snippet
         this.snippet = DtoToSnippet(x)
         this.sortComments(); 
         this.websocketService.commentChanges(snipId).subscribe(
@@ -106,6 +143,7 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
     this.api.getComments(this.snippet.id).subscribe(
       x => {
         this.snippet.comments = x;
+        console.log(x);
         this.sortComments();
       },
       err => this.snackbar.showError(err)
@@ -125,6 +163,8 @@ export class SnippetViewComponent extends BaseSnippetComponent implements OnDest
   }
 
   delete(): void {
+    this.snackbar.showMessage("Deleting Snippet " + this.snippet.id);
+    
     this.api.deleteSnippet(this.snippet.id, this.isCreator? UserAccessEnum.Creator : UserAccessEnum.Viewer).subscribe(
       x => 
       {
@@ -177,7 +217,13 @@ export class AddCommentModalDialog {
   }
 
   create(): void {
-    this.snackbar.showMessage("Creating comment")
+
+    // YYYY-MM-DD HH:mm:SS
+    this.newComment.timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+
+    this.snackbar.showMessage("Creating comment with timestamp")
+    console.log(this.newComment.timestamp);
     //make api call to write snippet to DB
     this.api.createComment(this.newComment).subscribe(
       x => {},
