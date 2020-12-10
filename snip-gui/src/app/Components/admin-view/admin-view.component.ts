@@ -82,10 +82,10 @@ export class AdminViewComponent implements OnInit {
   removeOldSnippets(): void {
 
     //calculate "older than" based on selected date & todays date
-    if(this.olderThanDate < this.todayDate)
+    let olderThan =  Math.round((this.todayDate.getTime() - this.olderThanDate.getTime()) / (1000 * 3600 * 24));
+    
+    if(olderThan >= 0)
     {
-      let olderThan =  Math.round((this.todayDate.getTime() - this.olderThanDate.getTime()) / (1000 * 3600 * 24));
-
       this.snackbar.showMessage(`Removing snippets older than ${olderThan} day(s)`);    
       //Send request to API to remove snippet older than calculated day
       this.api.deleteStaleSnippets(olderThan).subscribe(

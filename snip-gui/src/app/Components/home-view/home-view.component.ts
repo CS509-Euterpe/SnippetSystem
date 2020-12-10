@@ -29,15 +29,9 @@ export class HomeViewComponent implements OnInit {
   }
 
   createSnippet() {
-    //NOTE: Date().toISOString() returns the format: 2020-10-30T20:56:53.299Z
-    //this step is just chopping at the 'T' character to create a date string that
-    //the server side can handle
-    this.blankSnippet.timestamp = new Date().toISOString().split('T')[0];
 
-    //YYYY-MM-DD HH:mm:SS
-    //server error when using this format. 
-    //this.blankSnippet.timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
+    //"YYYY-MM-DD HH:mm:SS" format
+    this.blankSnippet.timestamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
     var newSnip = <IModifySnippet> {
       info : this.blankSnippet.info,
